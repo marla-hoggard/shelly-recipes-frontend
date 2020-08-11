@@ -1,0 +1,7 @@
+node_modules/**
+dist/**
+src/index.html
+src/**/*.min.js
+
+# Default create-react-app files, remove if/when they are removed
+src/serviceWorker.ts

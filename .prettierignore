@@ -1,0 +1,8 @@
+# Don't prettify minified JS
+src/**/*.min.js
+
+# Because yarn doesn't format the package file correctly
+package.json
+
+# Because we don't want our index.html template messed with
+src/index.html
