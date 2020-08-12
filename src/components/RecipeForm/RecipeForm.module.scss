@@ -1,0 +1,70 @@
+.pageTitle {
+  text-align: center;
+}
+
+.form {
+  font-size: 18px;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.label {
+  vertical-align: middle;
+  width: 125px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px;
+}
+
+.inputError {
+  composes: input;
+  border: 2px solid red;
+}
+
+.select {
+  padding: 10px;
+  margin: 0 20px;
+}
+
+.selectError {
+  composes: select;
+  border: 1px solid red;
+}
+
+.checkbox {
+  margin-right: 5px;
+}
+
+.textarea {
+  flex: 1;
+  height: 150px;
+}
+
+.textareaError {
+  composes: textarea;
+  background: rgba(255, 0, 0, 0.3);
+}
+
+.servings {
+  composes: input;
+  flex: 0;
+  width: 150px;
+  margin-right: 10px;
+}
+
+.submit {
+  height: 30px;
+  width: 100px;
+  margin: auto;
+}
