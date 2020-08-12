@@ -54,7 +54,7 @@ module.exports = {
     "react/no-unescaped-entities": ["off"],
     "react/prop-types": ["off"],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         endOfLine: "auto",
       },
