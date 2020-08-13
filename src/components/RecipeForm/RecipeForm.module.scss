@@ -1,5 +1,7 @@
 .pageTitle {
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 .form {
@@ -7,14 +9,20 @@
 }
 
 .formRow {
+  margin: 10px 0;
+}
+
+.comboRow {
+  margin: 20px 0;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin: 10px;
 }
 
 .label {
-  vertical-align: middle;
-  width: 125px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .errorMessage {
@@ -23,18 +31,39 @@
 }
 
 .input {
-  flex: 1;
   padding: 10px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border: none;
+  color: #303030;
+  font-size: 16px;
+  font-weight: 400;
+
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.05), 1px 1px 0 rgba(255, 255, 255, 1);
+  -moz-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.05), 1px 1px 0 rgba(255, 255, 255, 1);
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.05), 1px 1px 0 rgba(255, 255, 255, 1);
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &.error {
+    border: 1px solid red;
+  }
 }
 
-.inputError {
-  composes: input;
-  border: 2px solid red;
+.input:focus {
+  outline: 0;
+  border: 1px solid #666;
 }
 
 .select {
   padding: 10px;
   margin: 0 20px;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 200px;
 }
 
 .selectError {
@@ -46,21 +75,37 @@
   margin-right: 5px;
 }
 
+.textareaRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
 .textarea {
-  flex: 1;
   height: 150px;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .textareaError {
   composes: textarea;
-  background: rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 0, 0.2);
+}
+
+.textareaLabel {
+  composes: label;
+  margin-bottom: 5px;
+}
+
+.servingsContainer {
+  .label {
+    margin-right: 10px;
+  }
 }
 
 .servings {
   composes: input;
-  flex: 0;
-  width: 150px;
-  margin-right: 10px;
+  width: 175px;
 }
 
 .submit {

@@ -51,9 +51,10 @@ const AddRecipeForm: React.FC = () => {
           <Form className={classes.form}>
             <div className={classes.formRow}>
               <InputField
-                labelText="Recipe Title:"
+                labelText="Title"
                 name="title"
                 hasError={!!(errors.title && touched.title)}
+                fullWidth
               />
             </div>
             <div className={classes.formRow}>
@@ -61,58 +62,69 @@ const AddRecipeForm: React.FC = () => {
                 labelText="Original Source"
                 name="source"
                 hasError={!!(errors.source && touched.source)}
+                fullWidth
               />
             </div>
             <div className={classes.formRow}>
               <InputField
-                labelText="Source URL:"
+                labelText="Source URL"
                 name="sourceUrl"
                 hasError={!!(errors.sourceUrl && touched.sourceUrl)}
+                fullWidth
               />
             </div>
             <div className={classes.formRow}>
               <InputField
-                labelText="Submitted By:"
+                labelText="Submitted By"
                 name="submittedBy"
                 hasError={!!(errors.submittedBy && touched.submittedBy)}
+                fullWidth
               />
+            </div>
+            <div className={classes.comboRow}>
+              <div className={classes.servingsContainer}>
+                <InputField
+                  labelText="Servings"
+                  name="servings"
+                  hasError={!!(errors.servings && touched.servings)}
+                  className={classes.servings}
+                />
+              </div>
+              <div>
+                <SelectField
+                  options={["appetizer", "entree", "side", "dessert", "breakfast", "beverage"]}
+                  title="Category"
+                  name="category"
+                  hasError={!!(errors.category && touched.category)}
+                />
+              </div>
+              <div>
+                <CheckboxField labelText="Vegetarian" name="vegetarian" />
+              </div>
             </div>
             <div className={classes.formRow}>
               <InputField
-                labelText="Servings:"
-                name="servings"
-                hasError={!!(errors.servings && touched.servings)}
-              />
-              <SelectField
-                options={["appetizer", "entree", "side", "dessert", "breakfast", "beverage"]}
-                title="Category"
-                name="category"
-                hasError={!!(errors.category && touched.category)}
-              />
-              <CheckboxField labelText="Vegetarian" name="vegetarian" />
-            </div>
-            <div className={classes.formRow}>
-              <InputField
-                labelText="Tags (separated by comma):"
+                labelText="Tags (separated by comma)"
                 name="tags"
                 hasError={!!(errors.tags && touched.tags)}
-                placeholder="Ex: chicken, indian, one-pot"
+                placeholder="Ex: fish, indian, crockpot"
+                fullWidth
               />
             </div>
-            <div className={classes.formRow}>
+            <div className={classes.textareaRow}>
               <TextAreaField
-                labelText="Ingredients:"
+                labelText="Ingredients"
                 name="ingredients"
-                placeholder="Input each ingredient/amount, separated by a line break."
+                placeholder="Enter each ingredient separated by a line break."
                 hasError={!!(errors.ingredients && touched.ingredients)}
               />
             </div>
-            <div className={classes.formRow}>
+            <div className={classes.textareaRow}>
               <TextAreaField
-                labelText="Instructions:"
+                labelText="Instructions"
                 name="steps"
                 hasError={!!(touched.steps && errors.steps)}
-                placeholder="Input the recipe instructions, with line breaks between steps."
+                placeholder="Enter recipe instructions with line breaks between steps."
               />
             </div>
             <div className={classes.formRow}>

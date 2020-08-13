@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import { Field, ErrorMessage } from "formik";
 
 import classes from "./RecipeForm.module.scss";
@@ -8,9 +9,13 @@ type InputFieldProps = {
   name: string;
   hasError: boolean;
   placeholder?: string;
+  fullWidth?: boolean;
+  className?: string;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
+  className = "",
+  fullWidth,
   labelText,
   name,
   placeholder,
@@ -21,7 +26,12 @@ export const InputField: React.FC<InputFieldProps> = ({
       {labelText}
     </label>
     <Field
-      className={hasError ? classes.inputError : classes.input}
+      className={classNames({
+        [classes.input]: true,
+        [classes.error]: hasError,
+        [classes.fullWidth]: fullWidth,
+        [className]: !!className,
+      })}
       name={name}
       type="text"
       placeholder={placeholder}
@@ -49,7 +59,7 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
 }) => (
   <>
     {labelText && (
-      <label className={classes.label} htmlFor={name}>
+      <label className={classes.textareaLabel} htmlFor={name}>
         {labelText}
       </label>
     )}

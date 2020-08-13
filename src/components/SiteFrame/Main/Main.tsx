@@ -1,5 +1,5 @@
 import React from "react";
-// import "../../../global-styles/core.scss";
+import "../../../global-styles/core.scss";
 import classes from "./Main.module.scss";
 
 type Props = {
