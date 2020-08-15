@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
+import { addRecipe } from "../../api";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
-
 import classes from "./RecipeForm.module.scss";
 
 const validationSchema = Yup.object().shape({
@@ -19,6 +20,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddRecipeForm: React.FC = () => {
+  const history = useHistory();
+  const [submitError, setSubmitError] = useState("");
   return (
     <>
       <h1 className={classes.pageTitle}>Add a New Recipe</h1>
@@ -36,15 +39,22 @@ const AddRecipeForm: React.FC = () => {
           steps: "",
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async (values, { setSubmitting }) => {
+          setSubmitting(true);
           const body = {
             ...values,
             tags: values.tags.split(",").map((el) => el.trim()),
-            ingredients: values.ingredients.split(/\n/),
-            steps: values.steps.split(/\n+/),
+            ingredients: values.ingredients.split(/\n/).map((el) => el.trim()),
+            steps: values.steps.split(/\n+/).map((el) => el.trim()),
           };
-          console.log(body);
-          setSubmitting(false);
+          const result = await addRecipe(body);
+          if ("id" in result) {
+            setSubmitting(false);
+            history.push(`/recipe/${result.id}`);
+          } else {
+            setSubmitError(result.error.message);
+            setSubmitting(false);
+          }
         }}
       >
         {({ errors, touched, isSubmitting }) => (
@@ -92,7 +102,15 @@ const AddRecipeForm: React.FC = () => {
               </div>
               <div>
                 <SelectField
-                  options={["appetizer", "entree", "side", "dessert", "breakfast", "beverage"]}
+                  options={[
+                    "appetizer",
+                    "entree",
+                    "side",
+                    "dessert",
+                    "breakfast",
+                    "sauce",
+                    "beverage",
+                  ]}
                   title="Category"
                   name="category"
                   hasError={!!(errors.category && touched.category)}
@@ -131,6 +149,9 @@ const AddRecipeForm: React.FC = () => {
               <button className={classes.submit} type="submit" disabled={isSubmitting}>
                 Submit
               </button>
+            </div>
+            <div className={classes.formRow}>
+              <div className={classes.errorMessage}>{submitError}</div>
             </div>
           </Form>
         )}
