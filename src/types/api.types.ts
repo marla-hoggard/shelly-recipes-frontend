@@ -14,6 +14,7 @@ export type AddRecipeRequest = {
   submittedBy: string;
   servings?: string;
   category: string; // Change to Category
+  vegetarian?: boolean;
   ingredients: string[];
   steps: string[];
   tags?: string[];
