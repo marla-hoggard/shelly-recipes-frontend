@@ -1,4 +1,9 @@
-import { AddRecipeResponse, AddRecipeRequest, GetRecipeResponse } from "./types/api.types";
+import {
+  AddRecipeResponse,
+  AddRecipeRequest,
+  GetRecipeResponse,
+  GetAllRecipesResponse,
+} from "./types/api.types";
 
 const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_BASE_URL;
 
@@ -47,5 +52,16 @@ export const getRecipe = async (recipeId: number): Promise<GetRecipeResponse> =>
   } catch (error) {
     console.error(error);
     return { error: { message: "API Function Error" } };
+  }
+};
+
+export const getAllRecipes = async (): Promise<GetAllRecipesResponse> => {
+  try {
+    const response = await fetch(`${BACKEND_BASE_URL}/recipes`);
+    const result = await response.json();
+    return result || { error: { details: "API Function Error" } };
+  } catch (error) {
+    console.error(error);
+    return { error: { details: "API Function Error" } };
   }
 };

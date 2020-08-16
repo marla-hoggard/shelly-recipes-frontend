@@ -47,7 +47,7 @@ type GetRecipeSuccess = {
   ingredients: string[];
   steps: string[];
   tags: string[];
-  createdAt: Date;
+  createdAt: string;
 };
 
 type GetRecipeError = {
@@ -58,3 +58,31 @@ type GetRecipeError = {
 };
 
 export type GetRecipeResponse = GetRecipeSuccess | GetRecipeError;
+
+export type Recipe = {
+  id: number;
+  title: string;
+  source: string | null;
+  sourceUrl: string | null;
+  submittedBy: string;
+  servings: string | null;
+  category: Category;
+  vegetarian: boolean;
+  createdAt: string;
+  tags: string[];
+  ingredients?: string[];
+  steps?: string[];
+};
+
+type GetAllRecipesSuccess = {
+  data: Recipe[];
+};
+
+type GetAllRecipesError = {
+  error: {
+    details: string;
+    query?: string;
+  };
+};
+
+export type GetAllRecipesResponse = GetAllRecipesSuccess | GetAllRecipesError;
