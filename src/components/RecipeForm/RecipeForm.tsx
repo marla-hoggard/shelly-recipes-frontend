@@ -3,7 +3,8 @@ import { useHistory } from "react-router-dom";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
-import { AddRecipeRequest, AddRecipeResponse } from "../../types/api.types";
+import { AddRecipeRequest, AddRecipeResponse, Category } from "../../types/api.types";
+import { addRecipe, editRecipe } from "../../api";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
 import classes from "./RecipeForm.module.scss";
 
@@ -13,7 +14,7 @@ type Values = {
   sourceUrl: string;
   submittedBy: string;
   servings: string;
-  category: string;
+  category: Category;
   vegetarian: boolean;
   tags: string;
   ingredients: string;
@@ -46,13 +47,18 @@ const validationSchema = Yup.object().shape({
 });
 
 type Props = {
+  id?: number;
   savedValues?: Partial<Values>;
-  submitFn: (request: AddRecipeRequest) => Promise<AddRecipeResponse>;
+  type: "add" | "edit";
 };
 
-const RecipeForm: React.FC<Props> = ({ savedValues = {}, submitFn }) => {
+const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   const history = useHistory();
   const [submitError, setSubmitError] = useState("");
+
+  if (type === "edit" && !id) {
+    history.push("/404");
+  }
 
   return (
     <Formik
@@ -63,13 +69,50 @@ const RecipeForm: React.FC<Props> = ({ savedValues = {}, submitFn }) => {
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }: FormikHelpers<Values>) => {
         setSubmitting(true);
-        const body: AddRecipeRequest = {
-          ...values,
-          tags: values.tags.split(",").map((el) => el.trim()),
-          ingredients: values.ingredients.split(/\n/).map((el) => el.trim()),
-          steps: values.steps.split(/\n+/).map((el) => el.trim()),
-        };
-        const result = await submitFn(body);
+        let result: AddRecipeResponse;
+
+        if (type === "edit" && id) {
+          const editRequest: Partial<AddRecipeRequest> = {};
+          if (values.title !== savedValues.title) editRequest.title = values.title;
+          if (values.source !== savedValues.source) editRequest.source = values.source;
+          if (values.sourceUrl !== savedValues.sourceUrl) editRequest.sourceUrl = values.sourceUrl;
+          if (values.submittedBy !== savedValues.submittedBy)
+            editRequest.submittedBy = values.submittedBy;
+          if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
+          if (values.category !== savedValues.category) editRequest.category = values.category;
+          if (values.vegetarian !== savedValues.vegetarian)
+            editRequest.vegetarian = values.vegetarian;
+          if (values.tags !== savedValues.tags)
+            editRequest.tags = values.tags.split(",").map((el) => el.trim());
+          if (values.ingredients !== savedValues.ingredients) {
+            editRequest.ingredients = values.ingredients
+              .split(/\n/)
+              .map((el) => el.trim())
+              .filter((el) => !!el);
+          }
+          if (values.steps !== savedValues.steps) {
+            editRequest.steps = values.steps
+              .split(/\n+/)
+              .map((el) => el.trim())
+              .filter((el) => !!el);
+          }
+          result = await editRecipe(id, editRequest);
+        } else {
+          const addRequest: AddRecipeRequest = {
+            ...values,
+            tags: values.tags.split(",").map((el) => el.trim()),
+            ingredients: values.ingredients
+              .split(/\n/)
+              .map((el) => el.trim())
+              .filter((el) => !!el),
+            steps: values.steps
+              .split(/\n+/)
+              .map((el) => el.trim())
+              .filter((el) => !!el),
+          };
+          result = await addRecipe(addRequest);
+        }
+
         if ("id" in result) {
           setSubmitting(false);
           history.push(`/recipe/${result.id}`);

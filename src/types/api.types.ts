@@ -5,7 +5,8 @@ export type Category =
   | "side"
   | "beverage"
   | "breakfast"
-  | "sauce";
+  | "sauce"
+  | "";
 
 export type AddRecipeRequest = {
   title: string;
@@ -13,7 +14,7 @@ export type AddRecipeRequest = {
   sourceUrl?: string;
   submittedBy: string;
   servings?: string;
-  category: string; // Change to Category
+  category: Category;
   vegetarian?: boolean;
   ingredients: string[];
   steps: string[];
@@ -33,3 +34,27 @@ type AddRecipeError = {
 };
 
 export type AddRecipeResponse = AddRecipeSuccess | AddRecipeError;
+
+type GetRecipeSuccess = {
+  id: number;
+  title: string;
+  source: string | null;
+  sourceUrl: string | null;
+  submittedBy: string;
+  servings: string | null;
+  category: Category;
+  vegetarian: boolean;
+  ingredients: string[];
+  steps: string[];
+  tags: string[];
+  createdAt: Date;
+};
+
+type GetRecipeError = {
+  error: {
+    message: string;
+    hint?: string;
+  };
+};
+
+export type GetRecipeResponse = GetRecipeSuccess | GetRecipeError;

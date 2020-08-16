@@ -16,6 +16,7 @@ const Routes: React.FC = () => {
       <Route path="/recipe/:id/edit" component={EditRecipe} />
       <Route path="/recipe/:id" component={RecipeView} />
       <Route exact path="/" component={Homepage} />
+      <Route path="/404" component={InvalidRoute} />
       <Route path="*" component={InvalidRoute} />
     </Switch>
   );
