@@ -61,166 +61,170 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   }
 
   return (
-    <Formik
-      initialValues={{
-        ...defaultValues,
-        ...savedValues,
-      }}
-      validationSchema={validationSchema}
-      onSubmit={async (values, { setSubmitting }: FormikHelpers<Values>) => {
-        setSubmitting(true);
-        let result: AddRecipeResponse;
+    <>
+      <h1 className={classes.pageTitle}>{type === "add" ? "Add a New Recipe" : "Edit Recipe"}</h1>
+      <Formik
+        initialValues={{
+          ...defaultValues,
+          ...savedValues,
+        }}
+        validationSchema={validationSchema}
+        onSubmit={async (values, { setSubmitting }: FormikHelpers<Values>) => {
+          setSubmitting(true);
+          let result: AddRecipeResponse;
 
-        if (type === "edit" && id) {
-          const editRequest: Partial<AddRecipeRequest> = {};
-          if (values.title !== savedValues.title) editRequest.title = values.title;
-          if (values.source !== savedValues.source) editRequest.source = values.source;
-          if (values.sourceUrl !== savedValues.sourceUrl) editRequest.sourceUrl = values.sourceUrl;
-          if (values.submittedBy !== savedValues.submittedBy)
-            editRequest.submittedBy = values.submittedBy;
-          if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
-          if (values.category !== savedValues.category) editRequest.category = values.category;
-          if (values.vegetarian !== savedValues.vegetarian)
-            editRequest.vegetarian = values.vegetarian;
-          if (values.tags !== savedValues.tags)
-            editRequest.tags = values.tags.split(",").map((el) => el.trim());
-          if (values.ingredients !== savedValues.ingredients) {
-            editRequest.ingredients = values.ingredients
-              .split(/\n/)
-              .map((el) => el.trim())
-              .filter((el) => !!el);
+          if (type === "edit" && id) {
+            const editRequest: Partial<AddRecipeRequest> = {};
+            if (values.title !== savedValues.title) editRequest.title = values.title;
+            if (values.source !== savedValues.source) editRequest.source = values.source;
+            if (values.sourceUrl !== savedValues.sourceUrl)
+              editRequest.sourceUrl = values.sourceUrl;
+            if (values.submittedBy !== savedValues.submittedBy)
+              editRequest.submittedBy = values.submittedBy;
+            if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
+            if (values.category !== savedValues.category) editRequest.category = values.category;
+            if (values.vegetarian !== savedValues.vegetarian)
+              editRequest.vegetarian = values.vegetarian;
+            if (values.tags !== savedValues.tags)
+              editRequest.tags = values.tags.split(",").map((el) => el.trim());
+            if (values.ingredients !== savedValues.ingredients) {
+              editRequest.ingredients = values.ingredients
+                .split(/\n/)
+                .map((el) => el.trim())
+                .filter((el) => !!el);
+            }
+            if (values.steps !== savedValues.steps) {
+              editRequest.steps = values.steps
+                .split(/\n+/)
+                .map((el) => el.trim())
+                .filter((el) => !!el);
+            }
+            result = await editRecipe(id, editRequest);
+          } else {
+            const addRequest: AddRecipeRequest = {
+              ...values,
+              tags: values.tags.split(",").map((el) => el.trim()),
+              ingredients: values.ingredients
+                .split(/\n/)
+                .map((el) => el.trim())
+                .filter((el) => !!el),
+              steps: values.steps
+                .split(/\n+/)
+                .map((el) => el.trim())
+                .filter((el) => !!el),
+            };
+            result = await addRecipe(addRequest);
           }
-          if (values.steps !== savedValues.steps) {
-            editRequest.steps = values.steps
-              .split(/\n+/)
-              .map((el) => el.trim())
-              .filter((el) => !!el);
-          }
-          result = await editRecipe(id, editRequest);
-        } else {
-          const addRequest: AddRecipeRequest = {
-            ...values,
-            tags: values.tags.split(",").map((el) => el.trim()),
-            ingredients: values.ingredients
-              .split(/\n/)
-              .map((el) => el.trim())
-              .filter((el) => !!el),
-            steps: values.steps
-              .split(/\n+/)
-              .map((el) => el.trim())
-              .filter((el) => !!el),
-          };
-          result = await addRecipe(addRequest);
-        }
 
-        if ("id" in result) {
-          setSubmitting(false);
-          history.push(`/recipe/${result.id}`);
-        } else {
-          setSubmitError(result.error.message);
-          setSubmitting(false);
-        }
-      }}
-    >
-      {({ errors, touched, isSubmitting }) => (
-        <Form className={classes.form}>
-          <div className={classes.formRow}>
-            <InputField
-              labelText="Title"
-              name="title"
-              hasError={!!(errors.title && touched.title)}
-              fullWidth
-            />
-          </div>
-          <div className={classes.formRow}>
-            <InputField
-              labelText="Original Source"
-              name="source"
-              hasError={!!(errors.source && touched.source)}
-              fullWidth
-            />
-          </div>
-          <div className={classes.formRow}>
-            <InputField
-              labelText="Source URL"
-              name="sourceUrl"
-              hasError={!!(errors.sourceUrl && touched.sourceUrl)}
-              fullWidth
-            />
-          </div>
-          <div className={classes.formRow}>
-            <InputField
-              labelText="Submitted By"
-              name="submittedBy"
-              hasError={!!(errors.submittedBy && touched.submittedBy)}
-              fullWidth
-            />
-          </div>
-          <div className={classes.comboRow}>
-            <div className={classes.servingsContainer}>
+          if ("id" in result) {
+            setSubmitting(false);
+            history.push(`/recipe/${result.id}`);
+          } else {
+            setSubmitError(result.error.message);
+            setSubmitting(false);
+          }
+        }}
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form className={classes.form}>
+            <div className={classes.formRow}>
               <InputField
-                labelText="Servings"
-                name="servings"
-                hasError={!!(errors.servings && touched.servings)}
-                className={classes.servings}
+                labelText="Title"
+                name="title"
+                hasError={!!(errors.title && touched.title)}
+                fullWidth
               />
             </div>
-            <div>
-              <SelectField
-                options={[
-                  "appetizer",
-                  "entree",
-                  "side",
-                  "dessert",
-                  "breakfast",
-                  "sauce",
-                  "beverage",
-                ]}
-                title="Category"
-                name="category"
-                hasError={!!(errors.category && touched.category)}
+            <div className={classes.formRow}>
+              <InputField
+                labelText="Original Source"
+                name="source"
+                hasError={!!(errors.source && touched.source)}
+                fullWidth
               />
             </div>
-            <div>
-              <CheckboxField labelText="Vegetarian" name="vegetarian" />
+            <div className={classes.formRow}>
+              <InputField
+                labelText="Source URL"
+                name="sourceUrl"
+                hasError={!!(errors.sourceUrl && touched.sourceUrl)}
+                fullWidth
+              />
             </div>
-          </div>
-          <div className={classes.formRow}>
-            <InputField
-              labelText="Tags (separated by comma)"
-              name="tags"
-              hasError={!!(errors.tags && touched.tags)}
-              placeholder="Ex: fish, indian, crockpot"
-              fullWidth
-            />
-          </div>
-          <div className={classes.textareaRow}>
-            <TextAreaField
-              labelText="Ingredients"
-              name="ingredients"
-              placeholder="Enter each ingredient separated by a line break."
-              hasError={!!(errors.ingredients && touched.ingredients)}
-            />
-          </div>
-          <div className={classes.textareaRow}>
-            <TextAreaField
-              labelText="Instructions"
-              name="steps"
-              hasError={!!(touched.steps && errors.steps)}
-              placeholder="Enter recipe instructions with line breaks between steps."
-            />
-          </div>
-          <div className={classes.formRow}>
-            <button className={classes.submit} type="submit" disabled={isSubmitting}>
-              Submit
-            </button>
-          </div>
-          <div className={classes.formRow}>
-            <div className={classes.errorMessage}>{submitError}</div>
-          </div>
-        </Form>
-      )}
-    </Formik>
+            <div className={classes.formRow}>
+              <InputField
+                labelText="Submitted By"
+                name="submittedBy"
+                hasError={!!(errors.submittedBy && touched.submittedBy)}
+                fullWidth
+              />
+            </div>
+            <div className={classes.comboRow}>
+              <div className={classes.servingsContainer}>
+                <InputField
+                  labelText="Servings"
+                  name="servings"
+                  hasError={!!(errors.servings && touched.servings)}
+                  className={classes.servings}
+                />
+              </div>
+              <div>
+                <SelectField
+                  options={[
+                    "appetizer",
+                    "entree",
+                    "side",
+                    "dessert",
+                    "breakfast",
+                    "sauce",
+                    "beverage",
+                  ]}
+                  title="Category"
+                  name="category"
+                  hasError={!!(errors.category && touched.category)}
+                />
+              </div>
+              <div>
+                <CheckboxField labelText="Vegetarian" name="vegetarian" />
+              </div>
+            </div>
+            <div className={classes.formRow}>
+              <InputField
+                labelText="Tags (separated by comma)"
+                name="tags"
+                hasError={!!(errors.tags && touched.tags)}
+                placeholder="Ex: fish, indian, crockpot"
+                fullWidth
+              />
+            </div>
+            <div className={classes.textareaRow}>
+              <TextAreaField
+                labelText="Ingredients"
+                name="ingredients"
+                placeholder="Enter each ingredient separated by a line break."
+                hasError={!!(errors.ingredients && touched.ingredients)}
+              />
+            </div>
+            <div className={classes.textareaRow}>
+              <TextAreaField
+                labelText="Instructions"
+                name="steps"
+                hasError={!!(touched.steps && errors.steps)}
+                placeholder="Enter recipe instructions with line breaks between steps."
+              />
+            </div>
+            <div className={classes.formRow}>
+              <button className={classes.submit} type="submit" disabled={isSubmitting}>
+                Submit
+              </button>
+            </div>
+            <div className={classes.formRow}>
+              <div className={classes.errorMessage}>{submitError}</div>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 
