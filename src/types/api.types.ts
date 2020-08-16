@@ -35,7 +35,7 @@ type AddRecipeError = {
 
 export type AddRecipeResponse = AddRecipeSuccess | AddRecipeError;
 
-type GetRecipeSuccess = {
+export type GetRecipeSuccess = {
   id: number;
   title: string;
   source: string | null;

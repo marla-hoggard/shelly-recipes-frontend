@@ -1,0 +1,36 @@
+@import "../../global-styles/base.scss";
+
+.source,
+.sourceLink {
+  text-align: center;
+  margin-top: -10px;
+}
+
+.category,
+.servings {
+  margin-bottom: 10px;
+}
+
+.category {
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  font-weight: bold;
+}
+
+.ingredientsContainer {
+  margin-bottom: 20px;
+}
+
+.stepsContainer {
+  margin-bottom: 20px;
+}
+
+.step {
+  margin-bottom: 10px;
+}
+
+.tags {
+  font-weight: bold;
+}
