@@ -1,8 +1,30 @@
 .headerContainer {
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   height: 50px;
   background: lightblue;
   margin: 0;
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.link {
+  text-decoration: none;
+  color: #6933a2;
+  font-weight: bold;
+}
+
+.homeLink {
+}
+
+.addLink {
+  text-align: right;
+}
+
+.signinLink {
+  text-align: right;
 }

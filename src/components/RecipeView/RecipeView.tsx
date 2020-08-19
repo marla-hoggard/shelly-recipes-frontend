@@ -65,6 +65,9 @@ const RecipeView: React.FC = () => {
           ))}
         </div>
         <div className={classes.tags}>{recipe.tags.join(", ")}</div>
+        <div>
+          <Link to={`/recipe/${id}/edit`}>Edit Recipe</Link>
+        </div>
       </>
     );
   }
