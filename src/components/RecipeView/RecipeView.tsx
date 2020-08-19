@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { GetRecipeSuccess } from "../../types/api.types";
 import { getRecipe } from "../../api";
-import classes from "./RecipeView.module.scss";
 import Loading from "../base/Loading";
+import Steps from "./Steps";
+import classes from "./RecipeView.module.scss";
 
 const RecipeView: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -57,13 +58,17 @@ const RecipeView: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className={classes.stepsContainer}>
-          {recipe.steps.map((step, i) => (
-            <div className={classes.step} key={i}>
-              {step}
-            </div>
-          ))}
-        </div>
+        <Steps steps={recipe.steps} />
+        {recipe.notes.length > 0 && (
+          <>
+            <div className={classes.sectionTitle}>Notes:</div>
+            <ol className={classes.notesList}>
+              {recipe.notes.map((note, index) => (
+                <li key={index}>{note}</li>
+              ))}
+            </ol>
+          </>
+        )}
         <div className={classes.tags}>{recipe.tags.join(", ")}</div>
         <div>
           <Link to={`/recipe/${id}/edit`}>Edit Recipe</Link>
