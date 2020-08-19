@@ -3,6 +3,7 @@ import {
   AddRecipeRequest,
   GetRecipeResponse,
   GetAllRecipesResponse,
+  EditRecipeRequest,
 } from "./types/api.types";
 
 const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_BASE_URL;
@@ -26,7 +27,7 @@ export const addRecipe = async (request: AddRecipeRequest): Promise<AddRecipeRes
 
 export const editRecipe = async (
   recipeId: number,
-  request: Partial<AddRecipeRequest>,
+  request: EditRecipeRequest,
 ): Promise<AddRecipeResponse> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipe/${recipeId}`, {

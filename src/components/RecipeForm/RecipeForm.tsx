@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+/* eslint-disable func-names */
+import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Formik, Form, FormikHelpers } from "formik";
+import { Formik, Form, FormikHelpers, FieldArray } from "formik";
 import * as Yup from "yup";
 
-import { AddRecipeRequest, AddRecipeResponse, Category } from "../../types/api.types";
+import {
+  AddRecipeRequest,
+  AddRecipeResponse,
+  Category,
+  EditRecipeRequest,
+} from "../../types/api.types";
 import { addRecipe, editRecipe } from "../../api";
+import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
 import classes from "./RecipeForm.module.scss";
 
@@ -19,6 +26,7 @@ type Values = {
   tags: string;
   ingredients: string;
   steps: string;
+  notes: string[];
 };
 
 const defaultValues: Values = {
@@ -32,6 +40,7 @@ const defaultValues: Values = {
   tags: "",
   ingredients: "",
   steps: "",
+  notes: [],
 };
 
 const validationSchema = Yup.object().shape({
@@ -43,8 +52,41 @@ const validationSchema = Yup.object().shape({
   category: Yup.string().required("Required"),
   vegetarian: Yup.boolean(),
   ingredients: Yup.string().required("Required"),
-  steps: Yup.string().required("Required"),
+  steps: Yup.string()
+    .required("Required")
+    .test("notes-match", "You must enter * for each note", function (value) {
+      const numStars = countOccurrences("*", value || "");
+      const numNotes = this.parent.notes.filter((el: string) => !!el).length;
+      return numStars === numNotes;
+    }),
+  notes: Yup.array().of(Yup.string()),
 });
+
+const prepareEditRequest = (values: Values, savedValues: Partial<Values>): EditRecipeRequest => {
+  const editRequest: EditRecipeRequest = {};
+  if (values.title !== savedValues.title) editRequest.title = values.title;
+  if (values.source !== savedValues.source) editRequest.source = values.source;
+  if (values.sourceUrl !== savedValues.sourceUrl) editRequest.sourceUrl = values.sourceUrl;
+  if (values.submittedBy !== savedValues.submittedBy) editRequest.submittedBy = values.submittedBy;
+  if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
+  if (values.category !== savedValues.category) editRequest.category = values.category;
+  if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
+  if (values.tags !== savedValues.tags)
+    editRequest.tags = values.tags.split(",").map((el) => el.trim());
+  if (values.ingredients !== savedValues.ingredients) {
+    editRequest.ingredients = trimAndRemoveEmpty(values.ingredients.split(/\n/));
+  }
+  if (values.steps !== savedValues.steps) {
+    editRequest.steps = trimAndRemoveEmpty(values.steps.split(/\n+/));
+  }
+  if (
+    values.notes.length !== savedValues.notes?.length ||
+    trimAndRemoveEmpty(values.notes).join(",") !== savedValues.notes?.join(",")
+  ) {
+    editRequest.notes = trimAndRemoveEmpty(values.notes);
+  }
+  return editRequest;
+};
 
 type Props = {
   id?: number;
@@ -55,6 +97,10 @@ type Props = {
 const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   const history = useHistory();
   const [submitError, setSubmitError] = useState("");
+
+  const switchToFootnotes = useCallback(() => {
+    console.log("Clicked");
+  }, []);
 
   if (type === "edit" && !id) {
     history.push("/404");
@@ -74,44 +120,15 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           let result: AddRecipeResponse;
 
           if (type === "edit" && id) {
-            const editRequest: Partial<AddRecipeRequest> = {};
-            if (values.title !== savedValues.title) editRequest.title = values.title;
-            if (values.source !== savedValues.source) editRequest.source = values.source;
-            if (values.sourceUrl !== savedValues.sourceUrl)
-              editRequest.sourceUrl = values.sourceUrl;
-            if (values.submittedBy !== savedValues.submittedBy)
-              editRequest.submittedBy = values.submittedBy;
-            if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
-            if (values.category !== savedValues.category) editRequest.category = values.category;
-            if (values.vegetarian !== savedValues.vegetarian)
-              editRequest.vegetarian = values.vegetarian;
-            if (values.tags !== savedValues.tags)
-              editRequest.tags = values.tags.split(",").map((el) => el.trim());
-            if (values.ingredients !== savedValues.ingredients) {
-              editRequest.ingredients = values.ingredients
-                .split(/\n/)
-                .map((el) => el.trim())
-                .filter((el) => !!el);
-            }
-            if (values.steps !== savedValues.steps) {
-              editRequest.steps = values.steps
-                .split(/\n+/)
-                .map((el) => el.trim())
-                .filter((el) => !!el);
-            }
+            const editRequest = prepareEditRequest(values, savedValues);
             result = await editRecipe(id, editRequest);
           } else {
             const addRequest: AddRecipeRequest = {
               ...values,
               tags: values.tags.split(",").map((el) => el.trim()),
-              ingredients: values.ingredients
-                .split(/\n/)
-                .map((el) => el.trim())
-                .filter((el) => !!el),
-              steps: values.steps
-                .split(/\n+/)
-                .map((el) => el.trim())
-                .filter((el) => !!el),
+              ingredients: trimAndRemoveEmpty(values.ingredients.split(/\n/)),
+              steps: trimAndRemoveEmpty(values.steps.split(/\n+/)),
+              notes: trimAndRemoveEmpty(values.notes),
             };
             result = await addRecipe(addRequest);
           }
@@ -125,7 +142,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           }
         }}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ values, errors, touched, isSubmitting }) => (
           <Form className={classes.form}>
             <div className={classes.formRow}>
               <InputField
@@ -198,21 +215,86 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
               />
             </div>
             <div className={classes.textareaRow}>
+              <div className={classes.labelAndLinkContainer}>
+                <label className={classes.textareaLabel} htmlFor="ingredients">
+                  Ingredients
+                </label>
+                <div className={classes.addFootnoteLink} onClick={switchToFootnotes}>
+                  + Add Footnotes
+                </div>
+              </div>
               <TextAreaField
-                labelText="Ingredients"
                 name="ingredients"
                 placeholder="Enter each ingredient separated by a line break."
                 hasError={!!(errors.ingredients && touched.ingredients)}
               />
             </div>
-            <div className={classes.textareaRow}>
-              <TextAreaField
-                labelText="Instructions"
-                name="steps"
-                hasError={!!(touched.steps && errors.steps)}
-                placeholder="Enter recipe instructions with line breaks between steps."
-              />
-            </div>
+            <FieldArray name="notes">
+              {({ swap, remove, push }) => (
+                <>
+                  <div className={classes.textareaRow}>
+                    <div className={classes.labelAndLinkContainer}>
+                      <label className={classes.textareaLabel} htmlFor="steps">
+                        Instructions
+                      </label>
+                      {!values.notes.length && (
+                        <div className={classes.addFootnoteLink} onClick={() => push("")}>
+                          + Add Notes
+                        </div>
+                      )}
+                    </div>
+                    <TextAreaField
+                      name="steps"
+                      hasError={!!(touched.steps && errors.steps)}
+                      placeholder={
+                        "Enter recipe instructions with line breaks between steps.\nClick + ADD NOTE to add footnotes.\nType * to indicate where to place each note (they will be associated in order)."
+                      }
+                    />
+                  </div>
+                  {values.notes.length > 0 && (
+                    <>
+                      <div className={classes.labelAndLinkContainer}>
+                        <label className={classes.textareaLabel} htmlFor="steps">
+                          Notes
+                        </label>
+                        <div className={classes.addFootnoteLink} onClick={() => push("")}>
+                          + Add Note
+                        </div>
+                      </div>
+                      {values.notes.map((note, index, notes) => (
+                        <div key={index} className={classes.notesRow}>
+                          <InputField
+                            placeholder="Put * in the instructions where this note should go."
+                            name={`notes.${index}`}
+                            hasError={!!(errors.submittedBy && touched.submittedBy)}
+                            className={classes.flex1}
+                          />
+                          <div className={classes.notesButtons}>
+                            <button
+                              type="button"
+                              onClick={() => swap(index - 1, index)}
+                              disabled={index === 0}
+                            >
+                              {"\u21e7"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => swap(index, index + 1)}
+                              disabled={index === notes.length - 1}
+                            >
+                              {"\u21e9"}
+                            </button>
+                            <button type="button" onClick={() => remove(index)}>
+                              {"\u274c"}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </>
+              )}
+            </FieldArray>
             <div className={classes.formRow}>
               <button className={classes.submit} type="submit" disabled={isSubmitting}>
                 Submit

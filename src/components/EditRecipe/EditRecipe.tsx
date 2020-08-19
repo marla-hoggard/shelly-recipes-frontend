@@ -21,6 +21,7 @@ const EditRecipe: React.FC = () => {
         tags: recipe.tags.join(", "),
         ingredients: recipe.ingredients.join("\n"),
         steps: recipe.steps.join("\n\n"),
+        notes: recipe.notes,
       });
       setLoading(false);
     } else {

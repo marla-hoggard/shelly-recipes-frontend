@@ -5,7 +5,7 @@ import { Field, ErrorMessage } from "formik";
 import classes from "./RecipeForm.module.scss";
 
 type InputFieldProps = {
-  labelText: string;
+  labelText?: string;
   name: string;
   hasError: boolean;
   placeholder?: string;
@@ -22,9 +22,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   hasError,
 }) => (
   <>
-    <label className={classes.label} htmlFor={name}>
-      {labelText}
-    </label>
+    {labelText && (
+      <label className={classes.label} htmlFor={name}>
+        {labelText}
+      </label>
+    )}
     <Field
       className={classNames({
         [classes.input]: true,

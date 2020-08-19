@@ -16,10 +16,13 @@ export type AddRecipeRequest = {
   servings?: string;
   category: Category;
   vegetarian?: boolean;
+  tags?: string[];
   ingredients: string[];
   steps: string[];
-  tags?: string[];
+  notes?: string[];
 };
+
+export type EditRecipeRequest = Partial<AddRecipeRequest>;
 
 type AddRecipeSuccess = {
   id: number;
@@ -46,6 +49,7 @@ export type GetRecipeSuccess = {
   vegetarian: boolean;
   ingredients: string[];
   steps: string[];
+  notes: string[];
   tags: string[];
   createdAt: string;
 };
@@ -72,6 +76,7 @@ export type Recipe = {
   tags: string[];
   ingredients?: string[];
   steps?: string[];
+  notes?: string[];
 };
 
 type GetAllRecipesSuccess = {

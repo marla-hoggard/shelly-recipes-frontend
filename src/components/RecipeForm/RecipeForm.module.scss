@@ -52,6 +52,17 @@
   border: 1px solid #666;
 }
 
+.servingsContainer {
+  .label {
+    margin-right: 10px;
+  }
+}
+
+.servings {
+  composes: input;
+  width: 175px;
+}
+
 .select {
   padding: 10px;
   margin: 0 20px;
@@ -93,15 +104,37 @@
   margin-bottom: 5px;
 }
 
-.servingsContainer {
-  .label {
-    margin-right: 10px;
+.labelAndLinkContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.addFootnoteLink {
+  composes: textareaLabel;
+  cursor: pointer;
+
+  &:hover {
+    color: purple;
   }
 }
 
-.servings {
-  composes: input;
-  width: 175px;
+.flex1 {
+  flex: 1;
+}
+
+.notesRow {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.notesButtons {
+  button {
+    font-size: 11px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    cursor: pointer;
+  }
 }
 
 .submit {
