@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 import React, { useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Formik, Form, FormikHelpers, FieldArray } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 import {
@@ -9,13 +9,15 @@ import {
   AddRecipeResponse,
   Category,
   EditRecipeRequest,
+  Ingredient,
 } from "../../types/api.types";
 import { addRecipe, editRecipe } from "../../api";
 import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
+import { StepsAndNotes, IngredientsWithFootnotes } from "./FieldArrays";
 import classes from "./RecipeForm.module.scss";
 
-type Values = {
+export type FormValues = {
   title: string;
   source: string;
   sourceUrl: string;
@@ -24,12 +26,13 @@ type Values = {
   category: Category;
   vegetarian: boolean;
   tags: string;
-  ingredients: string;
+  ingredientsTextarea: string;
+  ingredientsWithNotes: Ingredient[];
   steps: string;
   notes: string[];
 };
 
-const defaultValues: Values = {
+const defaultValues: FormValues = {
   title: "",
   source: "",
   sourceUrl: "",
@@ -38,7 +41,8 @@ const defaultValues: Values = {
   category: "",
   vegetarian: false,
   tags: "",
-  ingredients: "",
+  ingredientsTextarea: "",
+  ingredientsWithNotes: [],
   steps: "",
   notes: [],
 };
@@ -51,7 +55,15 @@ const validationSchema = Yup.object().shape({
   servings: Yup.string(),
   category: Yup.string().required("Required"),
   vegetarian: Yup.boolean(),
-  ingredients: Yup.string().required("Required"),
+  ingredientsTextarea: Yup.string().test("ingredients-required", "Required", function (value) {
+    return this.parent.ingredientsWithNotes.length > 0 || !!value;
+  }),
+  ingredientsWithNotes: Yup.array(
+    Yup.object().shape({
+      ingredient: Yup.string().required(" "),
+      footnote: Yup.string(),
+    }),
+  ),
   steps: Yup.string()
     .required("Required")
     .test("notes-match", "You must enter * for each note", function (value) {
@@ -59,10 +71,14 @@ const validationSchema = Yup.object().shape({
       const numNotes = this.parent.notes.filter((el: string) => !!el).length;
       return numStars === numNotes;
     }),
-  notes: Yup.array().of(Yup.string()),
+  notes: Yup.array(Yup.string()),
 });
 
-const prepareEditRequest = (values: Values, savedValues: Partial<Values>): EditRecipeRequest => {
+const prepareEditRequest = (
+  values: FormValues,
+  savedValues: Partial<FormValues>,
+  hasFootnotes: boolean,
+): EditRecipeRequest => {
   const editRequest: EditRecipeRequest = {};
   if (values.title !== savedValues.title) editRequest.title = values.title;
   if (values.source !== savedValues.source) editRequest.source = values.source;
@@ -73,8 +89,16 @@ const prepareEditRequest = (values: Values, savedValues: Partial<Values>): EditR
   if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
   if (values.tags !== savedValues.tags)
     editRequest.tags = values.tags.split(",").map((el) => el.trim());
-  if (values.ingredients !== savedValues.ingredients) {
-    editRequest.ingredients = trimAndRemoveEmpty(values.ingredients.split(/\n/));
+  if (
+    values.ingredientsTextarea !== savedValues.ingredientsTextarea ||
+    values.ingredientsWithNotes.map((el) => el.ingredient).join(",") !==
+      savedValues.ingredientsWithNotes?.map((el) => el.ingredient).join(",") ||
+    values.ingredientsWithNotes.map((el) => el.footnote).join(",") !==
+      savedValues.ingredientsWithNotes?.map((el) => el.footnote).join(",")
+  ) {
+    editRequest.ingredients = hasFootnotes
+      ? values.ingredientsWithNotes
+      : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({ ingredient: i }));
   }
   if (values.steps !== savedValues.steps) {
     editRequest.steps = trimAndRemoveEmpty(values.steps.split(/\n+/));
@@ -90,17 +114,26 @@ const prepareEditRequest = (values: Values, savedValues: Partial<Values>): EditR
 
 type Props = {
   id?: number;
-  savedValues?: Partial<Values>;
+  savedValues?: Partial<FormValues>;
   type: "add" | "edit";
 };
 
 const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   const history = useHistory();
   const [submitError, setSubmitError] = useState("");
+  const [showFootnotes, setShowFootnotes] = useState(
+    !!savedValues?.ingredientsWithNotes?.some((i) => i.footnote),
+  );
 
-  const switchToFootnotes = useCallback(() => {
-    console.log("Clicked");
-  }, []);
+  const switchToFootnotes = useCallback(
+    (values: FormValues, setFieldValue: (field: string, value: string) => void) => {
+      trimAndRemoveEmpty(values.ingredientsTextarea.split("\n")).forEach((ing, index) => {
+        setFieldValue(`ingredientsWithNotes.${index}.ingredient`, ing);
+      });
+      setShowFootnotes(true);
+    },
+    [],
+  );
 
   if (type === "edit" && !id) {
     history.push("/404");
@@ -115,21 +148,26 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           ...savedValues,
         }}
         validationSchema={validationSchema}
-        onSubmit={async (values, { setSubmitting }: FormikHelpers<Values>) => {
+        onSubmit={async (values, { setSubmitting }: FormikHelpers<FormValues>) => {
           setSubmitting(true);
           let result: AddRecipeResponse;
 
           if (type === "edit" && id) {
-            const editRequest = prepareEditRequest(values, savedValues);
+            const editRequest = prepareEditRequest(values, savedValues, showFootnotes);
             result = await editRecipe(id, editRequest);
           } else {
             const addRequest: AddRecipeRequest = {
               ...values,
               tags: values.tags.split(",").map((el) => el.trim()),
-              ingredients: trimAndRemoveEmpty(values.ingredients.split(/\n/)),
+              ingredients: showFootnotes
+                ? values.ingredientsWithNotes
+                : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({
+                    ingredient: i,
+                  })),
               steps: trimAndRemoveEmpty(values.steps.split(/\n+/)),
               notes: trimAndRemoveEmpty(values.notes),
             };
+            console.log(addRequest);
             result = await addRecipe(addRequest);
           }
 
@@ -142,7 +180,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           }
         }}
       >
-        {({ values, errors, touched, isSubmitting }) => (
+        {({ values, errors, touched, isSubmitting, setFieldValue }) => (
           <Form className={classes.form}>
             <div className={classes.formRow}>
               <InputField
@@ -214,87 +252,29 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
                 fullWidth
               />
             </div>
-            <div className={classes.textareaRow}>
-              <div className={classes.labelAndLinkContainer}>
-                <label className={classes.textareaLabel} htmlFor="ingredients">
-                  Ingredients
-                </label>
-                <div className={classes.addFootnoteLink} onClick={switchToFootnotes}>
-                  + Add Footnotes
-                </div>
-              </div>
-              <TextAreaField
-                name="ingredients"
-                placeholder="Enter each ingredient separated by a line break."
-                hasError={!!(errors.ingredients && touched.ingredients)}
-              />
-            </div>
-            <FieldArray name="notes">
-              {({ swap, remove, push }) => (
-                <>
-                  <div className={classes.textareaRow}>
-                    <div className={classes.labelAndLinkContainer}>
-                      <label className={classes.textareaLabel} htmlFor="steps">
-                        Instructions
-                      </label>
-                      {!values.notes.length && (
-                        <div className={classes.addFootnoteLink} onClick={() => push("")}>
-                          + Add Notes
-                        </div>
-                      )}
-                    </div>
-                    <TextAreaField
-                      name="steps"
-                      hasError={!!(touched.steps && errors.steps)}
-                      placeholder={
-                        "Enter recipe instructions with line breaks between steps.\nClick + ADD NOTE to add footnotes.\nType * to indicate where to place each note (they will be associated in order)."
-                      }
-                    />
+            {showFootnotes ? (
+              <IngredientsWithFootnotes values={values} errors={errors} touched={touched} />
+            ) : (
+              <div className={classes.textareaRow}>
+                <div className={classes.labelAndLinkContainer}>
+                  <label className={classes.textareaLabel} htmlFor="ingredientsTextarea">
+                    Ingredients
+                  </label>
+                  <div
+                    className={classes.addFootnoteLink}
+                    onClick={() => switchToFootnotes(values, setFieldValue)}
+                  >
+                    + Add Footnotes
                   </div>
-                  {values.notes.length > 0 && (
-                    <>
-                      <div className={classes.labelAndLinkContainer}>
-                        <label className={classes.textareaLabel} htmlFor="steps">
-                          Notes
-                        </label>
-                        <div className={classes.addFootnoteLink} onClick={() => push("")}>
-                          + Add Note
-                        </div>
-                      </div>
-                      {values.notes.map((note, index, notes) => (
-                        <div key={index} className={classes.notesRow}>
-                          <InputField
-                            placeholder="Put * in the instructions where this note should go."
-                            name={`notes.${index}`}
-                            hasError={!!(errors.submittedBy && touched.submittedBy)}
-                            className={classes.flex1}
-                          />
-                          <div className={classes.notesButtons}>
-                            <button
-                              type="button"
-                              onClick={() => swap(index - 1, index)}
-                              disabled={index === 0}
-                            >
-                              {"\u21e7"}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => swap(index, index + 1)}
-                              disabled={index === notes.length - 1}
-                            >
-                              {"\u21e9"}
-                            </button>
-                            <button type="button" onClick={() => remove(index)}>
-                              {"\u274c"}
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </>
-              )}
-            </FieldArray>
+                </div>
+                <TextAreaField
+                  name="ingredientsTextarea"
+                  placeholder="Enter each ingredient separated by a line break."
+                  hasError={!!(errors.ingredientsTextarea && touched.ingredientsTextarea)}
+                />
+              </div>
+            )}
+            <StepsAndNotes values={values} errors={errors} touched={touched} />
             <div className={classes.formRow}>
               <button className={classes.submit} type="submit" disabled={isSubmitting}>
                 Submit

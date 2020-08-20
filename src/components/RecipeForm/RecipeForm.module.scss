@@ -58,6 +58,15 @@
   }
 }
 
+.leftInput {
+  flex: 1;
+}
+
+.rightInput {
+  flex: 1;
+  margin-left: 10px;
+}
+
 .servings {
   composes: input;
   width: 175px;

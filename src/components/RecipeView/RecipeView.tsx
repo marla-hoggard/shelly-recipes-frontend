@@ -5,6 +5,7 @@ import { getRecipe } from "../../api";
 import Loading from "../base/Loading";
 import Steps from "./Steps";
 import classes from "./RecipeView.module.scss";
+import Ingredients from "./Ingredients";
 
 const RecipeView: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -50,14 +51,7 @@ const RecipeView: React.FC = () => {
         <div className={classes.submittedBy}>Submitted By: {recipe.submittedBy}</div>
         <div className={classes.category}>{recipe.category}</div>
         {recipe.servings && <div className={classes.servings}>Serves: {recipe.servings}</div>}
-        <div className={classes.ingredientsContainer}>
-          <div className={classes.sectionTitle}>Ingredients:</div>
-          {recipe.ingredients.map((ing, i) => (
-            <div className={classes.ingredient} key={i}>
-              {ing}
-            </div>
-          ))}
-        </div>
+        <Ingredients ingredients={recipe.ingredients} />
         <Steps steps={recipe.steps} />
         {recipe.notes.length > 0 && (
           <>

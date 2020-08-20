@@ -10,6 +10,7 @@ const Steps: React.FC<Props> = ({ steps }) => {
 
   return (
     <div className={classes.stepsContainer}>
+      <div className={classes.sectionTitle}>Instructions:</div>
       {steps.map((step, i) => (
         <div key={i} className={classes.step}>
           {step.split("*").map((section, j, arr) => (

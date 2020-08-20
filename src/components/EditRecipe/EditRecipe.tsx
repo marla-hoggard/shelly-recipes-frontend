@@ -2,13 +2,13 @@ import React, { useEffect, useCallback, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
 import { getRecipe } from "../../api";
-import RecipeForm from "../RecipeForm/RecipeForm";
+import RecipeForm, { FormValues } from "../RecipeForm/RecipeForm";
 
 const EditRecipe: React.FC = () => {
   const { id } = useParams();
   const history = useHistory();
   const [loading, setLoading] = useState(true);
-  const [savedValues, setSavedValues] = useState({});
+  const [savedValues, setSavedValues] = useState<Partial<FormValues>>({});
 
   const fetchRecipe = useCallback(async () => {
     const recipe = await getRecipe(id);
@@ -19,7 +19,11 @@ const EditRecipe: React.FC = () => {
         sourceUrl: recipe.sourceUrl || "",
         servings: recipe.servings || "",
         tags: recipe.tags.join(", "),
-        ingredients: recipe.ingredients.join("\n"),
+        ingredientsTextarea: recipe.ingredients.map((i) => i.ingredient).join("\n"),
+        ingredientsWithNotes: recipe.ingredients.map(({ ingredient, footnote }) => ({
+          ingredient,
+          footnote: footnote || "",
+        })),
         steps: recipe.steps.join("\n\n"),
         notes: recipe.notes,
       });

@@ -8,6 +8,11 @@ export type Category =
   | "sauce"
   | "";
 
+export type Ingredient = {
+  ingredient: string;
+  footnote?: string;
+};
+
 export type AddRecipeRequest = {
   title: string;
   source?: string;
@@ -17,7 +22,7 @@ export type AddRecipeRequest = {
   category: Category;
   vegetarian?: boolean;
   tags?: string[];
-  ingredients: string[];
+  ingredients: Ingredient[];
   steps: string[];
   notes?: string[];
 };
@@ -47,7 +52,7 @@ export type GetRecipeSuccess = {
   servings: string | null;
   category: Category;
   vegetarian: boolean;
-  ingredients: string[];
+  ingredients: Ingredient[];
   steps: string[];
   notes: string[];
   tags: string[];

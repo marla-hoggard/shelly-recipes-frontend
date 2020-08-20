@@ -15,7 +15,7 @@ type InputFieldProps = {
 
 export const InputField: React.FC<InputFieldProps> = ({
   className = "",
-  fullWidth,
+  fullWidth = false,
   labelText,
   name,
   placeholder,
