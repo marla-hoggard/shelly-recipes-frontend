@@ -27,16 +27,15 @@ const Ingredients: React.FC<Props> = ({ ingredients }) => {
         )}
       </div>
       {ingredients.some((el) => el.footnote) && (
-        <>
-          <div className={classes.sectionTitle}>Footnotes:</div>
-          <ol className={classes.notesList}>
-            {ingredients
-              .filter((el) => el.footnote)
-              .map(({ footnote }, index) => (
-                <li key={index}>{footnote}</li>
-              ))}
-          </ol>
-        </>
+        <ol className={classes.notesList}>
+          {ingredients
+            .filter((el) => el.footnote)
+            .map(({ footnote }, index) => (
+              <li key={index} data-icon={`[${index + 1}]`}>
+                {footnote}
+              </li>
+            ))}
+        </ol>
       )}
     </>
   );

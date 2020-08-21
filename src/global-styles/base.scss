@@ -3,3 +3,13 @@
   margin: 0;
   padding: 0;
 }
+
+.link {
+  text-decoration: none;
+  color: #6933a2;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

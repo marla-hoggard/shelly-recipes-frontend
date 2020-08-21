@@ -3,6 +3,7 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import { GetRecipeSuccess } from "../../types/api.types";
 import { getRecipe } from "../../api";
 import Loading from "../base/Loading";
+import Tag from "../base/Tag";
 import Steps from "./Steps";
 import classes from "./RecipeView.module.scss";
 import Ingredients from "./Ingredients";
@@ -49,7 +50,6 @@ const RecipeView: React.FC = () => {
             <div className={classes.source}>{recipe.source}</div>
           ))}
         <div className={classes.submittedBy}>Submitted By: {recipe.submittedBy}</div>
-        <div className={classes.category}>{recipe.category}</div>
         {recipe.servings && <div className={classes.servings}>Serves: {recipe.servings}</div>}
         <Ingredients ingredients={recipe.ingredients} />
         <Steps steps={recipe.steps} />
@@ -58,14 +58,24 @@ const RecipeView: React.FC = () => {
             <div className={classes.sectionTitle}>Notes:</div>
             <ol className={classes.notesList}>
               {recipe.notes.map((note, index) => (
-                <li key={index}>{note}</li>
+                <li key={index} data-icon={`[${index + 1}]`}>
+                  {note}
+                </li>
               ))}
             </ol>
           </>
         )}
-        <div className={classes.tags}>{recipe.tags.join(", ")}</div>
+        {recipe.tags.length > 0 && (
+          <div className={classes.tagsContainer}>
+            {recipe.tags.map((tag) => (
+              <Tag key={tag} text={tag} />
+            ))}
+          </div>
+        )}
         <div>
-          <Link to={`/recipe/${id}/edit`}>Edit Recipe</Link>
+          <Link className={classes.link} to={`/recipe/${id}/edit`}>
+            Edit Recipe
+          </Link>
         </div>
       </>
     );
