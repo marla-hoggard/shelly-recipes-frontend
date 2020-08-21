@@ -127,9 +127,11 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
 
   const switchToFootnotes = useCallback(
     (values: FormValues, setFieldValue: (field: string, value: string) => void) => {
-      trimAndRemoveEmpty(values.ingredientsTextarea.split("\n")).forEach((ing, index) => {
-        setFieldValue(`ingredientsWithNotes.${index}.ingredient`, ing);
-      });
+      values.ingredientsTextarea.length
+        ? trimAndRemoveEmpty(values.ingredientsTextarea.split("\n")).forEach((ing, index) => {
+            setFieldValue(`ingredientsWithNotes.${index}.ingredient`, ing);
+          })
+        : setFieldValue(`ingredientsWithNotes.0.ingredient`, "");
       setShowFootnotes(true);
     },
     [],

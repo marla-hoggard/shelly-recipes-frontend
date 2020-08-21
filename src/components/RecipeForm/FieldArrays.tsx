@@ -10,6 +10,10 @@ type Props = {
   values: FormValues;
 };
 
+const upArrow = "\u21e7";
+const downArrow = "\u21e9";
+const deleteIcon = "\u274c";
+
 export const IngredientsWithFootnotes: React.FC<Props> = ({ values, errors, touched }) => {
   return (
     <FieldArray name="ingredientsWithNotes">
@@ -58,17 +62,21 @@ export const IngredientsWithFootnotes: React.FC<Props> = ({ values, errors, touc
               />
               <div className={classes.notesButtons}>
                 <button type="button" onClick={() => swap(index - 1, index)} disabled={index === 0}>
-                  {"\u21e7"}
+                  {upArrow}
                 </button>
                 <button
                   type="button"
                   onClick={() => swap(index, index + 1)}
                   disabled={index === ingredientsWithNotes.length - 1}
                 >
-                  {"\u21e9"}
+                  {downArrow}
                 </button>
-                <button type="button" onClick={() => remove(index)}>
-                  {"\u274c"}
+                <button
+                  type="button"
+                  onClick={() => remove(index)}
+                  disabled={ingredientsWithNotes.length === 1}
+                >
+                  {deleteIcon}
                 </button>
               </div>
             </div>
@@ -127,17 +135,17 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
                       onClick={() => swap(index - 1, index)}
                       disabled={index === 0}
                     >
-                      {"\u21e7"}
+                      {upArrow}
                     </button>
                     <button
                       type="button"
                       onClick={() => swap(index, index + 1)}
                       disabled={index === notes.length - 1}
                     >
-                      {"\u21e9"}
+                      {downArrow}
                     </button>
                     <button type="button" onClick={() => remove(index)}>
-                      {"\u274c"}
+                      {deleteIcon}
                     </button>
                   </div>
                 </div>
