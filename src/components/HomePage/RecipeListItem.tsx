@@ -1,6 +1,8 @@
 import React from "react";
 import { Recipe as RecipeType } from "../../types/api.types";
 import { Link } from "react-router-dom";
+import Category from "../base/Category";
+import Tag from "../base/Tag";
 import classes from "./Homepage.module.scss";
 
 type Props = {
@@ -10,12 +12,20 @@ type Props = {
 const RecipeListItem: React.FC<Props> = ({ recipe: { id, category, source, tags, title } }) => {
   return (
     <div className={classes.recipeItemContainer}>
-      <div>
-        <Link to={`/recipe/${id}`}>{title}</Link>
-        {source && ` (${source})`}
+      <div className={classes.row}>
+        <div className={classes.titleAndSource}>
+          <Link to={`/recipe/${id}`} className={classes.link}>
+            {title}
+          </Link>
+          {source && ` (${source})`}
+        </div>
+        <Category category={category} />
       </div>
-      <div>{category.toUpperCase()}</div>
-      <div>{tags.join(", ")}</div>
+      {/* <div className={classes.tagsContainer}>
+        {tags.map((tag) => (
+          <Tag key={tag} text={tag} small />
+        ))}
+      </div> */}
     </div>
   );
 };

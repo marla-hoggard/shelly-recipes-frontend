@@ -3,3 +3,12 @@
 .recipeItemContainer {
   margin-bottom: 10px;
 }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tagsContainer {
+  display: flex;
+}
