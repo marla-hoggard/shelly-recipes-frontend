@@ -41,8 +41,8 @@ const RecipeView: React.FC = () => {
         <h1 className={classes.pageTitle}>{recipe.title}</h1>
         {recipe.source &&
           (recipe.source_url ? (
-            <div>
-              <Link className={classes.sourceLink} to={recipe.source_url}>
+            <div className={classes.source}>
+              <Link className={classes.link} to={recipe.source_url}>
                 {recipe.source}
               </Link>
             </div>

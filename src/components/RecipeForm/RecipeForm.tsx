@@ -89,7 +89,7 @@ const prepareEditRequest = (
   if (values.category !== savedValues.category) editRequest.category = values.category;
   if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
   if (values.tags !== savedValues.tags)
-    editRequest.tags = values.tags.split(",").map((el) => el.trim());
+    editRequest.tags = trimAndRemoveEmpty(values.tags.split(","));
   if (
     values.ingredientsTextarea !== savedValues.ingredientsTextarea ||
     values.ingredientsWithNotes.map((el) => el.ingredient).join(",") !==
