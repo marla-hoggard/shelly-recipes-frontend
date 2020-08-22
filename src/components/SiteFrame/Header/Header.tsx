@@ -15,11 +15,11 @@ const Header: React.FC = () => {
           Add a Recipe
         </Link>
       </div>
-      <div className={classes.signinLink}>
+      {/* <div className={classes.signinLink}>
         <Link className={classes.link} to="/">
           Sign In
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

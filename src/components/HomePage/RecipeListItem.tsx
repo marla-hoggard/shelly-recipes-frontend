@@ -2,7 +2,6 @@ import React from "react";
 import { Recipe as RecipeType } from "../../types/api.types";
 import { Link } from "react-router-dom";
 import Category from "../base/Category";
-import Tag from "../base/Tag";
 import classes from "./Homepage.module.scss";
 
 type Props = {
@@ -21,11 +20,6 @@ const RecipeListItem: React.FC<Props> = ({ recipe: { id, category, source, tags,
         </div>
         <Category category={category} />
       </div>
-      {/* <div className={classes.tagsContainer}>
-        {tags.map((tag) => (
-          <Tag key={tag} text={tag} small />
-        ))}
-      </div> */}
     </div>
   );
 };
