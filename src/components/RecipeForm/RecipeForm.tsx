@@ -20,8 +20,8 @@ import classes from "./RecipeForm.module.scss";
 export type FormValues = {
   title: string;
   source: string;
-  sourceUrl: string;
-  submittedBy: string;
+  source_url: string;
+  submitted_by: string;
   servings: string;
   category: Category;
   vegetarian: boolean;
@@ -35,8 +35,8 @@ export type FormValues = {
 const defaultValues: FormValues = {
   title: "",
   source: "",
-  sourceUrl: "",
-  submittedBy: "",
+  source_url: "",
+  submitted_by: "",
   servings: "",
   category: "",
   vegetarian: false,
@@ -50,8 +50,8 @@ const defaultValues: FormValues = {
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Required"),
   source: Yup.string(),
-  sourceUrl: Yup.string(),
-  submittedBy: Yup.string().required("Required"),
+  source_url: Yup.string(),
+  submitted_by: Yup.string().required("Required"),
   servings: Yup.string(),
   category: Yup.string().required("Required"),
   vegetarian: Yup.boolean(),
@@ -82,8 +82,9 @@ const prepareEditRequest = (
   const editRequest: EditRecipeRequest = {};
   if (values.title !== savedValues.title) editRequest.title = values.title;
   if (values.source !== savedValues.source) editRequest.source = values.source;
-  if (values.sourceUrl !== savedValues.sourceUrl) editRequest.sourceUrl = values.sourceUrl;
-  if (values.submittedBy !== savedValues.submittedBy) editRequest.submittedBy = values.submittedBy;
+  if (values.source_url !== savedValues.source_url) editRequest.source_url = values.source_url;
+  if (values.submitted_by !== savedValues.submitted_by)
+    editRequest.submitted_by = values.submitted_by;
   if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
   if (values.category !== savedValues.category) editRequest.category = values.category;
   if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
@@ -202,16 +203,16 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
             <div className={classes.formRow}>
               <InputField
                 labelText="Source URL"
-                name="sourceUrl"
-                hasError={!!(errors.sourceUrl && touched.sourceUrl)}
+                name="source_url"
+                hasError={!!(errors.source_url && touched.source_url)}
                 fullWidth
               />
             </div>
             <div className={classes.formRow}>
               <InputField
                 labelText="Submitted By"
-                name="submittedBy"
-                hasError={!!(errors.submittedBy && touched.submittedBy)}
+                name="submitted_by"
+                hasError={!!(errors.submitted_by && touched.submitted_by)}
                 fullWidth
               />
             </div>

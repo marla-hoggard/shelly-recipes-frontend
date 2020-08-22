@@ -16,8 +16,8 @@ export type Ingredient = {
 export type AddRecipeRequest = {
   title: string;
   source?: string;
-  sourceUrl?: string;
-  submittedBy: string;
+  source_url?: string;
+  submitted_by: string;
   servings?: string;
   category: Category;
   vegetarian?: boolean;
@@ -47,8 +47,8 @@ export type GetRecipeSuccess = {
   id: number;
   title: string;
   source: string | null;
-  sourceUrl: string | null;
-  submittedBy: string;
+  source_url: string | null;
+  submitted_by: string;
   servings: string | null;
   category: Category;
   vegetarian: boolean;
@@ -56,7 +56,7 @@ export type GetRecipeSuccess = {
   steps: string[];
   footnotes: string[];
   tags: string[];
-  createdAt: string;
+  created_at: string;
 };
 
 type GetRecipeError = {
@@ -72,12 +72,12 @@ export type Recipe = {
   id: number;
   title: string;
   source: string | null;
-  sourceUrl: string | null;
-  submittedBy: string;
+  source_url: string | null;
+  submitted_by: string;
   servings: string | null;
   category: Category;
   vegetarian: boolean;
-  createdAt: string;
+  created_at: string;
   tags: string[];
   ingredients?: string[];
   steps?: string[];
