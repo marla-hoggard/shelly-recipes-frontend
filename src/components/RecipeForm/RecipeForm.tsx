@@ -14,7 +14,7 @@ import {
 import { addRecipe, editRecipe } from "../../api";
 import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
-import { StepsAndNotes, IngredientsWithFootnotes } from "./FieldArrays";
+import { StepsAndNotes, IngredientsWithNotes } from "./FieldArrays";
 import classes from "./RecipeForm.module.scss";
 
 export type FormValues = {
@@ -29,7 +29,7 @@ export type FormValues = {
   ingredientsTextarea: string;
   ingredientsWithNotes: Ingredient[];
   steps: string;
-  notes: string[];
+  footnotes: string[];
 };
 
 const defaultValues: FormValues = {
@@ -44,7 +44,7 @@ const defaultValues: FormValues = {
   ingredientsTextarea: "",
   ingredientsWithNotes: [],
   steps: "",
-  notes: [],
+  footnotes: [],
 };
 
 const validationSchema = Yup.object().shape({
@@ -61,23 +61,23 @@ const validationSchema = Yup.object().shape({
   ingredientsWithNotes: Yup.array(
     Yup.object().shape({
       ingredient: Yup.string().required(" "),
-      footnote: Yup.string(),
+      note: Yup.string(),
     }),
   ),
   steps: Yup.string()
     .required("Required")
-    .test("notes-match", "You must enter * for each note", function (value) {
+    .test("footnotes-match", "You must enter * for each footnote", function (value) {
       const numStars = countOccurrences("*", value || "");
-      const numNotes = this.parent.notes.filter((el: string) => !!el).length;
+      const numNotes = this.parent.footnotes.filter((el: string) => !!el).length;
       return numStars === numNotes;
     }),
-  notes: Yup.array(Yup.string()),
+  footnotes: Yup.array(Yup.string()),
 });
 
 const prepareEditRequest = (
   values: FormValues,
   savedValues: Partial<FormValues>,
-  hasFootnotes: boolean,
+  hasIngredientNotes: boolean,
 ): EditRecipeRequest => {
   const editRequest: EditRecipeRequest = {};
   if (values.title !== savedValues.title) editRequest.title = values.title;
@@ -93,10 +93,10 @@ const prepareEditRequest = (
     values.ingredientsTextarea !== savedValues.ingredientsTextarea ||
     values.ingredientsWithNotes.map((el) => el.ingredient).join(",") !==
       savedValues.ingredientsWithNotes?.map((el) => el.ingredient).join(",") ||
-    values.ingredientsWithNotes.map((el) => el.footnote).join(",") !==
-      savedValues.ingredientsWithNotes?.map((el) => el.footnote).join(",")
+    values.ingredientsWithNotes.map((el) => el.note).join(",") !==
+      savedValues.ingredientsWithNotes?.map((el) => el.note).join(",")
   ) {
-    editRequest.ingredients = hasFootnotes
+    editRequest.ingredients = hasIngredientNotes
       ? values.ingredientsWithNotes
       : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({ ingredient: i }));
   }
@@ -104,10 +104,10 @@ const prepareEditRequest = (
     editRequest.steps = trimAndRemoveEmpty(values.steps.split(/\n+/));
   }
   if (
-    values.notes.length !== savedValues.notes?.length ||
-    trimAndRemoveEmpty(values.notes).join(",") !== savedValues.notes?.join(",")
+    values.footnotes.length !== savedValues.footnotes?.length ||
+    trimAndRemoveEmpty(values.footnotes).join(",") !== savedValues.footnotes?.join(",")
   ) {
-    editRequest.notes = trimAndRemoveEmpty(values.notes);
+    editRequest.footnotes = trimAndRemoveEmpty(values.footnotes);
   }
   return editRequest;
 };
@@ -121,8 +121,8 @@ type Props = {
 const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   const history = useHistory();
   const [submitError, setSubmitError] = useState("");
-  const [showFootnotes, setShowFootnotes] = useState(
-    !!savedValues?.ingredientsWithNotes?.some((i) => i.footnote),
+  const [showIngredientNotes, setShowIngredientNotes] = useState(
+    !!savedValues?.ingredientsWithNotes?.some((i) => i.note),
   );
 
   const switchToFootnotes = useCallback(
@@ -132,7 +132,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
             setFieldValue(`ingredientsWithNotes.${index}.ingredient`, ing);
           })
         : setFieldValue(`ingredientsWithNotes.0.ingredient`, "");
-      setShowFootnotes(true);
+      setShowIngredientNotes(true);
     },
     [],
   );
@@ -155,21 +155,20 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           let result: AddRecipeResponse;
 
           if (type === "edit" && id) {
-            const editRequest = prepareEditRequest(values, savedValues, showFootnotes);
+            const editRequest = prepareEditRequest(values, savedValues, showIngredientNotes);
             result = await editRecipe(id, editRequest);
           } else {
             const addRequest: AddRecipeRequest = {
               ...values,
               tags: values.tags.split(",").map((el) => el.trim()),
-              ingredients: showFootnotes
+              ingredients: showIngredientNotes
                 ? values.ingredientsWithNotes
                 : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({
                     ingredient: i,
                   })),
               steps: trimAndRemoveEmpty(values.steps.split(/\n+/)),
-              notes: trimAndRemoveEmpty(values.notes),
+              footnotes: trimAndRemoveEmpty(values.footnotes),
             };
-            console.log(addRequest);
             result = await addRecipe(addRequest);
           }
 
@@ -254,8 +253,8 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
                 fullWidth
               />
             </div>
-            {showFootnotes ? (
-              <IngredientsWithFootnotes values={values} errors={errors} touched={touched} />
+            {showIngredientNotes ? (
+              <IngredientsWithNotes values={values} errors={errors} touched={touched} />
             ) : (
               <div className={classes.textareaRow}>
                 <div className={classes.labelAndLinkContainer}>
@@ -266,7 +265,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
                     className={classes.addFootnoteLink}
                     onClick={() => switchToFootnotes(values, setFieldValue)}
                   >
-                    + Add Footnotes
+                    + Add Notes
                   </div>
                 </div>
                 <TextAreaField

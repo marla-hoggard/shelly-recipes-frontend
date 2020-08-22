@@ -53,13 +53,13 @@ const RecipeView: React.FC = () => {
         {recipe.servings && <div className={classes.servings}>Serves: {recipe.servings}</div>}
         <Ingredients ingredients={recipe.ingredients} />
         <Steps steps={recipe.steps} />
-        {recipe.notes.length > 0 && (
+        {recipe.footnotes.length > 0 && (
           <>
             <div className={classes.sectionTitle}>Notes:</div>
             <ol className={classes.notesList}>
-              {recipe.notes.map((note, index) => (
+              {recipe.footnotes.map((footnote, index) => (
                 <li key={index} data-icon={`[${index + 1}]`}>
-                  {note}
+                  {footnote}
                 </li>
               ))}
             </ol>

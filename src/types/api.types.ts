@@ -10,7 +10,7 @@ export type Category =
 
 export type Ingredient = {
   ingredient: string;
-  footnote?: string;
+  note?: string;
 };
 
 export type AddRecipeRequest = {
@@ -24,7 +24,7 @@ export type AddRecipeRequest = {
   tags?: string[];
   ingredients: Ingredient[];
   steps: string[];
-  notes?: string[];
+  footnotes?: string[];
 };
 
 export type EditRecipeRequest = Partial<AddRecipeRequest>;
@@ -54,7 +54,7 @@ export type GetRecipeSuccess = {
   vegetarian: boolean;
   ingredients: Ingredient[];
   steps: string[];
-  notes: string[];
+  footnotes: string[];
   tags: string[];
   createdAt: string;
 };
@@ -81,7 +81,7 @@ export type Recipe = {
   tags: string[];
   ingredients?: string[];
   steps?: string[];
-  notes?: string[];
+  footnotes?: string[];
 };
 
 type GetAllRecipesSuccess = {

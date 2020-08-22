@@ -13,8 +13,8 @@ const Ingredients: React.FC<Props> = ({ ingredients }) => {
     <>
       <div className={classes.ingredientsContainer}>
         <div className={classes.sectionTitle}>Ingredients:</div>
-        {ingredients.map(({ ingredient, footnote }, i) =>
-          footnote ? (
+        {ingredients.map(({ ingredient, note }, i) =>
+          note ? (
             <div className={classes.ingredient} key={i}>
               {ingredient}
               <span className={classes.superscript}>[{count.current++}]</span>
@@ -26,13 +26,13 @@ const Ingredients: React.FC<Props> = ({ ingredients }) => {
           ),
         )}
       </div>
-      {ingredients.some((el) => el.footnote) && (
+      {ingredients.some((el) => el.note) && (
         <ol className={classes.notesList}>
           {ingredients
-            .filter((el) => el.footnote)
-            .map(({ footnote }, index) => (
+            .filter((el) => el.note)
+            .map(({ note }, index) => (
               <li key={index} data-icon={`[${index + 1}]`}>
-                {footnote}
+                {note}
               </li>
             ))}
         </ol>

@@ -14,7 +14,7 @@ const upArrow = "\u21e7";
 const downArrow = "\u21e9";
 const deleteIcon = "\u274c";
 
-export const IngredientsWithFootnotes: React.FC<Props> = ({ values, errors, touched }) => {
+export const IngredientsWithNotes: React.FC<Props> = ({ values, errors, touched }) => {
   return (
     <FieldArray name="ingredientsWithNotes">
       {({ swap, remove, push }) => (
@@ -26,7 +26,7 @@ export const IngredientsWithFootnotes: React.FC<Props> = ({ values, errors, touc
               </label>
               <div
                 className={classes.addFootnoteLink}
-                onClick={() => push({ ingredient: "", footnote: "" })}
+                onClick={() => push({ ingredient: "", note: "" })}
               >
                 + Add Ingredient
               </div>
@@ -49,7 +49,7 @@ export const IngredientsWithFootnotes: React.FC<Props> = ({ values, errors, touc
               />
               <InputField
                 placeholder="Footnote"
-                name={`ingredientsWithNotes.${index}.footnote`}
+                name={`ingredientsWithNotes.${index}.note`}
                 hasError={
                   !!(
                     errors.ingredientsWithNotes &&
@@ -89,7 +89,7 @@ export const IngredientsWithFootnotes: React.FC<Props> = ({ values, errors, touc
 
 export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
   return (
-    <FieldArray name="notes">
+    <FieldArray name="footnotes">
       {({ swap, remove, push }) => (
         <>
           <div className={classes.textareaRow}>
@@ -97,9 +97,9 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
               <label className={classes.textareaLabel} htmlFor="steps">
                 Instructions
               </label>
-              {!values.notes.length && (
+              {!values.footnotes.length && (
                 <div className={classes.addFootnoteLink} onClick={() => push("")}>
-                  + Add Notes
+                  + Add Footnotes
                 </div>
               )}
             </div>
@@ -107,26 +107,26 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
               name="steps"
               hasError={!!(touched.steps && errors.steps)}
               placeholder={
-                "Enter recipe instructions with line breaks between steps.\nClick + ADD NOTE to add footnotes.\nType * to indicate where to place each note (they will be associated in order)."
+                "Enter recipe instructions with line breaks between steps.\nClick + ADD FOOTNOTES to add footnotes.\nType * to indicate where to place each note (they will be associated in order)."
               }
             />
           </div>
-          {values.notes.length > 0 && (
+          {values.footnotes.length > 0 && (
             <>
               <div className={classes.labelAndLinkContainer}>
                 <label className={classes.textareaLabel} htmlFor="steps">
-                  Notes
+                  Footnotes
                 </label>
                 <div className={classes.addFootnoteLink} onClick={() => push("")}>
-                  + Add Note
+                  + Add Footnote
                 </div>
               </div>
-              {values.notes.map((_note, index, notes) => (
+              {values.footnotes.map((_note, index, footnotes) => (
                 <div key={index} className={classes.notesRow}>
                   <InputField
-                    placeholder="Put * in the instructions where this note should go."
-                    name={`notes.${index}`}
-                    hasError={!!(errors.notes && touched.notes)}
+                    placeholder="Put * in the instructions where this footnote should go."
+                    name={`footnotes.${index}`}
+                    hasError={!!(errors.footnotes && touched.footnotes)}
                     className={classes.flex1}
                   />
                   <div className={classes.notesButtons}>
@@ -140,7 +140,7 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
                     <button
                       type="button"
                       onClick={() => swap(index, index + 1)}
-                      disabled={index === notes.length - 1}
+                      disabled={index === footnotes.length - 1}
                     >
                       {downArrow}
                     </button>

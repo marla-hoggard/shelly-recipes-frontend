@@ -20,12 +20,12 @@ const EditRecipe: React.FC = () => {
         servings: recipe.servings || "",
         tags: recipe.tags.join(", "),
         ingredientsTextarea: recipe.ingredients.map((i) => i.ingredient).join("\n"),
-        ingredientsWithNotes: recipe.ingredients.map(({ ingredient, footnote }) => ({
+        ingredientsWithNotes: recipe.ingredients.map(({ ingredient, note }) => ({
           ingredient,
-          footnote: footnote || "",
+          note: note || "",
         })),
         steps: recipe.steps.join("\n\n"),
-        notes: recipe.notes,
+        footnotes: recipe.footnotes,
       });
       setLoading(false);
     } else {
