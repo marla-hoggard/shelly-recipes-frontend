@@ -1,14 +1,15 @@
 import React from "react";
 import { Formik, FormikHelpers, Form } from "formik";
-import { Category } from "../../types/api.types";
+import { Category, SearchParams, Recipe } from "../../types/api.types";
 import { CATEGORIES } from "../../constants";
 import { RadioGroup, SelectField, InputField } from "./SearchFormComponents";
 import classes from "./Search.module.scss";
+import { searchRecipes } from "../../api";
 
 export type SearchValues = {
   matchType: "any" | "all";
   category: Category;
-  vegetarian: boolean | "";
+  vegetarian: string;
   wildcard: string;
   title: string;
   source: string;
@@ -35,9 +36,10 @@ export const defaultValues: SearchValues = {
 
 type Props = {
   paramValues: Partial<SearchValues>;
+  setSearchResults: (results: Recipe[]) => void;
 };
 
-const SearchForm: React.FC<Props> = ({ paramValues }) => {
+const SearchForm: React.FC<Props> = ({ paramValues, setSearchResults }) => {
   return (
     <>
       <h1 className={classes.pageTitle}>Search Recipes</h1>
@@ -46,21 +48,26 @@ const SearchForm: React.FC<Props> = ({ paramValues }) => {
           ...defaultValues,
           ...paramValues,
         }}
-        onSubmit={(values, { setSubmitting }: FormikHelpers<SearchValues>) => {
+        onSubmit={async (values, { setSubmitting }: FormikHelpers<SearchValues>) => {
           setSubmitting(true);
-          console.log(values);
+          const searchParams: SearchParams = Object.fromEntries(
+            Object.entries(values).filter(([key, value]) => !!value && key !== "matchAll"),
+          );
+          if (values.matchType === "all") {
+            searchParams.all = true;
+          }
+          if (values.vegetarian) {
+            searchParams.vegetarian = values.vegetarian === "vegetarian";
+          }
+          const results = await searchRecipes(searchParams);
+          setSearchResults(results);
           setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
           <Form className={classes.form}>
             <div className={classes.formRow}>
-              <RadioGroup
-                name="matchType"
-                title="Match:"
-                options={["any", "all"]}
-                defaultOption="any"
-              />
+              <RadioGroup name="matchType" title="Match:" options={["any", "all"]} />
               <SelectField name="category" title="CATEGORY" options={CATEGORIES} />
               <RadioGroup name="vegetarian" options={["vegetarian", "non-vegetarian"]} />
             </div>
@@ -76,7 +83,7 @@ const SearchForm: React.FC<Props> = ({ paramValues }) => {
               <InputField labelText="Tags:" name="tags" placeholder="Use comma for multiple" />
               <InputField
                 labelText="Ingredients:"
-                name="title"
+                name="ingredients"
                 placeholder="Use comma for multiple"
               />
             </div>
@@ -84,13 +91,13 @@ const SearchForm: React.FC<Props> = ({ paramValues }) => {
               <InputField labelText="Steps:" name="step" />
               <InputField labelText="Footnotes:" name="footnote" />
             </div>
-            <div className={classes.formRow}>
-              <button className={classes.submit} type="submit" disabled={isSubmitting}>
+            <div className={classes.buttonRow}>
+              <button className={classes.button} type="submit" disabled={isSubmitting}>
                 Search
               </button>
-            </div>
-            <div className={classes.formRow}>
-              <div className={classes.errorMessage}></div>
+              <button className={classes.button} type="reset">
+                Reset
+              </button>
             </div>
           </Form>
         )}

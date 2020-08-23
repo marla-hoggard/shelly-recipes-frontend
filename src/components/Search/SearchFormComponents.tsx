@@ -59,26 +59,39 @@ type RadioGroupProps = {
   name: string;
   options: string[];
   title?: string;
-  defaultOption?: string;
 };
 
-export const RadioGroup: React.FC<RadioGroupProps> = ({ name, options, title, defaultOption }) => (
-  <Field component="div" name={name} className={classes.radioGroup}>
+export const RadioGroup: React.FC<RadioGroupProps> = ({ name, options, title }) => (
+  <div className={classes.radioGroup}>
     {title && <div className={classes.radioTitle}>{title}</div>}
-    {options.map((option, i) => (
-      <div className={classes.radioOption} key={option}>
-        <input
-          className={classes.radioButton}
-          id={`radio-${name}[${i}]}`}
-          type="radio"
-          defaultChecked={defaultOption === option}
-          name={name}
-          value={option}
-        />
-        <label className={classes.radioLabel} htmlFor={`radio-${name}[${i}]}`}>
+    <div role="group" aria-labelledby={name}>
+      {options.map((option) => (
+        <label key={option} className={classes.radioLabel}>
+          <Field type="radio" name={name} value={option} className={classes.radioButton} />
           {option}
         </label>
-      </div>
-    ))}
-  </Field>
+      ))}
+    </div>
+  </div>
 );
+
+// export const RadioGroup: React.FC<RadioGroupProps> = ({ name, options, title, defaultOption }) => (
+//   <Field component="div" name={name} className={classes.radioGroup}>
+//     {title && <div className={classes.radioTitle}>{title}</div>}
+//     {options.map((option, i) => (
+//       <div className={classes.radioOption} key={option}>
+//         <input
+//           className={classes.radioButton}
+//           id={`radio-${name}[${i}]}`}
+//           type="radio"
+//           defaultChecked={defaultOption === option}
+//           name={name}
+//           value={option}
+//         />
+//         <label className={classes.radioLabel} htmlFor={`radio-${name}[${i}]}`}>
+//           {option}
+//         </label>
+//       </div>
+//     ))}
+//   </Field>
+// );

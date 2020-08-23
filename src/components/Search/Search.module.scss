@@ -1,7 +1,7 @@
 @import "../../global-styles/base.module.scss";
 @import "../RecipeForm/RecipeForm.module.scss";
 .form {
-  composes: formRow from "../RecipeForm/RecipeForm.module.scss";
+  composes: form from "../RecipeForm/RecipeForm.module.scss";
 }
 
 .formRow {
@@ -12,10 +12,14 @@
   margin: 10px 0 15px;
 }
 
-.submit {
+.buttonRow {
+  composes: formRow;
+  justify-content: center;
 }
 
-.errorMessage {
+.button {
+  composes: submit from "../RecipeForm/RecipeForm.module.scss";
+  margin: 0 5px;
 }
 
 .inputGroup {
@@ -54,13 +58,7 @@
   font-weight: bold;
 }
 
-.radioOption {
-  margin-left: 10px;
-}
-
-.radioButton {
-}
-
 .radioLabel {
   font-size: 16px;
+  margin-left: 10px;
 }
