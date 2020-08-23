@@ -8,7 +8,7 @@ type Props = {
   recipe: RecipeType;
 };
 
-const RecipeListItem: React.FC<Props> = ({ recipe: { id, category, source, tags, title } }) => {
+const RecipeListItem: React.FC<Props> = ({ recipe: { id, category, source, title } }) => {
   return (
     <div className={classes.recipeItemContainer}>
       <div className={classes.row}>

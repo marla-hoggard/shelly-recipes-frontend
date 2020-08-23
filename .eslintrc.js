@@ -30,6 +30,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/camelcase": ["off"],
+    "@typescript-eslint/ban-ts-comment": "off",
     "no-bitwise": ["error"],
     "no-trailing-spaces": ["warn"],
     "no-else-return": ["off"],

@@ -12,6 +12,7 @@ import {
   Ingredient,
 } from "../../types/api.types";
 import { addRecipe, editRecipe } from "../../api";
+import { CATEGORIES } from "../../constants";
 import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
 import { StepsAndNotes, IngredientsWithNotes } from "./FieldArrays";
@@ -227,15 +228,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
               </div>
               <div>
                 <SelectField
-                  options={[
-                    "appetizer",
-                    "entree",
-                    "side",
-                    "dessert",
-                    "breakfast",
-                    "sauce",
-                    "beverage",
-                  ]}
+                  options={CATEGORIES}
                   title="Category"
                   name="category"
                   hasError={!!(errors.category && touched.category)}
