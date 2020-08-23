@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useCallback } from "react";
 import classNames from "classnames";
 import { Category as CategoryType } from "../../types/api.types";
 import classes from "./Category.module.scss";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   category: CategoryType;
 };
 
 const Category: React.FC<Props> = ({ category }) => {
-  return <div className={classNames(classes.category, classes[category])}>{category}</div>;
+  const history = useHistory();
+
+  const searchByCategory = useCallback(() => {
+    history.push(`/search?category=${category}`);
+  }, [history, category]);
+
+  return (
+    <div className={classNames(classes.category, classes[category])} onClick={searchByCategory}>
+      {category}
+    </div>
+  );
 };
 
 export default Category;

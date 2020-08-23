@@ -10,6 +10,11 @@ const Header: React.FC = () => {
           Home
         </Link>
       </div>
+      <div className={classes.searchLink}>
+        <Link className={classes.link} to="/search">
+          Search
+        </Link>
+      </div>
       <div className={classes.addLink}>
         <Link className={classes.link} to="/new">
           Add a Recipe

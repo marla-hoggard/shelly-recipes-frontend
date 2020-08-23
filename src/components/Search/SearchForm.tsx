@@ -20,7 +20,7 @@ export type SearchValues = {
   footnote: string;
 };
 
-export const defaultValues: SearchValues = {
+const defaultValues: SearchValues = {
   matchType: "any",
   category: "",
   vegetarian: "",
@@ -35,19 +35,20 @@ export const defaultValues: SearchValues = {
 };
 
 type Props = {
-  paramValues: Partial<SearchValues>;
+  paramValues?: Partial<SearchValues>;
   setSearchResults: (results: Recipe[]) => void;
 };
 
-const SearchForm: React.FC<Props> = ({ paramValues, setSearchResults }) => {
+const SearchForm: React.FC<Props> = ({ paramValues = {}, setSearchResults }) => {
+  const initialValues = {
+    ...defaultValues,
+    ...paramValues,
+  };
   return (
     <>
       <h1 className={classes.pageTitle}>Search Recipes</h1>
       <Formik
-        initialValues={{
-          ...defaultValues,
-          ...paramValues,
-        }}
+        initialValues={initialValues}
         onSubmit={async (values, { setSubmitting }: FormikHelpers<SearchValues>) => {
           setSubmitting(true);
           const searchParams: SearchParams = Object.fromEntries(

@@ -136,7 +136,13 @@ const UserSearch: React.FC = () => {
     [results, showResults, hasExactMatch, cursor, history],
   );
 
-  const goToSearchPage = useCallback(() => history.push("/search"), [history]);
+  const goToSearchPage = useCallback(() => {
+    if (query) {
+      history.push(`/search?title=${query}`);
+    } else {
+      history.push("/search");
+    }
+  }, [query, history]);
 
   useEffect(() => {
     document.addEventListener("click", handleResultsBlur, false);
