@@ -1,0 +1,74 @@
+@import "../../global-styles/base";
+
+$inputHeight: 40px;
+$resultHeight: 55px;
+$inputWidth: 410px;
+$buttonWidth: 80px;
+$buttonSpacing: 10px;
+$padding: 10px;
+
+.formContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 44px;
+
+  &.marginBottom {
+    margin-bottom: 44px;
+  }
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: $inputWidth;
+  height: $inputHeight;
+  padding: 0 $padding;
+  outline: none;
+}
+
+.submitButton {
+  height: $inputHeight;
+  width: $buttonWidth;
+  margin-left: $buttonSpacing;
+}
+
+.noneFound {
+  padding: $padding;
+  width: $inputWidth + $buttonWidth + $buttonSpacing;
+}
+
+// Search Results
+.recipeList {
+  position: absolute;
+  top: 100%;
+  z-index: 2;
+  width: $inputWidth;
+  background: white;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #dedede;
+  white-space: nowrap;
+}
+
+.searchResult {
+  display: flex;
+  height: $resultHeight;
+  line-height: $resultHeight;
+  border-top: 1px solid #dedede;
+  padding: 0 $padding;
+  cursor: pointer;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &.selected {
+    background-color: #dedede;
+  }
+}

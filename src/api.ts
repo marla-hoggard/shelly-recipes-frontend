@@ -4,6 +4,8 @@ import {
   GetRecipeResponse,
   GetAllRecipesResponse,
   EditRecipeRequest,
+  SearchParams,
+  Recipe,
 } from "./types/api.types";
 
 const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_BASE_URL;
@@ -64,5 +66,27 @@ export const getAllRecipes = async (): Promise<GetAllRecipesResponse> => {
   } catch (error) {
     console.error(error);
     return { error: { details: "API Function Error" } };
+  }
+};
+
+export const searchRecipes = async (searchTerms: SearchParams): Promise<Recipe[]> => {
+  const query = Object.entries(searchTerms)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&");
+
+  if (!query) {
+    return [];
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_BASE_URL}/search?${query}`);
+    const result = await response.json();
+    if (result.error) {
+      console.error(result.error);
+    }
+    return result.data || [];
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 };

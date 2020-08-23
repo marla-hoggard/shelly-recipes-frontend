@@ -3,6 +3,7 @@ import { getAllRecipes } from "../../api";
 import { Recipe } from "../../types/api.types";
 import Loading from "../base/Loading";
 import RecipeListItem from "./RecipeListItem";
+import TitleSearch from "./TitleSearch";
 import classes from "./Homepage.module.scss";
 
 const Homepage: React.FC = () => {
@@ -35,7 +36,8 @@ const Homepage: React.FC = () => {
 
   return (
     <>
-      <h1 className={classes.pageTitle}>The Glasser Family Recipe Collection</h1>
+      <h1 className={classes.pageTitle}>Glasser Family Recipe Collection</h1>
+      <TitleSearch />
       {recipes.map((recipe) => (
         <RecipeListItem key={recipe.id} recipe={recipe} />
       ))}

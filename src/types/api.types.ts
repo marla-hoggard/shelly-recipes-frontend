@@ -78,7 +78,7 @@ export type Recipe = {
   category: Category;
   vegetarian: boolean;
   created_at: string;
-  tags: string[];
+  tags?: string[];
   ingredients?: string[];
   steps?: string[];
   footnotes?: string[];
@@ -96,3 +96,18 @@ type GetAllRecipesError = {
 };
 
 export type GetAllRecipesResponse = GetAllRecipesSuccess | GetAllRecipesError;
+
+export type SearchParams = {
+  all?: boolean;
+  limit?: number;
+  title?: string;
+  source?: string;
+  submitted_by?: string;
+  category?: Category;
+  vegetarian?: boolean;
+  step?: string;
+  footnote?: string;
+  tags?: string;
+  ingredients?: string;
+  wildcard?: string;
+};
