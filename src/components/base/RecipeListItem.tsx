@@ -1,8 +1,8 @@
 import React from "react";
 import { Recipe as RecipeType } from "../../types/api.types";
 import { Link } from "react-router-dom";
-import Category from "../base/Category";
-import classes from "./Homepage.module.scss";
+import Category from "./Category";
+import classes from "./RecipeList.module.scss";
 
 type Props = {
   recipe: RecipeType;

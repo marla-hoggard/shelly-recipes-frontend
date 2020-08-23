@@ -1,4 +1,4 @@
-@import "../../global-styles/base";
+@import "../../global-styles/base.module.scss";
 
 $inputHeight: 40px;
 $resultHeight: 55px;
@@ -33,7 +33,7 @@ $padding: 10px;
 
 .submitButton {
   height: $inputHeight;
-  width: $buttonWidth;
+  min-width: $buttonWidth;
   margin-left: $buttonSpacing;
 }
 

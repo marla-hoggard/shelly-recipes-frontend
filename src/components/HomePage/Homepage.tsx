@@ -2,9 +2,9 @@ import React, { useState, useCallback, useEffect } from "react";
 import { getAllRecipes } from "../../api";
 import { Recipe } from "../../types/api.types";
 import Loading from "../base/Loading";
-import RecipeListItem from "./RecipeListItem";
+import RecipeListItem from "../base/RecipeListItem";
 import TitleSearch from "./TitleSearch";
-import classes from "./Homepage.module.scss";
+import classes from "../../global-styles/base.module.scss";
 
 const Homepage: React.FC = () => {
   const [loading, setLoading] = useState(true);

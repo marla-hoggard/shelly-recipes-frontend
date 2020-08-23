@@ -136,6 +136,8 @@ const UserSearch: React.FC = () => {
     [results, showResults, hasExactMatch, cursor, history],
   );
 
+  const goToSearchPage = useCallback(() => history.push("/search"), [history]);
+
   useEffect(() => {
     document.addEventListener("click", handleResultsBlur, false);
     return (): void => {
@@ -179,6 +181,11 @@ const UserSearch: React.FC = () => {
               onClick={handleSubmit}
             >
               Search
+            </button>
+          </div>
+          <div>
+            <button className={classes.submitButton} onClick={goToSearchPage}>
+              Advanced Search
             </button>
           </div>
         </form>
