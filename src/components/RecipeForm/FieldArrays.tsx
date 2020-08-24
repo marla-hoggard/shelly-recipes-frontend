@@ -107,7 +107,10 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
               name="steps"
               hasError={!!(touched.steps && errors.steps)}
               placeholder={
-                "Enter recipe instructions with line breaks between steps.\nClick + ADD FOOTNOTES to add footnotes.\nType * to indicate where to place each note (they will be associated in order)."
+                "Enter recipe instructions with line breaks between steps.\n \
+                Click + ADD FOOTNOTES to add footnotes.\n \
+                Type * to indicate where to place each note (they will be associated in order).\n \
+                To emphasize a section of text, wrap it in underscores: '_important text_'"
               }
             />
           </div>
