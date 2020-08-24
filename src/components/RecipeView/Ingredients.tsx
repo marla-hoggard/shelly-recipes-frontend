@@ -13,18 +13,16 @@ const Ingredients: React.FC<Props> = ({ ingredients }) => {
     <>
       <div className={classes.ingredientsContainer}>
         <div className={classes.sectionTitle}>Ingredients:</div>
-        {ingredients.map(({ ingredient, note }, i) =>
-          note ? (
-            <div className={classes.ingredient} key={i}>
-              {ingredient}
-              <span className={classes.superscript}>[{count.current++}]</span>
+        {ingredients.map(({ ingredient, note }, i) => {
+          const isSectionHeader = /_.+_/.test(ingredient);
+          const displayText = isSectionHeader ? `${ingredient.slice(1, -1)}:` : ingredient;
+          return (
+            <div className={isSectionHeader ? classes.sectionHeader : classes.ingredient} key={i}>
+              {displayText}
+              {note && <span className={classes.superscript}>[{count.current++}]</span>}
             </div>
-          ) : (
-            <div className={classes.ingredient} key={i}>
-              {ingredient}
-            </div>
-          ),
-        )}
+          );
+        })}
       </div>
       {ingredients.some((el) => el.note) && (
         <ol className={classes.notesList}>
