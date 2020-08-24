@@ -1,5 +1,5 @@
-import React from "react";
-import { Formik, FormikHelpers, Form } from "formik";
+import React, { useEffect } from "react";
+import { Formik, FormikHelpers, Form, useFormikContext } from "formik";
 import { Category, SearchParams, Recipe } from "../../types/api.types";
 import { CATEGORIES } from "../../constants";
 import { RadioGroup, SelectField, InputField } from "./SearchFormComponents";
@@ -39,71 +39,83 @@ type Props = {
   setSearchResults: (results: Recipe[]) => void;
 };
 
-const SearchForm: React.FC<Props> = ({ paramValues = {}, setSearchResults }) => {
-  const initialValues = {
-    ...defaultValues,
-    ...paramValues,
-  };
+const SearchForm: React.FC<Props> = ({ paramValues = {}, setSearchResults }) => (
+  <>
+    <h1 className={classes.pageTitle}>Search Recipes</h1>
+    <Formik
+      initialValues={defaultValues}
+      onSubmit={async (values, { setSubmitting }: FormikHelpers<SearchValues>) => {
+        setSubmitting(true);
+        const searchParams: SearchParams = Object.fromEntries(
+          Object.entries(values).filter(([key, value]) => !!value && key !== "matchAll"),
+        );
+        if (values.matchType === "all") {
+          searchParams.all = true;
+        }
+        if (values.vegetarian) {
+          searchParams.vegetarian = values.vegetarian === "vegetarian";
+        }
+        const results = await searchRecipes(searchParams);
+        setSearchResults(results);
+        setSubmitting(false);
+      }}
+    >
+      <AdvancedSearchForm paramValues={paramValues} />
+    </Formik>
+  </>
+);
+
+const AdvancedSearchForm: React.FC<{ paramValues: Partial<SearchValues> }> = ({ paramValues }) => {
+  const { isSubmitting, setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    Object.entries(paramValues).forEach(([key, value]) => setFieldValue(key, value));
+  }, [paramValues, setFieldValue]);
+
   return (
-    <>
-      <h1 className={classes.pageTitle}>Search Recipes</h1>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={async (values, { setSubmitting }: FormikHelpers<SearchValues>) => {
-          setSubmitting(true);
-          const searchParams: SearchParams = Object.fromEntries(
-            Object.entries(values).filter(([key, value]) => !!value && key !== "matchAll"),
-          );
-          if (values.matchType === "all") {
-            searchParams.all = true;
-          }
-          if (values.vegetarian) {
-            searchParams.vegetarian = values.vegetarian === "vegetarian";
-          }
-          const results = await searchRecipes(searchParams);
-          setSearchResults(results);
-          setSubmitting(false);
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form className={classes.form}>
-            <div className={classes.formRow}>
-              <RadioGroup name="matchType" title="Match:" options={["any", "all"]} />
-              <SelectField name="category" title="CATEGORY" options={CATEGORIES} />
-              <RadioGroup name="vegetarian" options={["vegetarian", "non-vegetarian"]} />
-            </div>
-            <div className={classes.formRow}>
-              <InputField labelText="Global:" name="wildcard" placeholder="Search any field" />
-              <InputField labelText="Title:" name="title" />
-            </div>
-            <div className={classes.formRow}>
-              <InputField labelText="Source:" name="source" />
-              <InputField labelText="Submitted By:" name="submitted_by" />
-            </div>
-            <div className={classes.formRow}>
-              <InputField labelText="Tags:" name="tags" placeholder="Use comma for multiple" />
-              <InputField
-                labelText="Ingredients:"
-                name="ingredients"
-                placeholder="Use comma for multiple"
-              />
-            </div>
-            <div className={classes.formRow}>
-              <InputField labelText="Steps:" name="step" />
-              <InputField labelText="Footnotes:" name="footnote" />
-            </div>
-            <div className={classes.buttonRow}>
-              <button className={classes.button} type="submit" disabled={isSubmitting}>
-                Search
-              </button>
-              <button className={classes.button} type="reset">
-                Reset
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </>
+    <Form className={classes.form}>
+      <div className={classes.formRow}>
+        <RadioGroup name="matchType" title="Match:" options={["any", "all"]} />
+        <SelectField name="category" title="CATEGORY" options={CATEGORIES} />
+        <RadioGroup name="vegetarian" options={["vegetarian", "non-vegetarian"]} />
+      </div>
+      <div className={classes.formRow}>
+        <InputField
+          labelText="Global:"
+          name="wildcard"
+          placeholder="Search any field, separate with commas"
+        />
+        <InputField labelText="Title:" name="title" placeholder="Separate terms with comma" />
+      </div>
+      <div className={classes.formRow}>
+        <InputField labelText="Source:" name="source" />
+        <InputField labelText="Submitted By:" name="submitted_by" />
+      </div>
+      <div className={classes.formRow}>
+        <InputField labelText="Tags:" name="tags" placeholder="Separate terms with comma" />
+        <InputField
+          labelText="Ingredients:"
+          name="ingredients"
+          placeholder="Separate terms with comma"
+        />
+      </div>
+      <div className={classes.formRow}>
+        <InputField labelText="Steps:" name="steps" placeholder="Separate terms with comma" />
+        <InputField
+          labelText="Footnotes:"
+          name="footnotes"
+          placeholder="Separate terms with comma"
+        />
+      </div>
+      <div className={classes.buttonRow}>
+        <button className={classes.button} type="submit" disabled={isSubmitting}>
+          Search
+        </button>
+        <button className={classes.button} type="reset">
+          Reset
+        </button>
+      </div>
+    </Form>
   );
 };
 

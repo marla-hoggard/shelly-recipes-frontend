@@ -32,6 +32,7 @@ const SearchPage: React.FC = () => {
 
   useEffect(() => {
     if (search) {
+      setDisplaySearchForm(false);
       const urlParams = new URLSearchParams(search);
       const params: UrlParams = {};
       const tags = urlParams.get("tags") ?? "";

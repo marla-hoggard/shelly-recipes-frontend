@@ -46,7 +46,7 @@ type SelectFieldProps = {
 
 export const SelectField: React.FC<SelectFieldProps> = ({ name, options, title }) => (
   <Field className={classes.select} name={name} as="select">
-    <option defaultValue="">{title}</option>
+    <option value="">{title}</option>
     {options.map((option) => (
       <option key={option} value={option}>
         {option}

@@ -105,8 +105,8 @@ export type SearchParams = {
   submitted_by?: string;
   category?: Category;
   vegetarian?: boolean;
-  step?: string;
-  footnote?: string;
+  steps?: string;
+  footnotes?: string;
   tags?: string;
   ingredients?: string;
   wildcard?: string;
