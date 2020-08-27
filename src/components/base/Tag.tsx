@@ -14,7 +14,8 @@ const Tag: React.FC<Props> = ({ text }) => {
   const color = colors[Math.floor(Math.random() * colors.length)];
 
   const searchByTag = useCallback(() => {
-    history.push(`/search?tags=${text}`);
+    const url = text === "vegetarian" ? "/search?vegetarian=true" : `/search?tags=${text}`;
+    history.push(url);
   }, [history, text]);
 
   return (

@@ -75,6 +75,7 @@ const RecipeView: React.FC = () => {
             {recipe.tags.map((tag) => (
               <Tag key={tag} text={tag} />
             ))}
+            {recipe.vegetarian && <Tag key="vegetarian" text="vegetarian" />}
           </div>
         )}
         <div>

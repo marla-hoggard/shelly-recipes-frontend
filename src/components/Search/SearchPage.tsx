@@ -7,6 +7,7 @@ import { searchRecipes } from "../../api";
 
 type UrlParams = {
   tags?: string;
+  vegetarian?: boolean;
   category?: Category;
   title?: string;
 };
@@ -14,7 +15,7 @@ type UrlParams = {
 const SearchPage: React.FC = () => {
   const { search } = useLocation();
   const history = useHistory();
-  const [searchParams, setSearchParams] = useState<Partial<SearchValues>>({});
+  const [searchInitialValues, setSearchInitialValues] = useState<Partial<SearchValues>>({});
   const [noneFound, setNoneFound] = useState(false);
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
   const [displaySearchForm, setDisplaySearchForm] = useState(false);
@@ -36,6 +37,7 @@ const SearchPage: React.FC = () => {
       const urlParams = new URLSearchParams(search);
       const params: UrlParams = {};
       const tags = urlParams.get("tags") ?? "";
+      const vegetarian = urlParams.get("vegetarian") ?? "";
       const category = (urlParams.get("category") as Category) ?? "";
       const title = urlParams.get("title") ?? "";
 
@@ -51,7 +53,16 @@ const SearchPage: React.FC = () => {
         params.title = title;
       }
 
-      setSearchParams(params);
+      if (vegetarian) {
+        params.vegetarian = Boolean(vegetarian);
+        setSearchInitialValues({
+          ...params,
+          vegetarian: params.vegetarian ? "vegetarian" : "non-vegetarian",
+        });
+      } else {
+        setSearchInitialValues({ ...params, vegetarian: undefined });
+      }
+
       history.push("/search");
       fetchSearchResults(params);
     } else {
@@ -62,7 +73,7 @@ const SearchPage: React.FC = () => {
   return (
     <>
       {displaySearchForm && (
-        <SearchForm paramValues={searchParams} setSearchResults={updateResults} />
+        <SearchForm paramValues={searchInitialValues} setSearchResults={updateResults} />
       )}
       {noneFound ? (
         <div>No recipes found.</div>
