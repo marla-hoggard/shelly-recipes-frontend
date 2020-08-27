@@ -265,7 +265,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
                 <TextAreaField
                   name="ingredientsTextarea"
                   placeholder={
-                    'Enter each ingredient separated by a line break.\nTo create a section header, wrap it in underscores: "_Header_"'
+                    "Enter each ingredient separated by a line break.\nTo create a section header, wrap it in underscores: _Header_"
                   }
                   hasError={!!(errors.ingredientsTextarea && touched.ingredientsTextarea)}
                 />
