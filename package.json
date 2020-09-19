@@ -53,8 +53,9 @@
     "elliptic": "^6.5.3",
     "http-proxy": "^1.18.1",
     "lodash": "^4.17.19",
-    "websocket-extensions": "^0.1.4",
-    "serialize-javascript": "^3.1.0"
+    "selfsigned": "^1.10.8",
+    "serialize-javascript": "^3.1.0",
+    "websocket-extensions": "^0.1.4"
   },
   "eslintConfig": {
     "extends": "react-app"
