@@ -38,4 +38,7 @@ export const selectCurrentUser = ({ currentUser: state }: RootState): User | nul
 export const selectIsAuthenticated = ({ currentUser: state }: RootState): boolean =>
   !!state.currentUser;
 
+export const selectCurrentUserFullName = ({ currentUser: state }: RootState): string =>
+  state.currentUser ? `${state.currentUser.firstName} ${state.currentUser.lastName}` : "";
+
 export default currentUser.reducer;

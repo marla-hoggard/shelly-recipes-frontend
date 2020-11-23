@@ -1,13 +1,13 @@
 /* eslint-disable func-names */
-import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { createUser } from "../../api-users";
+import { selectIsAuthenticated, setCurrentUser } from "../../reducers/currentUser";
 import { InputField } from "./FormComponents";
-import { setCurrentUser } from "../../reducers/currentUser";
 import classes from "./Authentication.module.scss";
-import { useHistory } from "react-router-dom";
 
 type FormValues = {
   first_name: string;
@@ -52,6 +52,13 @@ const SignupForm: React.FC = () => {
   const [generalError, setGeneralError] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+  }, [isAuthenticated, history]);
 
   const handleSubmit = useCallback(
     async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
@@ -87,7 +94,7 @@ const SignupForm: React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ errors, touched, isSubmitting }) => (
-          <Form className={classes.form}>
+          <Form className={classes.signupForm}>
             <div className={classes.formRow}>
               <InputField
                 name="first_name"

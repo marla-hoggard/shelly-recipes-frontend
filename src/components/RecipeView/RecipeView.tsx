@@ -9,10 +9,13 @@ import Tag from "../base/Tag";
 import Steps from "./Steps";
 import classes from "./RecipeView.module.scss";
 import Ingredients from "./Ingredients";
+import { useSelector } from "react-redux";
+import { selectCurrentUserFullName } from "../../reducers/currentUser";
 
 const RecipeView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [recipe, setRecipe] = useState<GetRecipeSuccess>();
+  const currentUserFullName = useSelector(selectCurrentUserFullName);
   const { id } = useParams();
   const history = useHistory();
 
@@ -85,11 +88,14 @@ const RecipeView: React.FC = () => {
             {recipe.vegetarian && <Tag key="vegetarian" text="vegetarian" />}
           </div>
         )}
-        <div>
-          <Link className={classes.link} to={`/recipe/${id}/edit`}>
-            Edit Recipe
-          </Link>
-        </div>
+        {/* TODO: Add check for isAdmin, user id match */}
+        {currentUserFullName === recipe.submitted_by && (
+          <div>
+            <Link className={classes.link} to={`/recipe/${id}/edit`}>
+              Edit Recipe
+            </Link>
+          </div>
+        )}
       </>
     );
   }

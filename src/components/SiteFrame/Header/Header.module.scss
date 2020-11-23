@@ -6,8 +6,7 @@
   height: 50px;
   background: lightblue;
   margin: 0;
-  display: grid;
-  grid-template-columns: 100px 100px 1fr;
+  display: flex;
   align-items: center;
   padding: 0 50px;
 }
@@ -16,8 +15,26 @@
   text-decoration: none;
   color: #6933a2;
   font-weight: bold;
+  cursor: pointer;
 }
 
-.addLink {
-  text-align: right;
+.linkContainer {
+  min-width: 100px;
+}
+
+.leftContainer,
+.rightContainer {
+  display: flex;
+}
+
+.centerContainer {
+  flex: 1;
+}
+
+.rightContainer {
+  justify-content: flex-end;
+
+  .linkContainer {
+    text-align: right;
+  }
 }

@@ -1,18 +1,33 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 
 import { getRecipe } from "../../api-recipes";
+import { selectCurrentUser } from "../../reducers/currentUser";
 import RecipeForm, { FormValues } from "../RecipeForm/RecipeForm";
 
 const EditRecipe: React.FC = () => {
   const { id } = useParams();
   const history = useHistory();
+  const currentUser = useSelector(selectCurrentUser);
   const [loading, setLoading] = useState(true);
   const [savedValues, setSavedValues] = useState<Partial<FormValues>>({});
 
-  const fetchRecipe = useCallback(async () => {
+  const fetchAndCheckPermissions = useCallback(async () => {
+    if (!currentUser) {
+      history.push("/login");
+      return;
+    }
+
     const recipe = await getRecipe(id);
     if ("id" in recipe) {
+      // TODO: Update to check isAdmin
+      // TODO: Update to match user id in addition to name
+      if (recipe.submitted_by !== `${currentUser.firstName} ${currentUser.lastName}`) {
+        history.push("/");
+        return;
+      }
+
       setSavedValues({
         ...recipe,
         source: recipe.source || "",
@@ -31,11 +46,11 @@ const EditRecipe: React.FC = () => {
     } else {
       history.push("/404");
     }
-  }, [history, id]);
+  }, [currentUser, history, id]);
 
   useEffect(() => {
-    fetchRecipe();
-  }, [fetchRecipe]);
+    fetchAndCheckPermissions();
+  }, [fetchAndCheckPermissions]);
 
   if (loading) {
     return <div>Loading...</div>;

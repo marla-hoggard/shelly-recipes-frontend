@@ -1,6 +1,12 @@
 @import "../../global-styles/base.module.scss";
 
-.form {
+.loginForm {
+  font-size: 18px;
+  width: 250px;
+  margin: auto;
+}
+
+.signupForm {
   font-size: 18px;
   width: 400px;
   margin: auto;

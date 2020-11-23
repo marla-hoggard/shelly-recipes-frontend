@@ -1,12 +1,13 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { signout } from "../../../api-users";
 import { selectCurrentUser, resetCurrentUser } from "../../../reducers/currentUser";
 import classes from "./Header.module.scss";
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
   const currentUser = useSelector(selectCurrentUser);
 
   const handleSignout = useCallback(async () => {
@@ -21,53 +22,69 @@ const Header: React.FC = () => {
   if (currentUser) {
     return (
       <div className={classes.headerContainer}>
-        <div className={classes.homeLink}>
-          <Link className={classes.link} to="/">
-            Home
-          </Link>
+        <div className={classes.leftContainer}>
+          <div className={classes.linkContainer}>
+            <Link className={classes.link} to="/">
+              Home
+            </Link>
+          </div>
+          <div className={classes.linkContainer}>
+            <Link className={classes.link} to="/search">
+              Search
+            </Link>
+          </div>
+          <div className={classes.linkContainer}>
+            <Link className={classes.link} to="/new">
+              Add a Recipe
+            </Link>
+          </div>
         </div>
-        <div className={classes.searchLink}>
-          <Link className={classes.link} to="/search">
-            Search
-          </Link>
-        </div>
-        <div className={classes.addLink}>
-          <Link className={classes.link} to="/new">
-            Add a Recipe
-          </Link>
-        </div>
-        <div className={classes.userProfileLink}>
-          <Link className={classes.link} to="/">
-            Hi, {currentUser.firstName}
-          </Link>
-        </div>
-        <div className={classes.logoutLink} onClick={handleSignout}>
-          Log Out
+        <div className={classes.centerContainer}></div>
+        <div className={classes.rightContainer}>
+          <div className={classes.linkContainer}>
+            <Link className={classes.link} to="/">
+              Hi, {currentUser.firstName}
+            </Link>
+          </div>
+          <div className={classes.linkContainer}>
+            <div className={classes.link} onClick={handleSignout}>
+              Log Out
+            </div>
+          </div>
         </div>
       </div>
     );
   }
+
   return (
     <div className={classes.headerContainer}>
-      <div className={classes.homeLink}>
-        <Link className={classes.link} to="/">
-          Home
-        </Link>
+      <div className={classes.leftContainer}>
+        <div className={classes.linkContainer}>
+          <Link className={classes.link} to="/">
+            Home
+          </Link>
+        </div>
+        <div className={classes.linkContainer}>
+          <Link className={classes.link} to="/search">
+            Search
+          </Link>
+        </div>
       </div>
-      <div className={classes.searchLink}>
-        <Link className={classes.link} to="/search">
-          Search
-        </Link>
-      </div>
-      <div className={classes.addLink}>
-        <Link className={classes.link} to="/new">
-          Add a Recipe
-        </Link>
-      </div>
-      <div className={classes.loginLink}>
-        <Link className={classes.link} to="/login">
-          Log In
-        </Link>
+      <div className={classes.centerContainer}></div>
+      <div className={classes.rightContainer}>
+        {pathname === "/login" ? (
+          <div className={classes.linkContainer}>
+            <Link className={classes.link} to="/signup">
+              Sign Up
+            </Link>
+          </div>
+        ) : (
+          <div className={classes.linkContainer}>
+            <Link className={classes.link} to="/login">
+              Log In
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
