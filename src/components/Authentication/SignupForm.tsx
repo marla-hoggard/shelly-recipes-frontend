@@ -61,7 +61,15 @@ const SignupForm: React.FC = () => {
       const result = await createUser({ first_name, last_name, email, username, password });
       if ("user" in result) {
         setSubmitting(false);
-        dispatch(setCurrentUser({ firstName: first_name, lastName: last_name, email, username }));
+        dispatch(
+          setCurrentUser({
+            firstName: first_name,
+            lastName: last_name,
+            email,
+            username,
+            token: result.user.token,
+          }),
+        );
         history.push("/");
       } else {
         setGeneralError(result.error);

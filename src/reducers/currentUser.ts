@@ -6,6 +6,7 @@ interface User {
   lastName: string;
   email: string;
   username: string;
+  token: string;
 }
 
 interface CurrentUserState {
@@ -23,10 +24,13 @@ export const currentUser = createSlice({
     setCurrentUser: (state, { payload: user }: PayloadAction<User>): void => {
       state.currentUser = user;
     },
+    resetCurrentUser: (state): void => {
+      state.currentUser = null;
+    },
   },
 });
 
-export const { setCurrentUser } = currentUser.actions;
+export const { setCurrentUser, resetCurrentUser } = currentUser.actions;
 
 export const selectCurrentUser = ({ currentUser: state }: RootState): User | null =>
   state.currentUser;

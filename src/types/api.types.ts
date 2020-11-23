@@ -112,10 +112,6 @@ export type SearchParams = {
   wildcard?: string;
 };
 
-type UserErrorResponse = {
-  error: string;
-};
-
 export type CreateUserRequest = {
   first_name: string;
   last_name: string;
@@ -124,7 +120,12 @@ export type CreateUserRequest = {
   password: string;
 };
 
-type CreateUserSuccessResponse = {
+export type SigninRequest = {
+  username: string;
+  password: string;
+};
+
+type UserSuccessResponse = {
   user: {
     id: string;
     first_name: string;
@@ -135,4 +136,8 @@ type CreateUserSuccessResponse = {
   };
 };
 
-export type CreateUserResponse = CreateUserSuccessResponse | UserErrorResponse;
+type UserErrorResponse = {
+  error: string;
+};
+
+export type UserResponse = UserSuccessResponse | UserErrorResponse;
