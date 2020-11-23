@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { getAllRecipes } from "../../api";
+import { getAllRecipes } from "../../api-recipes";
 import { Recipe } from "../../types/api.types";
 import Loading from "../base/Loading";
 import RecipeListItem from "../base/RecipeListItem";

@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { GetRecipeSuccess } from "../../types/api.types";
-import { getRecipe } from "../../api";
+import { getRecipe } from "../../api-recipes";
 import Loading from "../base/Loading";
 import Tag from "../base/Tag";
 import Steps from "./Steps";
@@ -38,7 +40,12 @@ const RecipeView: React.FC = () => {
   if (recipe) {
     return (
       <>
-        <h1 className={classes.pageTitle}>{recipe.title}</h1>
+        <h1 className={classes.pageTitle}>
+          {recipe.title}
+          {recipe.tags.includes("favorites") && (
+            <FontAwesomeIcon className={classes.featuredStar} icon={faStar} />
+          )}
+        </h1>
         {recipe.source &&
           (recipe.source_url ? (
             <div className={classes.source}>

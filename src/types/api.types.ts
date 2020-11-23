@@ -111,3 +111,28 @@ export type SearchParams = {
   ingredients?: string;
   wildcard?: string;
 };
+
+type UserErrorResponse = {
+  error: string;
+};
+
+export type CreateUserRequest = {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+};
+
+type CreateUserSuccessResponse = {
+  user: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    username: string;
+    email: string;
+    token: string;
+  };
+};
+
+export type CreateUserResponse = CreateUserSuccessResponse | UserErrorResponse;

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import classNames from "classnames";
 import debounce from "debounce-promise";
 import { Recipe } from "../../types/api.types";
-import { searchRecipes } from "../../api";
+import { searchRecipes } from "../../api-recipes";
 import SearchResults from "./SearchResults";
 import classes from "./TitleSearch.module.scss";
 

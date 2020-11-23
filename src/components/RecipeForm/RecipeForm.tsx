@@ -11,7 +11,7 @@ import {
   EditRecipeRequest,
   Ingredient,
 } from "../../types/api.types";
-import { addRecipe, editRecipe } from "../../api";
+import { addRecipe, editRecipe } from "../../api-recipes";
 import { CATEGORIES } from "../../constants";
 import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";

@@ -4,7 +4,7 @@ import { Category, SearchParams, Recipe } from "../../types/api.types";
 import { CATEGORIES } from "../../constants";
 import { RadioGroup, SelectField, InputField } from "./SearchFormComponents";
 import classes from "./Search.module.scss";
-import { searchRecipes } from "../../api";
+import { searchRecipes } from "../../api-recipes";
 
 export type SearchValues = {
   matchType: "any" | "all";

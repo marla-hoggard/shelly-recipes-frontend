@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
-import { getRecipe } from "../../api";
+import { getRecipe } from "../../api-recipes";
 import RecipeForm, { FormValues } from "../RecipeForm/RecipeForm";
 
 const EditRecipe: React.FC = () => {

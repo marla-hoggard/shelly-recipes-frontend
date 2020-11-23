@@ -3,7 +3,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import SearchForm, { SearchValues } from "./SearchForm";
 import { Category, Recipe } from "../../types/api.types";
 import RecipeListItem from "../base/RecipeListItem";
-import { searchRecipes } from "../../api";
+import { searchRecipes } from "../../api-recipes";
 
 type UrlParams = {
   tags?: string;

@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { Field, ErrorMessage } from "formik";
-
 import classes from "./RecipeForm.module.scss";
 
 type InputFieldProps = {
