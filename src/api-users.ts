@@ -41,17 +41,12 @@ export const signout = async (token: string): Promise<boolean> => {
     const response = await fetch(`${BACKEND_BASE_URL}/signout`, {
       method: "POST",
       headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        token,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({ token }),
     });
-    const result = await response.json();
-    if (result.error) {
-      console.error(result.error);
-      return false;
-    } else {
-      return true;
-    }
+    await response.text();
+    return true;
   } catch (error) {
     console.error(error);
     return false;
