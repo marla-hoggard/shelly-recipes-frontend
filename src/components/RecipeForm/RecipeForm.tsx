@@ -162,7 +162,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           } else {
             const addRequest: AddRecipeRequest = {
               ...values,
-              tags: values.tags.split(",").map((el) => el.trim()),
+              tags: trimAndRemoveEmpty(values.tags.split(",")),
               ingredients: showIngredientNotes
                 ? values.ingredientsWithNotes
                 : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({

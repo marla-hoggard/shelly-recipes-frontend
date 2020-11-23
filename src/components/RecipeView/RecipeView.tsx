@@ -77,7 +77,7 @@ const RecipeView: React.FC = () => {
             </ol>
           </>
         )}
-        {recipe.tags.length > 0 && (
+        {(recipe.vegetarian || recipe.tags.length > 0) && (
           <div className={classes.tagsContainer}>
             {recipe.tags.map((tag) => (
               <Tag key={tag} text={tag} />
