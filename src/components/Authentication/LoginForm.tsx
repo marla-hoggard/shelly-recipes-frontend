@@ -93,7 +93,7 @@ const LoginForm: React.FC = () => {
                 Log In
               </button>
             </div>
-            <div>
+            <div className={classes.errorMessageContainer}>
               <div className={classes.errorMessage}>{generalError}</div>
             </div>
           </Form>
