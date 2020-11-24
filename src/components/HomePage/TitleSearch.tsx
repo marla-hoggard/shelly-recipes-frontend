@@ -152,10 +152,8 @@ const UserSearch: React.FC = () => {
   }, [handleResultsBlur]);
 
   return (
-    <div
-      className={classNames({ [classes.formContainer]: true, [classes.marginBottom]: !noneFound })}
-    >
-      <div>
+    <div className={classNames({ [classes.container]: true, [classes.marginBottom]: !noneFound })}>
+      <div className={classes.formContainer}>
         <form className={classes.form}>
           <div>
             <input
@@ -179,20 +177,22 @@ const UserSearch: React.FC = () => {
               />
             )}
           </div>
-          <div>
-            <button
-              className={classes.submitButton}
-              ref={buttonRef}
-              disabled={disabled}
-              onClick={handleSubmit}
-            >
-              Search
-            </button>
-          </div>
-          <div>
-            <button className={classes.submitButton} onClick={goToSearchPage}>
-              Advanced Search
-            </button>
+          <div className={classes.buttons}>
+            <div>
+              <button
+                className={classes.submitButton}
+                ref={buttonRef}
+                disabled={disabled}
+                onClick={handleSubmit}
+              >
+                Search
+              </button>
+            </div>
+            <div>
+              <button className={classes.submitButton} onClick={goToSearchPage}>
+                Advanced Search
+              </button>
+            </div>
           </div>
         </form>
       </div>

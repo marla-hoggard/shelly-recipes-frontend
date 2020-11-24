@@ -7,7 +7,7 @@ $buttonWidth: 80px;
 $buttonSpacing: 10px;
 $padding: 10px;
 
-.formContainer {
+.container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -19,9 +19,19 @@ $padding: 10px;
   }
 }
 
+.formContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .form {
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 735px) {
+    flex-direction: column;
+  }
 }
 
 .searchInput {
@@ -29,12 +39,31 @@ $padding: 10px;
   height: $inputHeight;
   padding: 0 $padding;
   outline: none;
+
+  @media screen and (max-width: 415px) {
+    width: 100%;
+  }
 }
 
 .submitButton {
   height: $inputHeight;
   min-width: $buttonWidth;
   margin-left: $buttonSpacing;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media screen and (max-width: 735px) {
+    margin-top: 10px;
+    width: $inputWidth;
+  }
+
+  @media screen and (max-width: 415px) {
+    width: 100%;
+  }
 }
 
 .noneFound {
@@ -54,6 +83,15 @@ $padding: 10px;
   padding: 0;
   border: 1px solid #dedede;
   white-space: nowrap;
+
+  @media screen and (max-width: 735px) {
+    top: auto;
+    overflow-x: hidden;
+  }
+
+  @media screen and (max-width: 415px) {
+    width: 100%;
+  }
 }
 
 .searchResult {
