@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Formik, FormikHelpers, Form, useFormikContext } from "formik";
-import { Category, SearchParams, Recipe } from "../../types/api.types";
+import { Category, SearchParams, Recipe } from "../../types/recipe.types";
 import { CATEGORIES } from "../../constants";
 import { RadioGroup, SelectField, InputField } from "./SearchFormComponents";
 import classes from "./Search.module.scss";
-import { searchRecipes } from "../../api-recipes";
+import { searchRecipes } from "../../api/recipe";
 
 export type SearchValues = {
   matchType: "any" | "all";

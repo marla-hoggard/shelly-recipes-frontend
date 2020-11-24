@@ -7,3 +7,5 @@ export const CATEGORIES = [
   "sauce",
   "beverage",
 ];
+
+export const USER_TOKEN_STORAGE_KEY = "user_token";

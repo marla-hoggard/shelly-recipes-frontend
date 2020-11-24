@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import classNames from "classnames";
-import { Recipe } from "../../types/api.types";
+import { Recipe } from "../../types/recipe.types";
 import classes from "./TitleSearch.module.scss";
 
 type Props = {

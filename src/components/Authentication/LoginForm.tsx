@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { login } from "../../api-users";
+import { login } from "../../api/users";
 import { InputField } from "./FormComponents";
 import { selectIsAuthenticated, setCurrentUser } from "../../reducers/currentUser";
 import classes from "./Authentication.module.scss";
+import { saveTokenToStorage } from "../../api/helpers";
 
 type FormValues = {
   username: string;
@@ -55,6 +56,7 @@ const LoginForm: React.FC = () => {
             isAdmin: result.user.is_admin,
           }),
         );
+        saveTokenToStorage(result.user.token);
         history.push("/");
       } else {
         setGeneralError(result.error);

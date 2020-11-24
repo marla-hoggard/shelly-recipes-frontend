@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 
-import { getRecipe } from "../../api-recipes";
+import { getRecipe } from "../../api/recipe";
 import { selectCurrentUser } from "../../reducers/currentUser";
 import RecipeForm, { FormValues } from "../RecipeForm/RecipeForm";
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import SearchForm, { SearchValues } from "./SearchForm";
-import { Category, Recipe } from "../../types/api.types";
+import { Category, Recipe } from "../../types/recipe.types";
 import RecipeListItem from "../base/RecipeListItem";
-import { searchRecipes } from "../../api-recipes";
+import { searchRecipes } from "../../api/recipe";
 
 type UrlParams = {
   tags?: string;

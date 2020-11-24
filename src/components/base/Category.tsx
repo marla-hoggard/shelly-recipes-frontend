@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import classNames from "classnames";
-import { Category as CategoryType } from "../../types/api.types";
+import { Category as CategoryType } from "../../types/recipe.types";
 import classes from "./Category.module.scss";
 import { useHistory } from "react-router-dom";
 

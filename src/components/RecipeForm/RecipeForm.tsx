@@ -10,8 +10,8 @@ import {
   Category,
   EditRecipeRequest,
   Ingredient,
-} from "../../types/api.types";
-import { addRecipe, editRecipe } from "../../api-recipes";
+} from "../../types/recipe.types";
+import { addRecipe, editRecipe } from "../../api/recipe";
 import { CATEGORIES } from "../../constants";
 import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
 import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";

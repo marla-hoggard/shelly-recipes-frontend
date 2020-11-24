@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Ingredient } from "../../types/api.types";
+import { Ingredient } from "../../types/recipe.types";
 import classes from "./RecipeView.module.scss";
 
 type Props = {

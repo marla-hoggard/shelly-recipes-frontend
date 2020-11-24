@@ -1,4 +1,4 @@
-import { CreateUserRequest, UserResponse, SigninRequest } from "./types/api.types";
+import { CreateUserRequest, UserResponse, SigninRequest } from "../types/users.types";
 
 const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_BASE_URL;
 
@@ -50,5 +50,21 @@ export const signout = async (token: string): Promise<boolean> => {
   } catch (error) {
     console.error(error);
     return false;
+  }
+};
+
+export const getUserByToken = async (token: string): Promise<UserResponse> => {
+  try {
+    const response = await fetch(`${BACKEND_BASE_URL}/user?token=${token}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    return result || { error: "API Function Error" };
+  } catch (error) {
+    console.error(error);
+    return { error: "API Function Error" };
   }
 };

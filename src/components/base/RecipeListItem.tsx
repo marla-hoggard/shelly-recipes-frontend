@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { Recipe as RecipeType } from "../../types/api.types";
+import { Recipe as RecipeType } from "../../types/recipe.types";
 import { Link } from "react-router-dom";
 import Category from "./Category";
 import classes from "./RecipeList.module.scss";
