@@ -18,7 +18,8 @@ const RecipeView: React.FC = () => {
   const currentUserFullName = useSelector(selectCurrentUserFullName);
   const isAdmin = useSelector(selectIsAdmin);
   const canEdit = isAdmin || currentUserFullName === recipe?.submitted_by;
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const id = parseInt(params.id);
   const history = useHistory();
 
   const fetchRecipe = useCallback(async () => {
@@ -47,9 +48,7 @@ const RecipeView: React.FC = () => {
       <>
         <h1 className={classes.pageTitle}>
           {recipe.title}
-          {recipe.tags.includes("favorites") && (
-            <FontAwesomeIcon className={classes.featuredStar} icon={faStar} />
-          )}
+          {recipe.featured && <FontAwesomeIcon className={classes.featuredStar} icon={faStar} />}
         </h1>
         {recipe.source &&
           (recipe.source_url ? (

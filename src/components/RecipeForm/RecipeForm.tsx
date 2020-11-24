@@ -26,6 +26,7 @@ export type FormValues = {
   servings: string;
   category: Category;
   vegetarian: boolean;
+  featured: boolean;
   tags: string;
   ingredientsTextarea: string;
   ingredientsWithNotes: Ingredient[];
@@ -41,6 +42,7 @@ const defaultValues: FormValues = {
   servings: "",
   category: "",
   vegetarian: false,
+  featured: false,
   tags: "",
   ingredientsTextarea: "",
   ingredientsWithNotes: [],
@@ -56,6 +58,7 @@ const validationSchema = Yup.object().shape({
   servings: Yup.string(),
   category: Yup.string().required("Required"),
   vegetarian: Yup.boolean(),
+  featured: Yup.boolean(),
   ingredientsTextarea: Yup.string().test("ingredients-required", "Required", function (value) {
     return this.parent.ingredientsWithNotes.length > 0 || !!value;
   }),
@@ -89,6 +92,7 @@ const prepareEditRequest = (
   if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
   if (values.category !== savedValues.category) editRequest.category = values.category;
   if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
+  if (values.featured !== savedValues.featured) editRequest.featured = values.featured;
   if (values.tags !== savedValues.tags)
     editRequest.tags = trimAndRemoveEmpty(values.tags.split(","));
   if (
@@ -236,6 +240,9 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
               </div>
               <div>
                 <CheckboxField labelText="Vegetarian" name="vegetarian" />
+              </div>
+              <div>
+                <CheckboxField labelText="Featured" name="featured" />
               </div>
             </div>
             <div className={classes.formRow}>

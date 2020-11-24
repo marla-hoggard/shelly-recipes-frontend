@@ -47,6 +47,7 @@
 .select {
   composes: select from "../RecipeForm/RecipeForm.module.scss";
   padding: 5px;
+  margin: 0;
   width: 150px;
 }
 

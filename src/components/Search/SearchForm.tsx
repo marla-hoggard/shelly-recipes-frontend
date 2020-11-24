@@ -10,6 +10,7 @@ export type SearchValues = {
   matchType: "any" | "all";
   category: Category;
   vegetarian: string;
+  featured: string;
   wildcard: string;
   title: string;
   source: string;
@@ -24,6 +25,7 @@ const defaultValues: SearchValues = {
   matchType: "any",
   category: "",
   vegetarian: "",
+  featured: "",
   wildcard: "",
   title: "",
   source: "",
@@ -55,6 +57,9 @@ const SearchForm: React.FC<Props> = ({ paramValues = {}, setSearchResults }) => 
         if (values.vegetarian) {
           searchParams.vegetarian = values.vegetarian === "vegetarian";
         }
+        if (values.featured) {
+          searchParams.featured = values.featured === "featured";
+        }
         const results = await searchRecipes(searchParams);
         setSearchResults(results);
         setSubmitting(false);
@@ -76,8 +81,6 @@ const AdvancedSearchForm: React.FC<{ paramValues: Partial<SearchValues> }> = ({ 
     <Form className={classes.form}>
       <div className={classes.formRow}>
         <RadioGroup name="matchType" title="Match:" options={["any", "all"]} />
-        <SelectField name="category" title="CATEGORY" options={CATEGORIES} />
-        <RadioGroup name="vegetarian" options={["vegetarian", "non-vegetarian"]} />
       </div>
       <div className={classes.formRow}>
         <InputField
@@ -106,6 +109,11 @@ const AdvancedSearchForm: React.FC<{ paramValues: Partial<SearchValues> }> = ({ 
           name="footnotes"
           placeholder="Separate terms with comma"
         />
+      </div>
+      <div className={classes.formRow}>
+        <SelectField name="category" title="CATEGORY" options={CATEGORIES} />
+        <RadioGroup name="featured" options={["featured", "non-featured"]} />
+        <RadioGroup name="vegetarian" options={["vegetarian", "non-vegetarian"]} />
       </div>
       <div className={classes.buttonRow}>
         <button className={classes.button} type="submit" disabled={isSubmitting}>

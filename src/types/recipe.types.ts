@@ -21,6 +21,7 @@ export type AddRecipeRequest = {
   servings?: string;
   category: Category;
   vegetarian?: boolean;
+  featured?: boolean;
   tags?: string[];
   ingredients: Ingredient[];
   steps: string[];
@@ -52,6 +53,7 @@ export type GetRecipeSuccess = {
   servings: string | null;
   category: Category;
   vegetarian: boolean;
+  featured: boolean;
   ingredients: Ingredient[];
   steps: string[];
   footnotes: string[];
@@ -77,6 +79,7 @@ export type Recipe = {
   servings: string | null;
   category: Category;
   vegetarian: boolean;
+  featured: boolean;
   created_at: string;
   tags?: string[];
   ingredients?: string[];
@@ -105,6 +108,7 @@ export type SearchParams = {
   submitted_by?: string;
   category?: Category;
   vegetarian?: boolean;
+  featured?: boolean;
   steps?: string;
   footnotes?: string;
   tags?: string;
