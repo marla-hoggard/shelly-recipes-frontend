@@ -1,11 +1,11 @@
 /* eslint-disable func-names */
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { createUser } from "../../api/users";
-import { selectIsAuthenticated, setCurrentUser } from "../../reducers/currentUser";
+import { setCurrentUser } from "../../reducers/currentUser";
 import { InputField } from "./FormComponents";
 import classes from "./Authentication.module.scss";
 import { saveTokenToStorage } from "../../api/helpers";
@@ -53,13 +53,6 @@ const SignupForm: React.FC = () => {
   const [generalError, setGeneralError] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push("/");
-    }
-  }, [isAuthenticated, history]);
 
   const handleSubmit = useCallback(
     async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
