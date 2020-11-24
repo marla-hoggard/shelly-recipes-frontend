@@ -41,7 +41,8 @@ const LoginForm: React.FC = () => {
       setSubmitting(true);
       setGeneralError("");
       const { username, password } = values;
-      const result = await login({ username, password });
+      const cleanedUsername = username.trim().toLowerCase();
+      const result = await login({ username: cleanedUsername, password });
       if ("user" in result) {
         setSubmitting(false);
         dispatch(
@@ -51,6 +52,7 @@ const LoginForm: React.FC = () => {
             email: result.user.email,
             username: result.user.username,
             token: result.user.token,
+            isAdmin: result.user.is_admin,
           }),
         );
         history.push("/");
@@ -59,7 +61,7 @@ const LoginForm: React.FC = () => {
         setSubmitting(false);
       }
     },
-    [],
+    [dispatch, history],
   );
   return (
     <>

@@ -7,6 +7,7 @@ interface User {
   email: string;
   username: string;
   token: string;
+  isAdmin: boolean;
 }
 
 interface CurrentUserState {
@@ -37,6 +38,9 @@ export const selectCurrentUser = ({ currentUser: state }: RootState): User | nul
 
 export const selectIsAuthenticated = ({ currentUser: state }: RootState): boolean =>
   !!state.currentUser;
+
+export const selectIsAdmin = ({ currentUser: state }: RootState): boolean =>
+  !!state.currentUser?.isAdmin;
 
 export const selectCurrentUserFullName = ({ currentUser: state }: RootState): string =>
   state.currentUser ? `${state.currentUser.firstName} ${state.currentUser.lastName}` : "";

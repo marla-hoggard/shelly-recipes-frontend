@@ -133,6 +133,7 @@ type UserSuccessResponse = {
     username: string;
     email: string;
     token: string;
+    is_admin: boolean;
   };
 };
 
