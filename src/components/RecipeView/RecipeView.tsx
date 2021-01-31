@@ -72,20 +72,24 @@ const RecipeView: React.FC = () => {
             {recipe.servings}
           </div>
         )}
-        <Ingredients ingredients={recipe.ingredients} />
-        <Steps steps={recipe.steps} />
-        {recipe.footnotes.length > 0 && (
-          <>
-            <div className={classes.sectionTitle}>Notes:</div>
-            <ol className={classes.notesList}>
-              {recipe.footnotes.map((footnote, index) => (
-                <li key={index} data-icon={`[${index + 1}]`}>
-                  {footnote}
-                </li>
-              ))}
-            </ol>
-          </>
-        )}
+        <div className={classes.recipeBodyFlexContainer}>
+          <Ingredients ingredients={recipe.ingredients} />
+          <div className={classes.instructionsContainer}>
+            <Steps steps={recipe.steps} />
+            {recipe.footnotes.length > 0 && (
+              <>
+                <div className={classes.sectionTitle}>Notes</div>
+                <ol className={classes.notesList}>
+                  {recipe.footnotes.map((footnote, index) => (
+                    <li key={index} data-icon={`[${index + 1}]`}>
+                      {footnote}
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
+          </div>
+        </div>
         {(recipe.vegetarian || recipe.tags.length > 0) && (
           <div className={classes.tagsContainer}>
             {recipe.tags.map((tag) => (

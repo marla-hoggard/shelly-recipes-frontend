@@ -1,4 +1,4 @@
-@import "../../global-styles/base.module.scss";
+@import '../../global-styles/base.module.scss';
 
 .featuredStar {
   color: #ffc82a;
@@ -18,8 +18,15 @@
   margin-bottom: 10px;
 }
 
+.recipeBodyFlexContainer {
+  display: flex;
+}
+
 .sectionTitle {
-  font-weight: bold;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .sectionHeader {
@@ -27,8 +34,8 @@
   text-decoration: underline;
 }
 
-.ingredientsContainer {
-  margin-bottom: 20px;
+.instructionsContainer {
+  padding: 15px 20px;
 }
 
 .stepsContainer {

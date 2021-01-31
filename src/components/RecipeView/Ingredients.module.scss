@@ -1,0 +1,67 @@
+@import '../../global-styles/base.module.scss';
+
+.sectionTitle {
+  composes: sectionTitle from './RecipeView.module.scss';
+  margin-bottom: 0;
+}
+
+.ingredientsContainer {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #bde6f987;
+  flex: 0 0 250px;
+  font-size: 14px;
+}
+
+.ingredientsFillContainer {
+  background-color: #bde6f987;
+  padding: 15px;
+}
+
+.ingredient {
+  font-size: 14px;
+  padding: 5px 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #aaa;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.ingredientHeader {
+  margin-top: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.ingredientsNotes {
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 0.8em;
+  list-style: none;
+
+  li::before {
+    content: attr(data-icon);
+    padding-right: 5px;
+  }
+}
+
+.instructionsContainer {
+  padding: 15px 20px;
+}
+
+.stepsContainer {
+  margin-bottom: 20px;
+}
+
+.step {
+  margin-bottom: 10px;
+}
+
+.superscript {
+  composes: superscript from './RecipeView.module.scss';
+}
