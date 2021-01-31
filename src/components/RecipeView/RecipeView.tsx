@@ -1,29 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams, useHistory, Link } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import { getRecipe } from '../../api/recipe';
 import Loading from '../base/Loading';
-import Tag from '../base/Tag';
 import Steps from './Steps';
 import classes from './RecipeView.module.scss';
-import Ingredients from './Ingredients';
-import { useSelector } from 'react-redux';
-import { selectCurrentUserFullName, selectIsAdmin } from '../../reducers/currentUser';
+import LeftPanel from './LeftPanel';
 
 const RecipeView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [recipe, setRecipe] = useState<GetRecipeSuccess>();
-  const currentUserFullName = useSelector(selectCurrentUserFullName);
-  const isAdmin = useSelector(selectIsAdmin);
-  const canEdit = isAdmin || currentUserFullName === recipe?.submitted_by;
   const params = useParams<{ id: string }>();
-  const id = parseInt(params.id);
+  const recipeId = parseInt(params.id);
   const history = useHistory();
 
   const fetchRecipe = useCallback(async () => {
-    const results = await getRecipe(id);
+    const results = await getRecipe(recipeId);
     if ('error' in results) {
       if (results.error.message === 'Recipe not found.') {
         history.push('/404');
@@ -33,7 +27,7 @@ const RecipeView: React.FC = () => {
       setRecipe(results);
       setLoading(false);
     }
-  }, [history, id]);
+  }, [history, recipeId]);
 
   useEffect(() => {
     fetchRecipe();
@@ -65,16 +59,9 @@ const RecipeView: React.FC = () => {
           ) : (
             <div className={classes.source}>{recipe.source}</div>
           ))}
-        <div className={classes.submittedBy}>Submitted By: {recipe.submitted_by}</div>
-        {recipe.servings && (
-          <div className={classes.servings}>
-            {`${/[a-z]/i.test(recipe.servings) ? 'Makes:' : 'Serves:'} `}
-            {recipe.servings}
-          </div>
-        )}
         <div className={classes.recipeBodyFlexContainer}>
-          <Ingredients ingredients={recipe.ingredients} />
-          <div className={classes.instructionsContainer}>
+          <LeftPanel recipe={recipe} recipeId={recipeId} />
+          <div className={classes.rightContainer}>
             <Steps steps={recipe.steps} />
             {recipe.footnotes.length > 0 && (
               <>
@@ -90,22 +77,6 @@ const RecipeView: React.FC = () => {
             )}
           </div>
         </div>
-        {(recipe.vegetarian || recipe.tags.length > 0) && (
-          <div className={classes.tagsContainer}>
-            {recipe.tags.map((tag) => (
-              <Tag key={tag} text={tag} />
-            ))}
-            {recipe.vegetarian && <Tag key="vegetarian" text="vegetarian" />}
-          </div>
-        )}
-        {/* TODO: Check if user id match */}
-        {canEdit && (
-          <div>
-            <Link className={classes.link} to={`/recipe/${id}/edit`}>
-              Edit Recipe
-            </Link>
-          </div>
-        )}
       </>
     );
   }

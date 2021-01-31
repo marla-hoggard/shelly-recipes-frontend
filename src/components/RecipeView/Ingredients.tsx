@@ -11,7 +11,7 @@ const Ingredients: React.FC<Props> = ({ ingredients }) => {
   const count = useRef(1);
 
   return (
-    <div className={classes.ingredientsContainer}>
+    <div>
       <div className={classes.sectionTitle}>Ingredients</div>
       {ingredients.map(({ ingredient, note }, i) => {
         const isSectionHeader = /^_.+_$/.test(ingredient.trim());
