@@ -66,7 +66,12 @@ const RecipeView: React.FC = () => {
             <div className={classes.source}>{recipe.source}</div>
           ))}
         <div className={classes.submittedBy}>Submitted By: {recipe.submitted_by}</div>
-        {recipe.servings && <div className={classes.servings}>Serves: {recipe.servings}</div>}
+        {recipe.servings && (
+          <div className={classes.servings}>
+            {`${/[a-z]/i.test(recipe.servings) ? "Makes:" : "Serves:"} `}
+            {recipe.servings}
+          </div>
+        )}
         <Ingredients ingredients={recipe.ingredients} />
         <Steps steps={recipe.steps} />
         {recipe.footnotes.length > 0 && (
