@@ -7,8 +7,7 @@ import {
   SearchParams,
   Recipe,
 } from "../types/recipe.types";
-
-const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_BASE_URL;
+import { BACKEND_BASE_URL } from "../constants";
 
 export const addRecipe = async (request: AddRecipeRequest): Promise<AddRecipeResponse> => {
   try {

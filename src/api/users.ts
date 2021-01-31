@@ -1,6 +1,5 @@
 import { CreateUserRequest, UserResponse, SigninRequest } from "../types/users.types";
-
-const BACKEND_BASE_URL = process.env.REACT_APP_BACKEND_BASE_URL;
+import { BACKEND_BASE_URL } from "../constants";
 
 export const createUser = async (request: CreateUserRequest): Promise<UserResponse> => {
   try {
