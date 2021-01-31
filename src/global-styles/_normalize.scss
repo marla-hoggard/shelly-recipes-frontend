@@ -1,13 +1,12 @@
 /*! normalize-scss | MIT/GPLv2 License | bit.ly/normalize-scss */
 
-@import "variables";
-@import "vertical-rhythm";
+@import 'vertical-rhythm';
 
 // If we've customized any font variables, we'll need extra properties.
 @if $base-line-height !=
   24px or
   $base-unit !=
-  "em" or
+  'em' or
   $h2-font-size !=
   1.5 *
   $base-font-size or
@@ -458,9 +457,9 @@ html [type="button"], /* 1 */
 }
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   /**
    * Remove the inner border and padding in Firefox.
    */
@@ -492,8 +491,8 @@ input {
  * 2. Remove the padding in IE 10-.
  */
 
-[type="checkbox"],
-[type="radio"] {
+[type='checkbox'],
+[type='radio'] {
   box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
@@ -502,8 +501,8 @@ input {
  * Correct the cursor style of increment and decrement buttons in Chrome.
  */
 
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
   height: auto;
 }
 
@@ -512,7 +511,7 @@ input {
  * 2. Correct the outline style in Safari.
  */
 
-[type="search"] {
+[type='search'] {
   -webkit-appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 

@@ -1,3 +1,5 @@
+@import './globals.scss';
+
 .pageTitle {
   text-align: center;
   margin: 0;
@@ -6,7 +8,7 @@
 
 .link {
   text-decoration: none;
-  color: #6933a2;
+  color: $purple;
   font-weight: bold;
 
   &:hover {
