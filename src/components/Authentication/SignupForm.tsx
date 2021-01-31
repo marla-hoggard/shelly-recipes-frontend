@@ -1,14 +1,14 @@
 /* eslint-disable func-names */
-import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Formik, Form, FormikHelpers } from "formik";
-import * as Yup from "yup";
-import { createUser } from "../../api/users";
-import { setCurrentUser } from "../../reducers/currentUser";
-import { InputField } from "./FormComponents";
-import classes from "./Authentication.module.scss";
-import { saveTokenToStorage } from "../../api/helpers";
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import { createUser } from '../../api/users';
+import { setCurrentUser } from '../../reducers/currentUser';
+import { InputField } from './FormComponents';
+import classes from './Authentication.module.scss';
+import { saveTokenToStorage } from '../../api/helpers';
 
 type FormValues = {
   first_name: string;
@@ -20,44 +20,44 @@ type FormValues = {
 };
 
 const defaultValues: FormValues = {
-  first_name: "",
-  last_name: "",
-  username: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
+  first_name: '',
+  last_name: '',
+  username: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
 };
 
 const validationSchema = Yup.object().shape({
-  first_name: Yup.string().required("Required"),
-  last_name: Yup.string().required("Required"),
+  first_name: Yup.string().required('Required'),
+  last_name: Yup.string().required('Required'),
   username: Yup.string()
-    .min(3, "Must be at least 3 characters")
-    .max(20, "Must be at most 20 characters")
-    .required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+    .min(3, 'Must be at least 3 characters')
+    .max(20, 'Must be at most 20 characters')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string()
-    .min(6, "Must be at least 6 characters")
-    .max(20, "Must be at most 20 characters")
-    .required("Required"),
+    .min(6, 'Must be at least 6 characters')
+    .max(20, 'Must be at most 20 characters')
+    .required('Required'),
   password_confirmation: Yup.string()
-    .min(6, "Must be at least 6 characters")
-    .max(20, "Must be at most 20 characters")
-    .test("password-match", "Must match your password", function (value) {
+    .min(6, 'Must be at least 6 characters')
+    .max(20, 'Must be at most 20 characters')
+    .test('password-match', 'Must match your password', function (value) {
       return this.parent.password === value;
     })
-    .required("Required"),
+    .required('Required'),
 });
 
 const SignupForm: React.FC = () => {
-  const [generalError, setGeneralError] = useState("");
+  const [generalError, setGeneralError] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleSubmit = useCallback(
     async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
       setSubmitting(true);
-      setGeneralError("");
+      setGeneralError('');
       const { first_name, last_name, email, username, password } = values;
       const cleanedUsername = username.trim().toLowerCase();
       const cleanedEmail = email.trim();
@@ -68,7 +68,7 @@ const SignupForm: React.FC = () => {
         username: cleanedUsername,
         password,
       });
-      if ("user" in result) {
+      if ('user' in result) {
         setSubmitting(false);
         dispatch(
           setCurrentUser({
@@ -81,7 +81,7 @@ const SignupForm: React.FC = () => {
           }),
         );
         saveTokenToStorage(result.user.token);
-        history.push("/");
+        history.push('/');
       } else {
         setGeneralError(result.error);
         setSubmitting(false);

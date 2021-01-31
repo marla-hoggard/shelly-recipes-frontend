@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { GetRecipeSuccess } from "../../types/recipe.types";
-import { getRecipe } from "../../api/recipe";
-import Loading from "../base/Loading";
-import Tag from "../base/Tag";
-import Steps from "./Steps";
-import classes from "./RecipeView.module.scss";
-import Ingredients from "./Ingredients";
-import { useSelector } from "react-redux";
-import { selectCurrentUserFullName, selectIsAdmin } from "../../reducers/currentUser";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams, useHistory, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { GetRecipeSuccess } from '../../types/recipe.types';
+import { getRecipe } from '../../api/recipe';
+import Loading from '../base/Loading';
+import Tag from '../base/Tag';
+import Steps from './Steps';
+import classes from './RecipeView.module.scss';
+import Ingredients from './Ingredients';
+import { useSelector } from 'react-redux';
+import { selectCurrentUserFullName, selectIsAdmin } from '../../reducers/currentUser';
 
 const RecipeView: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -24,9 +24,9 @@ const RecipeView: React.FC = () => {
 
   const fetchRecipe = useCallback(async () => {
     const results = await getRecipe(id);
-    if ("error" in results) {
-      if (results.error.message === "Recipe not found.") {
-        history.push("/404");
+    if ('error' in results) {
+      if (results.error.message === 'Recipe not found.') {
+        history.push('/404');
         return;
       }
     } else {
@@ -68,7 +68,7 @@ const RecipeView: React.FC = () => {
         <div className={classes.submittedBy}>Submitted By: {recipe.submitted_by}</div>
         {recipe.servings && (
           <div className={classes.servings}>
-            {`${/[a-z]/i.test(recipe.servings) ? "Makes:" : "Serves:"} `}
+            {`${/[a-z]/i.test(recipe.servings) ? 'Makes:' : 'Serves:'} `}
             {recipe.servings}
           </div>
         )}

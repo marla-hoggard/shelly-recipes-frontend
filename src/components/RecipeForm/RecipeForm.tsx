@@ -1,8 +1,8 @@
 /* eslint-disable func-names */
-import React, { useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import { Formik, Form, FormikHelpers } from "formik";
-import * as Yup from "yup";
+import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
 
 import {
   AddRecipeRequest,
@@ -10,13 +10,13 @@ import {
   Category,
   EditRecipeRequest,
   Ingredient,
-} from "../../types/recipe.types";
-import { addRecipe, editRecipe } from "../../api/recipe";
-import { CATEGORIES } from "../../constants";
-import { countOccurrences, trimAndRemoveEmpty } from "../../helpers";
-import { InputField, TextAreaField, SelectField, CheckboxField } from "./FormComponents";
-import { StepsAndNotes, IngredientsWithNotes } from "./FieldArrays";
-import classes from "./RecipeForm.module.scss";
+} from '../../types/recipe.types';
+import { addRecipe, editRecipe } from '../../api/recipe';
+import { CATEGORIES } from '../../constants';
+import { countOccurrences, trimAndRemoveEmpty } from '../../helpers';
+import { InputField, TextAreaField, SelectField, CheckboxField } from './FormComponents';
+import { StepsAndNotes, IngredientsWithNotes } from './FieldArrays';
+import classes from './RecipeForm.module.scss';
 
 export type FormValues = {
   title: string;
@@ -35,43 +35,43 @@ export type FormValues = {
 };
 
 const defaultValues: FormValues = {
-  title: "",
-  source: "",
-  source_url: "",
-  submitted_by: "",
-  servings: "",
-  category: "",
+  title: '',
+  source: '',
+  source_url: '',
+  submitted_by: '',
+  servings: '',
+  category: '',
   vegetarian: false,
   featured: false,
-  tags: "",
-  ingredientsTextarea: "",
+  tags: '',
+  ingredientsTextarea: '',
   ingredientsWithNotes: [],
-  steps: "",
+  steps: '',
   footnotes: [],
 };
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required("Required"),
+  title: Yup.string().required('Required'),
   source: Yup.string(),
   source_url: Yup.string(),
-  submitted_by: Yup.string().required("Required"),
+  submitted_by: Yup.string().required('Required'),
   servings: Yup.string(),
-  category: Yup.string().required("Required"),
+  category: Yup.string().required('Required'),
   vegetarian: Yup.boolean(),
   featured: Yup.boolean(),
-  ingredientsTextarea: Yup.string().test("ingredients-required", "Required", function (value) {
+  ingredientsTextarea: Yup.string().test('ingredients-required', 'Required', function (value) {
     return this.parent.ingredientsWithNotes.length > 0 || !!value;
   }),
   ingredientsWithNotes: Yup.array(
     Yup.object().shape({
-      ingredient: Yup.string().required(" "),
+      ingredient: Yup.string().required(' '),
       note: Yup.string(),
     }),
   ),
   steps: Yup.string()
-    .required("Required")
-    .test("footnotes-match", "You must enter * for each footnote", function (value) {
-      const numStars = countOccurrences("*", value || "");
+    .required('Required')
+    .test('footnotes-match', 'You must enter * for each footnote', function (value) {
+      const numStars = countOccurrences('*', value || '');
       const numNotes = this.parent.footnotes.filter((el: string) => !!el).length;
       return numStars === numNotes;
     }),
@@ -94,13 +94,13 @@ const prepareEditRequest = (
   if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
   if (values.featured !== savedValues.featured) editRequest.featured = values.featured;
   if (values.tags !== savedValues.tags)
-    editRequest.tags = trimAndRemoveEmpty(values.tags.split(","));
+    editRequest.tags = trimAndRemoveEmpty(values.tags.split(','));
   if (
     values.ingredientsTextarea !== savedValues.ingredientsTextarea ||
-    values.ingredientsWithNotes.map((el) => el.ingredient).join(",") !==
-      savedValues.ingredientsWithNotes?.map((el) => el.ingredient).join(",") ||
-    values.ingredientsWithNotes.map((el) => el.note).join(",") !==
-      savedValues.ingredientsWithNotes?.map((el) => el.note).join(",")
+    values.ingredientsWithNotes.map((el) => el.ingredient).join(',') !==
+      savedValues.ingredientsWithNotes?.map((el) => el.ingredient).join(',') ||
+    values.ingredientsWithNotes.map((el) => el.note).join(',') !==
+      savedValues.ingredientsWithNotes?.map((el) => el.note).join(',')
   ) {
     editRequest.ingredients = hasIngredientNotes
       ? values.ingredientsWithNotes
@@ -111,7 +111,7 @@ const prepareEditRequest = (
   }
   if (
     values.footnotes.length !== savedValues.footnotes?.length ||
-    trimAndRemoveEmpty(values.footnotes).join(",") !== savedValues.footnotes?.join(",")
+    trimAndRemoveEmpty(values.footnotes).join(',') !== savedValues.footnotes?.join(',')
   ) {
     editRequest.footnotes = trimAndRemoveEmpty(values.footnotes);
   }
@@ -121,12 +121,12 @@ const prepareEditRequest = (
 type Props = {
   id?: number;
   savedValues?: Partial<FormValues>;
-  type: "add" | "edit";
+  type: 'add' | 'edit';
 };
 
 const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   const history = useHistory();
-  const [submitError, setSubmitError] = useState("");
+  const [submitError, setSubmitError] = useState('');
   const [showIngredientNotes, setShowIngredientNotes] = useState(
     !!savedValues?.ingredientsWithNotes?.some((i) => i.note),
   );
@@ -134,22 +134,22 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
   const switchToFootnotes = useCallback(
     (values: FormValues, setFieldValue: (field: string, value: string) => void) => {
       values.ingredientsTextarea.length
-        ? trimAndRemoveEmpty(values.ingredientsTextarea.split("\n")).forEach((ing, index) => {
+        ? trimAndRemoveEmpty(values.ingredientsTextarea.split('\n')).forEach((ing, index) => {
             setFieldValue(`ingredientsWithNotes.${index}.ingredient`, ing);
           })
-        : setFieldValue(`ingredientsWithNotes.0.ingredient`, "");
+        : setFieldValue(`ingredientsWithNotes.0.ingredient`, '');
       setShowIngredientNotes(true);
     },
     [],
   );
 
-  if (type === "edit" && !id) {
-    history.push("/404");
+  if (type === 'edit' && !id) {
+    history.push('/404');
   }
 
   return (
     <>
-      <h1 className={classes.pageTitle}>{type === "add" ? "Add a New Recipe" : "Edit Recipe"}</h1>
+      <h1 className={classes.pageTitle}>{type === 'add' ? 'Add a New Recipe' : 'Edit Recipe'}</h1>
       <Formik
         initialValues={{
           ...defaultValues,
@@ -160,13 +160,13 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           setSubmitting(true);
           let result: AddRecipeResponse;
 
-          if (type === "edit" && id) {
+          if (type === 'edit' && id) {
             const editRequest = prepareEditRequest(values, savedValues, showIngredientNotes);
             result = await editRecipe(id, editRequest);
           } else {
             const addRequest: AddRecipeRequest = {
               ...values,
-              tags: trimAndRemoveEmpty(values.tags.split(",")),
+              tags: trimAndRemoveEmpty(values.tags.split(',')),
               ingredients: showIngredientNotes
                 ? values.ingredientsWithNotes
                 : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({
@@ -178,7 +178,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
             result = await addRecipe(addRequest);
           }
 
-          if ("id" in result) {
+          if ('id' in result) {
             setSubmitting(false);
             history.push(`/recipe/${result.id}`);
           } else {
@@ -272,7 +272,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
                 <TextAreaField
                   name="ingredientsTextarea"
                   placeholder={
-                    "Enter each ingredient separated by a line break.\nTo create a section header, wrap it in underscores: _Header_"
+                    'Enter each ingredient separated by a line break.\nTo create a section header, wrap it in underscores: _Header_'
                   }
                   hasError={!!(errors.ingredientsTextarea && touched.ingredientsTextarea)}
                 />

@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { getAllRecipes } from "../../api/recipe";
-import { Recipe } from "../../types/recipe.types";
-import Loading from "../base/Loading";
-import RecipeListItem from "../base/RecipeListItem";
-import TitleSearch from "./TitleSearch";
-import classes from "../../global-styles/base.module.scss";
+import React, { useState, useCallback, useEffect } from 'react';
+import { getAllRecipes } from '../../api/recipe';
+import { Recipe } from '../../types/recipe.types';
+import Loading from '../base/Loading';
+import RecipeListItem from '../base/RecipeListItem';
+import TitleSearch from './TitleSearch';
+import classes from '../../global-styles/base.module.scss';
 
 const Homepage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const Homepage: React.FC = () => {
 
   const fetchRecipes = useCallback(async () => {
     const results = await getAllRecipes();
-    if ("data" in results) {
+    if ('data' in results) {
       setRecipes(results.data);
       setError(false);
     } else {

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 interface User {
   firstName: string;
@@ -19,7 +19,7 @@ const initialState: CurrentUserState = {
 };
 
 export const currentUser = createSlice({
-  name: "currentUser",
+  name: 'currentUser',
   initialState,
   reducers: {
     setCurrentUser: (state, { payload: user }: PayloadAction<User>): void => {
@@ -43,6 +43,6 @@ export const selectIsAdmin = ({ currentUser: state }: RootState): boolean =>
   !!state.currentUser?.isAdmin;
 
 export const selectCurrentUserFullName = ({ currentUser: state }: RootState): string =>
-  state.currentUser ? `${state.currentUser.firstName} ${state.currentUser.lastName}` : "";
+  state.currentUser ? `${state.currentUser.firstName} ${state.currentUser.lastName}` : '';
 
 export default currentUser.reducer;

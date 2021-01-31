@@ -1,7 +1,7 @@
-import React from "react";
-import classNames from "classnames";
-import { Field, ErrorMessage } from "formik";
-import classes from "./RecipeForm.module.scss";
+import React from 'react';
+import classNames from 'classnames';
+import { Field, ErrorMessage } from 'formik';
+import classes from './RecipeForm.module.scss';
 
 type InputFieldProps = {
   labelText?: string;
@@ -13,7 +13,7 @@ type InputFieldProps = {
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
-  className = "",
+  className = '',
   fullWidth = false,
   labelText,
   name,

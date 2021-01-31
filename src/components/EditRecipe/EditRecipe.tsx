@@ -1,10 +1,10 @@
-import React, { useEffect, useCallback, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import React, { useEffect, useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 
-import { getRecipe } from "../../api/recipe";
-import { selectCurrentUser, selectCurrentUserFullName } from "../../reducers/currentUser";
-import RecipeForm, { FormValues } from "../RecipeForm/RecipeForm";
+import { getRecipe } from '../../api/recipe';
+import { selectCurrentUser, selectCurrentUserFullName } from '../../reducers/currentUser';
+import RecipeForm, { FormValues } from '../RecipeForm/RecipeForm';
 
 const EditRecipe: React.FC = () => {
   const params = useParams<{ id: string }>();
@@ -17,35 +17,35 @@ const EditRecipe: React.FC = () => {
 
   const fetchAndCheckPermissions = useCallback(async () => {
     if (!currentUser) {
-      history.push("/login");
+      history.push('/login');
       return;
     }
 
     const recipe = await getRecipe(id);
-    if ("id" in recipe) {
+    if ('id' in recipe) {
       // TODO: Update to match user id in addition to name
       if (!currentUser.isAdmin && recipe.submitted_by !== currentUserFullName) {
-        history.push("/");
+        history.push('/');
         return;
       }
 
       setSavedValues({
         ...recipe,
-        source: recipe.source || "",
-        source_url: recipe.source_url || "",
-        servings: recipe.servings || "",
-        tags: recipe.tags.join(", "),
-        ingredientsTextarea: recipe.ingredients.map((i) => i.ingredient).join("\n"),
+        source: recipe.source || '',
+        source_url: recipe.source_url || '',
+        servings: recipe.servings || '',
+        tags: recipe.tags.join(', '),
+        ingredientsTextarea: recipe.ingredients.map((i) => i.ingredient).join('\n'),
         ingredientsWithNotes: recipe.ingredients.map(({ ingredient, note }) => ({
           ingredient,
-          note: note || "",
+          note: note || '',
         })),
-        steps: recipe.steps.join("\n\n"),
+        steps: recipe.steps.join('\n\n'),
         footnotes: recipe.footnotes,
       });
       setLoading(false);
     } else {
-      history.push("/404");
+      history.push('/404');
     }
   }, [currentUser, currentUserFullName, history, id]);
 

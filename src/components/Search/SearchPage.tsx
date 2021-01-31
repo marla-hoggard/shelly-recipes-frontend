@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import SearchForm, { SearchValues } from "./SearchForm";
-import { Category, Recipe } from "../../types/recipe.types";
-import RecipeListItem from "../base/RecipeListItem";
-import { searchRecipes } from "../../api/recipe";
+import React, { useEffect, useState, useCallback } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import SearchForm, { SearchValues } from './SearchForm';
+import { Category, Recipe } from '../../types/recipe.types';
+import RecipeListItem from '../base/RecipeListItem';
+import { searchRecipes } from '../../api/recipe';
 
 type UrlParams = {
   tags?: string;
@@ -36,10 +36,10 @@ const SearchPage: React.FC = () => {
       setDisplaySearchForm(false);
       const urlParams = new URLSearchParams(search);
       const params: UrlParams = {};
-      const tags = urlParams.get("tags") ?? "";
-      const vegetarian = urlParams.get("vegetarian") ?? "";
-      const category = (urlParams.get("category") as Category) ?? "";
-      const title = urlParams.get("title") ?? "";
+      const tags = urlParams.get('tags') ?? '';
+      const vegetarian = urlParams.get('vegetarian') ?? '';
+      const category = (urlParams.get('category') as Category) ?? '';
+      const title = urlParams.get('title') ?? '';
 
       if (tags) {
         params.tags = tags;
@@ -57,13 +57,13 @@ const SearchPage: React.FC = () => {
         params.vegetarian = Boolean(vegetarian);
         setSearchInitialValues({
           ...params,
-          vegetarian: params.vegetarian ? "vegetarian" : "non-vegetarian",
+          vegetarian: params.vegetarian ? 'vegetarian' : 'non-vegetarian',
         });
       } else {
         setSearchInitialValues({ ...params, vegetarian: undefined });
       }
 
-      history.push("/search");
+      history.push('/search');
       fetchSearchResults(params);
     } else {
       setDisplaySearchForm(true);

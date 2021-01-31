@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { signout } from "../../../api/users";
-import { clearTokenFromStorage } from "../../../api/helpers";
-import { selectCurrentUser, resetCurrentUser } from "../../../reducers/currentUser";
-import classes from "./Header.module.scss";
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { signout } from '../../../api/users';
+import { clearTokenFromStorage } from '../../../api/helpers';
+import { selectCurrentUser, resetCurrentUser } from '../../../reducers/currentUser';
+import classes from './Header.module.scss';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
       </div>
       <div className={classes.centerContainer}></div>
       <div className={classes.rightContainer}>
-        {pathname === "/login" ? (
+        {pathname === '/login' ? (
           <div className={classes.linkContainer}>
             <Link className={classes.link} to="/signup">
               Sign Up

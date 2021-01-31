@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import classes from "./RecipeView.module.scss";
+import React, { useRef } from 'react';
+import classes from './RecipeView.module.scss';
 
 type Props = {
   steps: string[];
@@ -13,7 +13,7 @@ const Steps: React.FC<Props> = ({ steps }) => {
       <div className={classes.sectionTitle}>Instructions:</div>
       {steps.map((step, i) => (
         <div key={i} className={classes.step}>
-          {step.split("*").map((section, j, arr) => (
+          {step.split('*').map((section, j, arr) => (
             <React.Fragment key={j}>
               <FormattedStep text={section} />
               {j !== arr.length - 1 && (

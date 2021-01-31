@@ -1,14 +1,14 @@
-import React from "react";
-import classNames from "classnames";
-import { Field, ErrorMessage } from "formik";
-import classes from "./Authentication.module.scss";
+import React from 'react';
+import classNames from 'classnames';
+import { Field, ErrorMessage } from 'formik';
+import classes from './Authentication.module.scss';
 
 type InputFieldProps = {
   labelText?: string;
   name: string;
   hasError: boolean;
   placeholder?: string;
-  type?: "text" | "email" | "password";
+  type?: 'text' | 'email' | 'password';
   left?: boolean; // Left of two in a row
   right?: boolean; // Right of two in a row
   fullWidth?: boolean;
@@ -16,11 +16,11 @@ type InputFieldProps = {
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
-  className = "",
+  className = '',
   name,
   placeholder,
   hasError,
-  type = "text",
+  type = 'text',
   left = false,
   right = false,
   fullWidth = false,

@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { Formik, FormikHelpers, Form, useFormikContext } from "formik";
-import { Category, SearchParams, Recipe } from "../../types/recipe.types";
-import { CATEGORIES } from "../../constants";
-import { RadioGroup, SelectField, InputField } from "./SearchFormComponents";
-import classes from "./Search.module.scss";
-import { searchRecipes } from "../../api/recipe";
+import React, { useEffect } from 'react';
+import { Formik, FormikHelpers, Form, useFormikContext } from 'formik';
+import { Category, SearchParams, Recipe } from '../../types/recipe.types';
+import { CATEGORIES } from '../../constants';
+import { RadioGroup, SelectField, InputField } from './SearchFormComponents';
+import classes from './Search.module.scss';
+import { searchRecipes } from '../../api/recipe';
 
 export type SearchValues = {
-  matchType: "any" | "all";
+  matchType: 'any' | 'all';
   category: Category;
   vegetarian: string;
   featured: string;
@@ -22,18 +22,18 @@ export type SearchValues = {
 };
 
 const defaultValues: SearchValues = {
-  matchType: "any",
-  category: "",
-  vegetarian: "",
-  featured: "",
-  wildcard: "",
-  title: "",
-  source: "",
-  submitted_by: "",
-  tags: "",
-  ingredients: "",
-  step: "",
-  footnote: "",
+  matchType: 'any',
+  category: '',
+  vegetarian: '',
+  featured: '',
+  wildcard: '',
+  title: '',
+  source: '',
+  submitted_by: '',
+  tags: '',
+  ingredients: '',
+  step: '',
+  footnote: '',
 };
 
 type Props = {
@@ -49,16 +49,16 @@ const SearchForm: React.FC<Props> = ({ paramValues = {}, setSearchResults }) => 
       onSubmit={async (values, { setSubmitting }: FormikHelpers<SearchValues>) => {
         setSubmitting(true);
         const searchParams: SearchParams = Object.fromEntries(
-          Object.entries(values).filter(([key, value]) => !!value && key !== "matchAll"),
+          Object.entries(values).filter(([key, value]) => !!value && key !== 'matchAll'),
         );
-        if (values.matchType === "all") {
+        if (values.matchType === 'all') {
           searchParams.all = true;
         }
         if (values.vegetarian) {
-          searchParams.vegetarian = values.vegetarian === "vegetarian";
+          searchParams.vegetarian = values.vegetarian === 'vegetarian';
         }
         if (values.featured) {
-          searchParams.featured = values.featured === "featured";
+          searchParams.featured = values.featured === 'featured';
         }
         const results = await searchRecipes(searchParams);
         setSearchResults(results);
@@ -80,7 +80,7 @@ const AdvancedSearchForm: React.FC<{ paramValues: Partial<SearchValues> }> = ({ 
   return (
     <Form className={classes.form}>
       <div className={classes.formRow}>
-        <RadioGroup name="matchType" title="Match:" options={["any", "all"]} />
+        <RadioGroup name="matchType" title="Match:" options={['any', 'all']} />
       </div>
       <div className={classes.formRow}>
         <InputField
@@ -112,8 +112,8 @@ const AdvancedSearchForm: React.FC<{ paramValues: Partial<SearchValues> }> = ({ 
       </div>
       <div className={classes.formRow}>
         <SelectField name="category" title="CATEGORY" options={CATEGORIES} />
-        <RadioGroup name="featured" options={["featured", "non-featured"]} />
-        <RadioGroup name="vegetarian" options={["vegetarian", "non-vegetarian"]} />
+        <RadioGroup name="featured" options={['featured', 'non-featured']} />
+        <RadioGroup name="vegetarian" options={['vegetarian', 'non-vegetarian']} />
       </div>
       <div className={classes.buttonRow}>
         <button className={classes.button} type="submit" disabled={isSubmitting}>

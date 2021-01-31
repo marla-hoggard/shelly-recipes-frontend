@@ -1,4 +1,4 @@
-import { USER_TOKEN_STORAGE_KEY } from "../constants";
+import { USER_TOKEN_STORAGE_KEY } from '../constants';
 
 export const saveTokenToStorage = (token: string): void => {
   sessionStorage.setItem(USER_TOKEN_STORAGE_KEY, token);

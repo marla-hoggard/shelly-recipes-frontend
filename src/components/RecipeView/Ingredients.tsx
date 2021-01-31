@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
-import { Ingredient } from "../../types/recipe.types";
-import classes from "./RecipeView.module.scss";
+import React, { useRef } from 'react';
+import { Ingredient } from '../../types/recipe.types';
+import classes from './RecipeView.module.scss';
 
 type Props = {
   ingredients: Ingredient[];

@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import classNames from "classnames";
-import debounce from "debounce-promise";
-import { Recipe } from "../../types/recipe.types";
-import { searchRecipes } from "../../api/recipe";
-import SearchResults from "./SearchResults";
-import classes from "./TitleSearch.module.scss";
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
+import debounce from 'debounce-promise';
+import { Recipe } from '../../types/recipe.types';
+import { searchRecipes } from '../../api/recipe';
+import SearchResults from './SearchResults';
+import classes from './TitleSearch.module.scss';
 
 const DEBOUNCE_INTERVAL = 300;
 
@@ -17,7 +17,7 @@ const debouncedSearch = debounce(
 );
 
 const UserSearch: React.FC = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [hasExactMatch, setHasExactMatch] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [results, setResults] = useState<Recipe[]>([]);
@@ -71,21 +71,21 @@ const UserSearch: React.FC = () => {
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       switch (event.key) {
-        case "ArrowUp": {
+        case 'ArrowUp': {
           if (!event.shiftKey && cursor > 0) {
             event.preventDefault();
             setCursor(cursor - 1);
           }
           break;
         }
-        case "ArrowDown": {
+        case 'ArrowDown': {
           if (!event.shiftKey && cursor < results.length - 1) {
             event.preventDefault();
             setCursor(cursor + 1);
           }
           break;
         }
-        case "Tab": {
+        case 'Tab': {
           setShowResults(false);
           break;
         }
@@ -140,14 +140,14 @@ const UserSearch: React.FC = () => {
     if (query) {
       history.push(`/search?title=${query}`);
     } else {
-      history.push("/search");
+      history.push('/search');
     }
   }, [query, history]);
 
   useEffect(() => {
-    document.addEventListener("click", handleResultsBlur, false);
+    document.addEventListener('click', handleResultsBlur, false);
     return (): void => {
-      document.removeEventListener("click", handleResultsBlur, false);
+      document.removeEventListener('click', handleResultsBlur, false);
     };
   }, [handleResultsBlur]);
 

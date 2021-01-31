@@ -1,12 +1,12 @@
 export type Category =
-  | "appetizer"
-  | "entree"
-  | "dessert"
-  | "side"
-  | "beverage"
-  | "breakfast"
-  | "sauce"
-  | "";
+  | 'appetizer'
+  | 'entree'
+  | 'dessert'
+  | 'side'
+  | 'beverage'
+  | 'breakfast'
+  | 'sauce'
+  | '';
 
 export type Ingredient = {
   ingredient: string;

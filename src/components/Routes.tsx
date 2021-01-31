@@ -1,16 +1,16 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-import AddRecipe from "./AddRecipe/AddRecipe";
-import EditRecipe from "./EditRecipe/EditRecipe";
-import Homepage from "./HomePage/Homepage";
-import LoginForm from "./Authentication/LoginForm";
-import InvalidRoute from "./InvalidRoute/InvalidRoute";
-import RecipeView from "./RecipeView/RecipeView";
-import SearchPage from "./Search/SearchPage";
-import SignupForm from "./Authentication/SignupForm";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "../reducers/currentUser";
+import AddRecipe from './AddRecipe/AddRecipe';
+import EditRecipe from './EditRecipe/EditRecipe';
+import Homepage from './HomePage/Homepage';
+import LoginForm from './Authentication/LoginForm';
+import InvalidRoute from './InvalidRoute/InvalidRoute';
+import RecipeView from './RecipeView/RecipeView';
+import SearchPage from './Search/SearchPage';
+import SignupForm from './Authentication/SignupForm';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated } from '../reducers/currentUser';
 
 const Routes: React.FC = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);

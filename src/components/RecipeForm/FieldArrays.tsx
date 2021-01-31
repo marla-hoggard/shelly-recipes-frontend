@@ -1,8 +1,8 @@
-import React from "react";
-import { FieldArray, FormikErrors, FormikTouched } from "formik";
-import { FormValues } from "./RecipeForm";
-import { InputField, TextAreaField } from "./FormComponents";
-import classes from "./RecipeForm.module.scss";
+import React from 'react';
+import { FieldArray, FormikErrors, FormikTouched } from 'formik';
+import { FormValues } from './RecipeForm';
+import { InputField, TextAreaField } from './FormComponents';
+import classes from './RecipeForm.module.scss';
 
 type Props = {
   errors: FormikErrors<FormValues>;
@@ -10,9 +10,9 @@ type Props = {
   values: FormValues;
 };
 
-const upArrow = "\u21e7";
-const downArrow = "\u21e9";
-const deleteIcon = "\u274c";
+const upArrow = '\u21e7';
+const downArrow = '\u21e9';
+const deleteIcon = '\u274c';
 
 export const IngredientsWithNotes: React.FC<Props> = ({ values, errors, touched }) => {
   return (
@@ -26,7 +26,7 @@ export const IngredientsWithNotes: React.FC<Props> = ({ values, errors, touched 
               </label>
               <div
                 className={classes.addFootnoteLink}
-                onClick={() => push({ ingredient: "", note: "" })}
+                onClick={() => push({ ingredient: '', note: '' })}
               >
                 + Add Ingredient
               </div>
@@ -98,7 +98,7 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
                 Instructions
               </label>
               {!values.footnotes.length && (
-                <div className={classes.addFootnoteLink} onClick={() => push("")}>
+                <div className={classes.addFootnoteLink} onClick={() => push('')}>
                   + Add Footnotes
                 </div>
               )}
@@ -107,7 +107,7 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
               name="steps"
               hasError={!!(touched.steps && errors.steps)}
               placeholder={
-                "Enter recipe instructions with line breaks between steps.\nClick + ADD FOOTNOTES to add footnotes.\nType * to indicate where to place each note (they will be associated in order).\nTo emphasize a section of text, wrap it in underscores: _important text_"
+                'Enter recipe instructions with line breaks between steps.\nClick + ADD FOOTNOTES to add footnotes.\nType * to indicate where to place each note (they will be associated in order).\nTo emphasize a section of text, wrap it in underscores: _important text_'
               }
             />
           </div>
@@ -117,7 +117,7 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
                 <label className={classes.textareaLabel} htmlFor="steps">
                   Footnotes
                 </label>
-                <div className={classes.addFootnoteLink} onClick={() => push("")}>
+                <div className={classes.addFootnoteLink} onClick={() => push('')}>
                   + Add Footnote
                 </div>
               </div>

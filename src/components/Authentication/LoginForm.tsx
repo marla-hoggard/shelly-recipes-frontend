@@ -1,14 +1,14 @@
 /* eslint-disable func-names */
-import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Formik, Form, FormikHelpers } from "formik";
-import * as Yup from "yup";
-import { login } from "../../api/users";
-import { InputField } from "./FormComponents";
-import { setCurrentUser } from "../../reducers/currentUser";
-import classes from "./Authentication.module.scss";
-import { saveTokenToStorage } from "../../api/helpers";
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import { login } from '../../api/users';
+import { InputField } from './FormComponents';
+import { setCurrentUser } from '../../reducers/currentUser';
+import classes from './Authentication.module.scss';
+import { saveTokenToStorage } from '../../api/helpers';
 
 type FormValues = {
   username: string;
@@ -16,28 +16,28 @@ type FormValues = {
 };
 
 const defaultValues: FormValues = {
-  username: "",
-  password: "",
+  username: '',
+  password: '',
 };
 
 const validationSchema = Yup.object().shape({
-  username: Yup.string().required("Required"),
-  password: Yup.string().required("Required"),
+  username: Yup.string().required('Required'),
+  password: Yup.string().required('Required'),
 });
 
 const LoginForm: React.FC = () => {
-  const [generalError, setGeneralError] = useState("");
+  const [generalError, setGeneralError] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleSubmit = useCallback(
     async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
       setSubmitting(true);
-      setGeneralError("");
+      setGeneralError('');
       const { username, password } = values;
       const cleanedUsername = username.trim().toLowerCase();
       const result = await login({ username: cleanedUsername, password });
-      if ("user" in result) {
+      if ('user' in result) {
         setSubmitting(false);
         dispatch(
           setCurrentUser({
@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
           }),
         );
         saveTokenToStorage(result.user.token);
-        history.push("/");
+        history.push('/');
       } else {
         setGeneralError(result.error);
         setSubmitting(false);

@@ -6,23 +6,23 @@ import {
   EditRecipeRequest,
   SearchParams,
   Recipe,
-} from "../types/recipe.types";
-import { BACKEND_BASE_URL } from "../constants";
+} from '../types/recipe.types';
+import { BACKEND_BASE_URL } from '../constants';
 
 export const addRecipe = async (request: AddRecipeRequest): Promise<AddRecipeResponse> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipe/new`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
     });
     const result = await response.json();
-    return result || { error: { message: "API Function Error" } };
+    return result || { error: { message: 'API Function Error' } };
   } catch (error) {
     console.error(error);
-    return { error: { message: "API Function Error" } };
+    return { error: { message: 'API Function Error' } };
   }
 };
 
@@ -32,17 +32,17 @@ export const editRecipe = async (
 ): Promise<AddRecipeResponse> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipe/${recipeId}`, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
     });
     const result = await response.json();
-    return result || { error: { message: "API Function Error" } };
+    return result || { error: { message: 'API Function Error' } };
   } catch (error) {
     console.error(error);
-    return { error: { message: "API Function Error" } };
+    return { error: { message: 'API Function Error' } };
   }
 };
 
@@ -50,10 +50,10 @@ export const getRecipe = async (recipeId: number): Promise<GetRecipeResponse> =>
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipe/${recipeId}`);
     const result = await response.json();
-    return result || { error: { message: "API Function Error" } };
+    return result || { error: { message: 'API Function Error' } };
   } catch (error) {
     console.error(error);
-    return { error: { message: "API Function Error" } };
+    return { error: { message: 'API Function Error' } };
   }
 };
 
@@ -61,17 +61,17 @@ export const getAllRecipes = async (): Promise<GetAllRecipesResponse> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipes`);
     const result = await response.json();
-    return result || { error: { details: "API Function Error" } };
+    return result || { error: { details: 'API Function Error' } };
   } catch (error) {
     console.error(error);
-    return { error: { details: "API Function Error" } };
+    return { error: { details: 'API Function Error' } };
   }
 };
 
 export const searchRecipes = async (searchTerms: SearchParams): Promise<Recipe[]> => {
   const query = Object.entries(searchTerms)
     .map(([key, value]) => `${key}=${value}`)
-    .join("&");
+    .join('&');
 
   if (!query) {
     return [];
