@@ -11,3 +11,8 @@ export const countOccurrences = (char: string, str: string): number => {
 export const trimAndRemoveEmpty = (arr: string[]): string[] => {
   return arr.filter((el) => !!el).map((el) => el.trim());
 };
+
+export const removeSmartQuotes = (str: string): string => {
+  const regex = new RegExp(String.fromCharCode(8221), 'g');
+  return str.replace(regex, String.fromCharCode(34));
+};

@@ -13,7 +13,7 @@ import {
 } from '../../types/recipe.types';
 import { addRecipe, editRecipe } from '../../api/recipe';
 import { CATEGORIES } from '../../constants';
-import { countOccurrences, trimAndRemoveEmpty } from '../../helpers';
+import { countOccurrences, removeSmartQuotes, trimAndRemoveEmpty } from '../../helpers';
 import { InputField, TextAreaField, SelectField, CheckboxField } from './FormComponents';
 import { StepsAndNotes, IngredientsWithNotes } from './FieldArrays';
 import classes from './RecipeForm.module.scss';
@@ -107,7 +107,7 @@ const prepareEditRequest = (
       : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({ ingredient: i }));
   }
   if (values.steps !== savedValues.steps) {
-    editRequest.steps = trimAndRemoveEmpty(values.steps.split(/\n+/));
+    editRequest.steps = trimAndRemoveEmpty(removeSmartQuotes(values.steps).split(/\n+/));
   }
   if (
     values.footnotes.length !== savedValues.footnotes?.length ||
