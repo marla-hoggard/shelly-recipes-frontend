@@ -34,37 +34,34 @@ const Steps: React.FC<Props> = ({ steps }) => {
   const stepNumbers = getStepNumbers(steps);
 
   return (
-    <>
-      <div className={classes.sectionTitle}>Instructions</div>
-      <div className={classes.stepsContainer}>
-        {steps.map((step, i) => (
-          <div key={i} className={classes.stepContainer}>
-            {isHeaderStep(step) ? (
-              <>
-                <div className={classes.headerStepIndicator} />
-                <div className={classes.headerStepText}>{step.slice(1, -1)}</div>
-              </>
-            ) : (
-              <>
-                <div className={classes.stepNumber}>
-                  <div>{stepNumbers[i]}</div>
-                </div>
-                <div className={classes.step}>
-                  {step.split('*').map((section, j, arr) => (
-                    <React.Fragment key={j}>
-                      <FormattedStep text={section} />
-                      {j !== arr.length - 1 && (
-                        <span className={classes.superscript}>[{footnoteCount.current++}]</span>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-    </>
+    <div className={classes.stepsContainer}>
+      {steps.map((step, i) => (
+        <div key={i} className={classes.stepContainer}>
+          {isHeaderStep(step) ? (
+            <>
+              <div className={classes.headerStepIndicator} />
+              <div className={classes.headerStepText}>{step.slice(1, -1)}</div>
+            </>
+          ) : (
+            <>
+              <div className={classes.stepNumber}>
+                <div>{stepNumbers[i]}</div>
+              </div>
+              <div className={classes.step}>
+                {step.split('*').map((section, j, arr) => (
+                  <React.Fragment key={j}>
+                    <FormattedStep text={section} />
+                    {j !== arr.length - 1 && (
+                      <span className={classes.superscript}>[{footnoteCount.current++}]</span>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
   );
 };
 

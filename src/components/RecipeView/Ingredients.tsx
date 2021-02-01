@@ -12,7 +12,6 @@ const Ingredients: React.FC<Props> = ({ ingredients }) => {
 
   return (
     <div>
-      <div className={classes.sectionTitle}>Ingredients</div>
       {ingredients.map(({ ingredient, note }, i) => {
         const isSectionHeader = /^_.+_$/.test(ingredient.trim());
         const displayText = isSectionHeader ? `${ingredient.slice(1, -1)}` : ingredient;

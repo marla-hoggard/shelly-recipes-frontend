@@ -13,14 +13,7 @@
 .ingredient {
   font-size: 14px;
   padding: 5px 0;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #aaa;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
+  border-bottom: 1px solid #aaa;
 }
 
 .ingredientHeader {
