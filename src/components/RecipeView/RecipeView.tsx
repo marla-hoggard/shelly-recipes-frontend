@@ -16,13 +16,18 @@ const RecipeView: React.FC = () => {
   const recipeId = parseInt(params.id);
   const history = useHistory();
 
-  const [isMobileView, setIsMobileView] = useState(() => window.innerWidth < 800);
+  const [isMobileView, setIsMobileView] = useState(
+    () => window.matchMedia('(max-width: 800px)').matches,
+  );
+
   useEffect(() => {
-    const handleCheckMobile = () => setIsMobileView(window.innerWidth < 800);
-    window.addEventListener('resize', handleCheckMobile);
+    const handleMediaQuery = (e: MediaQueryListEvent) => {
+      setIsMobileView(e.matches);
+    };
+    window.matchMedia('(max-width: 800px)').addListener(handleMediaQuery);
 
     return () => {
-      window.removeEventListener('resize', handleCheckMobile);
+      window.matchMedia('(max-width: 800px)').removeListener(handleMediaQuery);
     };
   }, []);
 
