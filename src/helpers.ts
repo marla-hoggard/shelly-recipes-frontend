@@ -13,6 +13,6 @@ export const trimAndRemoveEmpty = (arr: string[]): string[] => {
 };
 
 export const removeSmartQuotes = (str: string): string => {
-  const regex = new RegExp(String.fromCharCode(8221), 'g');
+  const regex = new RegExp(`${String.fromCharCode(8220)}|${String.fromCharCode(8221)}`, 'g');
   return str.replace(regex, String.fromCharCode(34));
 };

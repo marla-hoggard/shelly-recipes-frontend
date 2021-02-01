@@ -84,7 +84,7 @@ const prepareEditRequest = (
   hasIngredientNotes: boolean,
 ): EditRecipeRequest => {
   const editRequest: EditRecipeRequest = {};
-  if (values.title !== savedValues.title) editRequest.title = values.title;
+  if (values.title !== savedValues.title) editRequest.title = removeSmartQuotes(values.title);
   if (values.source !== savedValues.source) editRequest.source = values.source;
   if (values.source_url !== savedValues.source_url) editRequest.source_url = values.source_url;
   if (values.submitted_by !== savedValues.submitted_by)
@@ -103,8 +103,13 @@ const prepareEditRequest = (
       savedValues.ingredientsWithNotes?.map((el) => el.note).join(',')
   ) {
     editRequest.ingredients = hasIngredientNotes
-      ? values.ingredientsWithNotes
-      : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({ ingredient: i }));
+      ? values.ingredientsWithNotes.map(({ ingredient, note }) => ({
+          ingredient: removeSmartQuotes(ingredient),
+          note: note ? removeSmartQuotes(note) : note,
+        }))
+      : trimAndRemoveEmpty(removeSmartQuotes(values.ingredientsTextarea).split(/\n/)).map((i) => ({
+          ingredient: i,
+        }));
   }
   if (values.steps !== savedValues.steps) {
     editRequest.steps = trimAndRemoveEmpty(removeSmartQuotes(values.steps).split(/\n+/));
@@ -113,7 +118,7 @@ const prepareEditRequest = (
     values.footnotes.length !== savedValues.footnotes?.length ||
     trimAndRemoveEmpty(values.footnotes).join(',') !== savedValues.footnotes?.join(',')
   ) {
-    editRequest.footnotes = trimAndRemoveEmpty(values.footnotes);
+    editRequest.footnotes = trimAndRemoveEmpty(values.footnotes).map(removeSmartQuotes);
   }
   return editRequest;
 };

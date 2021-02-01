@@ -63,6 +63,7 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
           <Ingredients ingredients={recipe.ingredients} />
         </>
       )}
+      <div className={classes.spacer} />
       {(recipe.vegetarian || recipe.tags.length > 0) && (
         <div className={classes.tagsContainer}>
           {recipe.tags.map((tag) => (
@@ -71,7 +72,15 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
           {recipe.vegetarian && <Tag key="vegetarian" text="vegetarian" />}
         </div>
       )}
-      <div className={isMobileView ? classes.centered : undefined}>
+      <div
+        className={
+          isMobileView
+            ? classes.centered
+            : !recipe.vegetarian && !recipe.tags.length
+            ? classes.topMargin
+            : undefined
+        }
+      >
         Submitted By: {recipe.submitted_by}
         {canEdit && (
           <>

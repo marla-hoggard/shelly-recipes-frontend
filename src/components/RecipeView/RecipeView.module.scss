@@ -17,6 +17,10 @@
   text-align: center;
 }
 
+.topMargin {
+  margin-top: 10px;
+}
+
 .recipeBodyFlexContainer {
   display: flex;
   margin-top: 10px;
@@ -89,12 +93,16 @@
   font-weight: 700;
 }
 
+.spacer {
+  flex: 1;
+}
+
 .tagsContainer {
   display: flex;
-  margin: 10px 0;
-  flex: 1;
+  margin-top: 10px;
   justify-content: center;
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .rightContainer {
