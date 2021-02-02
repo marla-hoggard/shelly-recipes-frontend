@@ -1,10 +1,12 @@
+@import '../../../global-styles/base.module.scss';
+
 .headerContainer {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 50px;
-  background: lightblue;
+  background: $lightBlue;
   margin: 0;
   display: flex;
   align-items: center;
@@ -14,7 +16,7 @@
 
 .link {
   text-decoration: none;
-  color: #6933a2;
+  color: $purple;
   font-weight: bold;
   cursor: pointer;
 }

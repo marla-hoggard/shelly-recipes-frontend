@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { getAllRecipes } from '../../api/recipe';
 import { Recipe } from '../../types/recipe.types';
 import Loading from '../base/Loading';
+import Error from '../base/Error';
 import RecipeListItem from '../base/RecipeListItem';
 import TitleSearch from './TitleSearch';
 import classes from '../../global-styles/base.module.scss';
@@ -26,17 +27,32 @@ const Homepage: React.FC = () => {
     fetchRecipes();
   }, [fetchRecipes]);
 
+  const PageTitle = useMemo(
+    () => <h1 className={classes.pageTitle}>Glasser Family Recipe Collection</h1>,
+    [],
+  );
+
   if (loading) {
-    return <Loading />;
+    return (
+      <>
+        {PageTitle}
+        <Loading />
+      </>
+    );
   }
 
   if (error) {
-    return <div>Something went wrong. Please refresh to try again.</div>;
+    return (
+      <>
+        {PageTitle}
+        <Error />
+      </>
+    );
   }
 
   return (
     <>
-      <h1 className={classes.pageTitle}>Glasser Family Recipe Collection</h1>
+      {PageTitle}
       <TitleSearch />
       {recipes.map((recipe) => (
         <RecipeListItem key={recipe.id} recipe={recipe} />

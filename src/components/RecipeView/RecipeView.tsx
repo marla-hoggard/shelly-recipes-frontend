@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import { getRecipe } from '../../api/recipe';
+import Error from '../base/Error';
 import Loading from '../base/Loading';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
@@ -94,7 +95,7 @@ const RecipeView: React.FC = () => {
     );
   }
 
-  return <div>Something went wrong. Please refresh to try again.</div>;
+  return <Error />;
 };
 
 export default RecipeView;
