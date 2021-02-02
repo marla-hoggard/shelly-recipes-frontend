@@ -19,10 +19,12 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
   const isAdmin = useSelector(selectIsAdmin);
   const canEdit = isAdmin || currentUserFullName === recipe?.submitted_by;
 
-  const [mobileShowInstructions, setMobileShowInstructions] = useState(false);
+  const [instructionsTabIsActive, setInststructionsTabToActive] = useState(false);
 
-  const handleShowIngredients = useCallback(() => setMobileShowInstructions(false), []);
-  const handleShowInstructions = useCallback(() => setMobileShowInstructions(true), []);
+  const showInsturctionsTab = isMobileView && instructionsTabIsActive;
+
+  const handleShowIngredients = useCallback(() => setInststructionsTabToActive(false), []);
+  const handleShowInstructions = useCallback(() => setInststructionsTabToActive(true), []);
 
   return (
     <>
@@ -42,20 +44,20 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
       {isMobileView && (
         <div className={classes.tabs}>
           <div
-            className={mobileShowInstructions ? classes.tab : classes.activeTab}
+            className={instructionsTabIsActive ? classes.tab : classes.activeTab}
             onClick={handleShowIngredients}
           >
             Ingredients
           </div>
           <div
-            className={mobileShowInstructions ? classes.activeTab : classes.tab}
+            className={instructionsTabIsActive ? classes.activeTab : classes.tab}
             onClick={handleShowInstructions}
           >
             Instructions
           </div>
         </div>
       )}
-      {mobileShowInstructions ? (
+      {showInsturctionsTab ? (
         <RightPanel recipe={recipe} isMobileView />
       ) : (
         <>
