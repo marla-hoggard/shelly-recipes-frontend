@@ -1,4 +1,4 @@
-@import "../../global-styles/base.module.scss";
+@import '../../global-styles/base.module.scss';
 
 $inputHeight: 40px;
 $resultHeight: 55px;
@@ -12,7 +12,6 @@ $padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 44px;
 
   &.marginBottom {
     margin-bottom: 44px;
