@@ -9,10 +9,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import classes from './Loading.module.scss';
 
-const Loading: React.FC = () => {
+type Props = {
+  text?: string;
+};
+
+const Loading: React.FC<Props> = ({ text = 'Loading...' }) => {
   return (
     <div className={classes.loadingContainer}>
-      <div className={classes.loadingText}>Loading...</div>
+      <div className={classes.loadingText}>{text}</div>
       <div className="fa-layers fa-fw">
         <FontAwesomeIcon className={classes.pizza} icon={faPizzaSlice} />
         <FontAwesomeIcon className={classes.hamburger} icon={faHamburger} />

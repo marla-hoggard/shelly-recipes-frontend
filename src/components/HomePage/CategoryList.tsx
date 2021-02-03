@@ -17,6 +17,7 @@ import Pasta from './CategoryImages/Pasta';
 import { SearchParams } from '../../types/recipe.types';
 import classes from './CategoryList.module.scss';
 import Cheese from './CategoryImages/Cheese';
+import { Link } from 'react-router-dom';
 
 type CardProps = {
   name: string;
@@ -29,78 +30,78 @@ const FAIcon: React.FC<{ icon: IconDefinition }> = ({ icon }) => (
   <FontAwesomeIcon className={classes.faIcon} icon={icon} transform="grow-70" />
 );
 
-const CATEGORIES: CardProps[] = [
+export const CATEGORY_DATA: CardProps[] = [
   {
     name: 'featured',
     displayName: 'Featured',
     icon: <FAIcon icon={faGrinStars} />,
-    searchParams: {},
+    searchParams: { featured: true },
   },
   {
-    name: 'appetizer',
+    name: 'appetizers',
     displayName: 'Starters',
     icon: <Cheese />,
-    searchParams: {},
+    searchParams: { category: 'appetizer' },
   },
   {
-    name: 'entree',
+    name: 'entrees',
     displayName: 'Entrees',
     icon: <FAIcon icon={faUtensils} />,
-    searchParams: {},
+    searchParams: { category: 'entree' },
   },
   {
     name: 'breakfast',
     displayName: 'Breakfast',
     icon: <FAIcon icon={faBacon} />,
-    searchParams: {},
+    searchParams: { category: 'breakfast' },
   },
   {
     name: 'sides',
     displayName: 'Sides',
     icon: <Fries />,
-    searchParams: {},
+    searchParams: { category: 'side' },
   },
   {
     name: 'desserts',
     displayName: 'Desserts',
     icon: <FAIcon icon={faCookieBite} />,
-    searchParams: {},
+    searchParams: { category: 'dessert' },
   },
   {
     name: 'chicken',
     displayName: 'Chicken',
     icon: <FAIcon icon={faDrumstickBite} />,
-    searchParams: {},
+    searchParams: { wildcard: 'chicken' },
   },
   {
     name: 'seafood',
     displayName: 'Seafood',
     icon: <FAIcon icon={faFish} />,
-    searchParams: {},
+    searchParams: { wildcard: 'seafood, fish' },
   },
   {
     name: 'pasta',
     displayName: 'Pasta',
     icon: <Pasta />,
-    searchParams: {},
+    searchParams: { wildcard: 'pasta' },
   },
   {
     name: 'vegetarian',
     displayName: 'Vegetarian',
     icon: <FAIcon icon={faSeedling} />,
-    searchParams: {},
+    searchParams: { vegetarian: true },
   },
   {
-    name: 'sauce',
+    name: 'sauces',
     displayName: 'Sauces & Marinades',
     icon: <FAIcon icon={faWineBottle} />,
-    searchParams: {},
+    searchParams: { category: 'sauce' },
   },
   {
-    name: 'beverage',
+    name: 'beverages',
     displayName: 'Beverages',
     icon: <FAIcon icon={faCocktail} />,
-    searchParams: {},
+    searchParams: { category: 'beverage' },
   },
 ];
 
@@ -112,10 +113,10 @@ const CategoryCard: React.FC<CardProps & { color: string }> = ({
   searchParams,
 }) => {
   return (
-    <div className={classes.card} style={{ backgroundColor: color }}>
+    <Link className={classes.card} style={{ backgroundColor: color }} to={`/browse/${name}`}>
       {displayName}
       {icon}
-    </div>
+    </Link>
   );
 };
 
@@ -128,7 +129,7 @@ const CategoryList: React.FC = () => (
   <>
     <div className={classes.sectionTitle}>Browse by Category</div>
     <div className={classes.browseList}>
-      {CATEGORIES.map((category, index) => (
+      {CATEGORY_DATA.map((category, index) => (
         <CategoryCard key={category.name} color={getColor(index)} {...category} />
       ))}
     </div>
