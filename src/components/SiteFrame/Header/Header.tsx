@@ -26,17 +26,17 @@ const Header: React.FC = () => {
       <div className={classes.headerContainer}>
         <div className={classes.leftContainer}>
           <div className={classes.linkContainer}>
-            <Link className={classes.link} to="/">
+            <Link className={classes.navLink} to="/">
               Home
             </Link>
           </div>
           <div className={classes.linkContainer}>
-            <Link className={classes.link} to="/search">
+            <Link className={classes.navLink} to="/search">
               Search
             </Link>
           </div>
           <div className={classes.linkContainer}>
-            <Link className={classes.link} to="/new">
+            <Link className={classes.navLink} to="/new">
               Add a Recipe
             </Link>
           </div>
@@ -44,12 +44,12 @@ const Header: React.FC = () => {
         <div className={classes.centerContainer}></div>
         <div className={classes.rightContainer}>
           <div className={classes.linkContainer}>
-            <Link className={classes.link} to="/">
+            <Link className={classes.navLink} to="/">
               Hi, {currentUser.firstName}
             </Link>
           </div>
           <div className={classes.linkContainer}>
-            <div className={classes.link} onClick={handleSignout}>
+            <div className={classes.navLink} onClick={handleSignout}>
               Log Out
             </div>
           </div>
@@ -62,12 +62,12 @@ const Header: React.FC = () => {
     <div className={classes.headerContainer}>
       <div className={classes.leftContainer}>
         <div className={classes.linkContainer}>
-          <Link className={classes.link} to="/">
+          <Link className={classes.navLink} to="/">
             Home
           </Link>
         </div>
         <div className={classes.linkContainer}>
-          <Link className={classes.link} to="/search">
+          <Link className={classes.navLink} to="/search">
             Search
           </Link>
         </div>
@@ -76,13 +76,13 @@ const Header: React.FC = () => {
       <div className={classes.rightContainer}>
         {pathname === '/login' ? (
           <div className={classes.linkContainer}>
-            <Link className={classes.link} to="/signup">
+            <Link className={classes.navLink} to="/signup">
               Sign Up
             </Link>
           </div>
         ) : (
           <div className={classes.linkContainer}>
-            <Link className={classes.link} to="/login">
+            <Link className={classes.navLink} to="/login">
               Log In
             </Link>
           </div>
