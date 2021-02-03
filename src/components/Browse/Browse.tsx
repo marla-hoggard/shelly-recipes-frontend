@@ -1,16 +1,77 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { searchRecipes } from '../../api/recipe';
-import { Recipe, SearchParams } from '../../types/recipe.types';
+import { BrowseCategories, Recipe, SearchParams } from '../../types/recipe.types';
 import Loading from '../base/Loading';
 import RecipeListItem from '../base/RecipeListItem';
-import { CATEGORY_DATA } from '../HomePage/CategoryList';
 import classes from './Browse.module.scss';
+
+type CategoryData = {
+  [k in BrowseCategories]: {
+    displayName: string;
+    searchParams: SearchParams;
+  };
+};
+
+const CATEGORY_DATA: CategoryData = {
+  featured: {
+    displayName: 'Featured Recipes',
+    searchParams: { featured: true },
+  },
+  appetizers: {
+    displayName: "Appetizers & Hors D'euvres",
+    searchParams: { category: 'appetizer' },
+  },
+  entrees: {
+    displayName: 'Entrees',
+    searchParams: { category: 'entree' },
+  },
+  breakfast: {
+    displayName: 'Breakfast & Brunch',
+    searchParams: { category: 'breakfast' },
+  },
+  sides: {
+    displayName: 'Sides & Veggies',
+    searchParams: { category: 'side' },
+  },
+  desserts: {
+    displayName: 'Desserts',
+    searchParams: { category: 'dessert' },
+  },
+  chicken: {
+    displayName: 'Recipes with Chicken',
+    searchParams: { wildcard: 'chicken' },
+  },
+  seafood: {
+    displayName: 'Recipes with Seafood',
+    searchParams: { wildcard: 'seafood, fish' },
+  },
+  pasta: {
+    displayName: 'Pasta Recipes',
+    searchParams: { wildcard: 'pasta' },
+  },
+  vegetarian: {
+    displayName: 'Vegetarian Recipes',
+    searchParams: { vegetarian: true },
+  },
+  sauces: {
+    displayName: 'Sauces, Dressings & Marinades',
+    searchParams: { category: 'sauce' },
+  },
+  beverages: {
+    displayName: 'Beverages',
+    searchParams: { category: 'beverage' },
+  },
+};
+
+function isBrowseCategory(name: string): name is BrowseCategories {
+  return name in CATEGORY_DATA;
+}
 
 const Browse: React.FC = () => {
   const { name } = useParams<{ name: string }>();
   const history = useHistory();
-  const [displayName, setDisplayName] = useState('');
+  const [pageTitle, setPageTitle] = useState('');
   const [loading, setLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
 
@@ -21,19 +82,18 @@ const Browse: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const categoryData = CATEGORY_DATA.find((el) => el.name === name);
-    if (!categoryData) {
+    if (!isBrowseCategory(name)) {
       history.push('/404');
       return;
     }
 
-    setDisplayName(categoryData.displayName);
-    fetchSearchResults(categoryData.searchParams);
+    const { displayName, searchParams } = CATEGORY_DATA[name];
+
+    setPageTitle(displayName);
+    fetchSearchResults(searchParams);
   }, [name, history, fetchSearchResults]);
 
-  const PageTitle = useMemo(() => <h1 className={classes.pageTitle}>{displayName}</h1>, [
-    displayName,
-  ]);
+  const PageTitle = useMemo(() => <h1 className={classes.pageTitle}>{pageTitle}</h1>, [pageTitle]);
 
   if (loading) {
     return (

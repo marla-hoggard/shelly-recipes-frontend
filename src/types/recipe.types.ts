@@ -8,6 +8,20 @@ export type Category =
   | 'sauce'
   | '';
 
+export type BrowseCategories =
+  | 'featured'
+  | 'appetizers'
+  | 'entrees'
+  | 'breakfast'
+  | 'sides'
+  | 'desserts'
+  | 'chicken'
+  | 'seafood'
+  | 'pasta'
+  | 'vegetarian'
+  | 'sauces'
+  | 'beverages';
+
 export type Ingredient = {
   ingredient: string;
   note?: string;
