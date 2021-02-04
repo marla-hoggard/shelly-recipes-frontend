@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { searchRecipes } from '../../api/recipe';
 import { BrowseCategories, Recipe, SearchParams } from '../../types/recipe.types';
 import Loading from '../base/Loading';
-import RecipeListItem from '../base/RecipeListItem';
+import RecipeList from '../base/RecipeList/RecipeList';
 import classes from './Browse.module.scss';
 
 type CategoryData = {
@@ -116,9 +116,7 @@ const Browse: React.FC = () => {
   return (
     <>
       {PageTitle}
-      {searchResults.map((recipe) => (
-        <RecipeListItem key={recipe.id} recipe={recipe} />
-      ))}
+      <RecipeList recipes={searchResults} />
     </>
   );
 };

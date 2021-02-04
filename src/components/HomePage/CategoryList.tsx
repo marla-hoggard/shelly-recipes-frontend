@@ -38,7 +38,7 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'appetizers',
     displayName: 'Starters',
-    icon: <Cheese />,
+    icon: <Cheese className={classes.icon} />,
   },
   {
     name: 'entrees',
@@ -48,12 +48,12 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'breakfast',
     displayName: 'Breakfast',
-    icon: <Breakfast />,
+    icon: <Breakfast className={classes.icon} />,
   },
   {
     name: 'sides',
     displayName: 'Sides',
-    icon: <Fries />,
+    icon: <Fries className={classes.icon} />,
   },
   {
     name: 'desserts',
@@ -63,7 +63,7 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'chicken',
     displayName: 'Chicken',
-    icon: <Chicken />,
+    icon: <Chicken className={classes.icon} />,
   },
   {
     name: 'seafood',
@@ -73,7 +73,7 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'pasta',
     displayName: 'Pasta',
-    icon: <Pasta />,
+    icon: <Pasta className={classes.icon} />,
   },
   {
     name: 'vegetarian',

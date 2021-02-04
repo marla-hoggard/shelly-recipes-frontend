@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import SearchForm, { SearchValues } from './SearchForm';
 import { Category, Recipe } from '../../types/recipe.types';
-import RecipeListItem from '../base/RecipeListItem';
+import RecipeList from '../base/RecipeList/RecipeList';
 import { searchRecipes } from '../../api/recipe';
 
 type UrlParams = {
@@ -75,11 +75,7 @@ const SearchPage: React.FC = () => {
       {displaySearchForm && (
         <SearchForm paramValues={searchInitialValues} setSearchResults={updateResults} />
       )}
-      {noneFound ? (
-        <div>No recipes found.</div>
-      ) : (
-        searchResults.map((recipe) => <RecipeListItem key={recipe.id} recipe={recipe} />)
-      )}
+      {noneFound ? <div>No recipes found.</div> : <RecipeList recipes={searchResults} />}
     </>
   );
 };
