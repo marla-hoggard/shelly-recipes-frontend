@@ -5,8 +5,10 @@ import {
   faCookieBite,
   faFish,
   faGrinStars,
-  faUtensils,
+  faHamburger,
   faSeedling,
+  faTorah,
+  faUtensils,
   faWineBottle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
@@ -31,6 +33,11 @@ const FAIcon: React.FC<{ icon: IconDefinition }> = ({ icon }) => (
 
 const CATEGORY_DATA: CardProps[] = [
   {
+    name: 'all',
+    displayName: 'All Recipes',
+    icon: <FAIcon icon={faUtensils} />,
+  },
+  {
     name: 'featured',
     displayName: 'Featured',
     icon: <FAIcon icon={faGrinStars} />,
@@ -43,7 +50,7 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'entrees',
     displayName: 'Entrees',
-    icon: <FAIcon icon={faUtensils} />,
+    icon: <FAIcon icon={faHamburger} />,
   },
   {
     name: 'breakfast',
@@ -79,6 +86,11 @@ const CATEGORY_DATA: CardProps[] = [
     name: 'vegetarian',
     displayName: 'Vegetarian',
     icon: <FAIcon icon={faSeedling} />,
+  },
+  {
+    name: 'passover',
+    displayName: 'Passover',
+    icon: <FAIcon icon={faTorah} />,
   },
   {
     name: 'sauces',

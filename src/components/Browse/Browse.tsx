@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { searchRecipes } from '../../api/recipe';
+import { getAllRecipes, searchRecipes } from '../../api/recipe';
 import { BrowseCategories, Recipe, SearchParams } from '../../types/recipe.types';
 import Loading from '../base/Loading';
 import RecipeList from '../base/RecipeList/RecipeList';
@@ -14,6 +14,10 @@ type CategoryData = {
 };
 
 const CATEGORY_DATA: CategoryData = {
+  all: {
+    displayName: 'All Recipes',
+    searchParams: {},
+  },
   featured: {
     displayName: 'Featured Recipes',
     searchParams: { featured: true },
@@ -54,6 +58,10 @@ const CATEGORY_DATA: CategoryData = {
     displayName: 'Vegetarian Recipes',
     searchParams: { vegetarian: true },
   },
+  passover: {
+    displayName: 'Kosher for Passover',
+    searchParams: { tags: 'passover' },
+  },
   sauces: {
     displayName: 'Sauces, Dressings & Marinades',
     searchParams: { category: 'sauce' },
@@ -75,11 +83,14 @@ const Browse: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
 
-  const fetchSearchResults = useCallback(async (params: SearchParams) => {
-    const results = await searchRecipes(params);
-    setSearchResults(results);
-    setLoading(false);
-  }, []);
+  const fetchSearchResults = useCallback(
+    async (params: SearchParams) => {
+      const results = name === 'all' ? await getAllRecipes() : await searchRecipes(params);
+      setSearchResults(results);
+      setLoading(false);
+    },
+    [name],
+  );
 
   useEffect(() => {
     if (!isBrowseCategory(name)) {

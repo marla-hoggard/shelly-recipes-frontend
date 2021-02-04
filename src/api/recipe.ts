@@ -2,7 +2,6 @@ import {
   AddRecipeResponse,
   AddRecipeRequest,
   GetRecipeResponse,
-  GetAllRecipesResponse,
   EditRecipeRequest,
   SearchParams,
   Recipe,
@@ -57,14 +56,14 @@ export const getRecipe = async (recipeId: number): Promise<GetRecipeResponse> =>
   }
 };
 
-export const getAllRecipes = async (): Promise<GetAllRecipesResponse> => {
+export const getAllRecipes = async (): Promise<Recipe[]> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipes`);
     const result = await response.json();
-    return result || { error: { details: 'API Function Error' } };
+    return result.data || [];
   } catch (error) {
     console.error(error);
-    return { error: { details: 'API Function Error' } };
+    return [];
   }
 };
 

@@ -9,6 +9,7 @@ export type Category =
   | '';
 
 export type BrowseCategories =
+  | 'all'
   | 'featured'
   | 'appetizers'
   | 'entrees'
@@ -19,6 +20,7 @@ export type BrowseCategories =
   | 'seafood'
   | 'pasta'
   | 'vegetarian'
+  | 'passover'
   | 'sauces'
   | 'beverages';
 
@@ -100,19 +102,6 @@ export type Recipe = {
   steps?: string[];
   footnotes?: string[];
 };
-
-type GetAllRecipesSuccess = {
-  data: Recipe[];
-};
-
-type GetAllRecipesError = {
-  error: {
-    details: string;
-    query?: string;
-  };
-};
-
-export type GetAllRecipesResponse = GetAllRecipesSuccess | GetAllRecipesError;
 
 export type SearchParams = {
   all?: boolean;
