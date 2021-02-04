@@ -1,10 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBacon,
   faCocktail,
   faCookieBite,
-  faDrumstickBite,
   faFish,
   faGrinStars,
   faUtensils,
@@ -12,11 +10,13 @@ import {
   faWineBottle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
+import Breakfast from './CategoryImages/Breakfast';
+import Cheese from './CategoryImages/Cheese';
+import Chicken from './CategoryImages/Chicken';
 import Fries from './CategoryImages/Fries';
 import Pasta from './CategoryImages/Pasta';
 import { BrowseCategories } from '../../types/recipe.types';
 import classes from './CategoryList.module.scss';
-import Cheese from './CategoryImages/Cheese';
 import { Link } from 'react-router-dom';
 
 type CardProps = {
@@ -48,7 +48,7 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'breakfast',
     displayName: 'Breakfast',
-    icon: <FAIcon icon={faBacon} />,
+    icon: <Breakfast />,
   },
   {
     name: 'sides',
@@ -63,7 +63,7 @@ const CATEGORY_DATA: CardProps[] = [
   {
     name: 'chicken',
     displayName: 'Chicken',
-    icon: <FAIcon icon={faDrumstickBite} />,
+    icon: <Chicken />,
   },
   {
     name: 'seafood',
