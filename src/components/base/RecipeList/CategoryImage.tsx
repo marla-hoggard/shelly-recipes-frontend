@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCocktail,
   faCookieBite,
-  faUtensils,
+  faHamburger,
   faWineBottle,
 } from '@fortawesome/free-solid-svg-icons';
-import { getCategoryColor } from './listHelpers';
+import { getCategoryColor } from './categoryHelpers';
 import Breakfast from '../../HomePage/CategoryImages/Breakfast';
 import Cheese from '../../HomePage/CategoryImages/Cheese';
 import Fries from '../../HomePage/CategoryImages/Fries';
@@ -34,7 +34,7 @@ const getCategoryIcon = (category: Category) => {
       return <FontAwesomeIcon className={classes.faIcon} icon={faCocktail} transform="grow-32" />;
     case 'entree':
     default:
-      return <FontAwesomeIcon className={classes.faIcon} icon={faUtensils} transform="grow-32" />;
+      return <FontAwesomeIcon className={classes.faIcon} icon={faHamburger} transform="grow-32" />;
   }
 };
 

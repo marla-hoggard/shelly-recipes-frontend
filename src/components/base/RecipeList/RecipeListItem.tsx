@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Recipe as RecipeType } from '../../../types/recipe.types';
-import { getCategoryColor } from './listHelpers';
+import { getCategoryColor } from './categoryHelpers';
 import CategoryImage from './CategoryImage';
 import classes from './RecipeList.module.scss';
 

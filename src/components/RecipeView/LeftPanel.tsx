@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import { selectCurrentUserFullName, selectIsAdmin } from '../../reducers/currentUser';
+import { categoryToBrowsePath } from '../base/RecipeList/categoryHelpers';
 import Ingredients from './Ingredients';
 import RightPanel from './RightPanel';
 import Tag from '../base/Tag';
@@ -30,7 +31,10 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
     <>
       <div className={classes.recipeMetadata}>
         <div>
-          <Link to={`/search?category=${recipe.category}`} className={classes.category}>
+          <Link
+            to={`/browse/${categoryToBrowsePath(recipe.category)}`}
+            className={classes.category}
+          >
             {recipe.category}
           </Link>
         </div>
