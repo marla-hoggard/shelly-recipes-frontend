@@ -6,6 +6,7 @@ import {
   faCookieBite,
   faHamburger,
   faWineBottle,
+  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { getCategoryColor } from './categoryHelpers';
 import Breakfast from '../../HomePage/CategoryImages/Breakfast';
@@ -18,23 +19,43 @@ type Props = {
   category: Category;
 };
 
+const SVGIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className={classes.svgContainer}>{children}</div>
+);
+
+const FAIcon: React.FC<{ icon: IconDefinition }> = ({ icon }) => (
+  <FontAwesomeIcon className={classes.faIcon} icon={icon} transform="grow-32" />
+);
+
 const getCategoryIcon = (category: Category) => {
   switch (category) {
     case 'appetizer':
-      return <Cheese />;
+      return (
+        <SVGIcon>
+          <Cheese className={classes.svgIcon} />
+        </SVGIcon>
+      );
     case 'side':
-      return <Fries />;
+      return (
+        <SVGIcon>
+          <Fries className={classes.svgIcon} />
+        </SVGIcon>
+      );
     case 'breakfast':
-      return <Breakfast />;
+      return (
+        <SVGIcon>
+          <Breakfast className={classes.svgIcon} />
+        </SVGIcon>
+      );
     case 'dessert':
-      return <FontAwesomeIcon className={classes.faIcon} icon={faCookieBite} transform="grow-32" />;
+      return <FAIcon icon={faCookieBite} />;
     case 'sauce':
-      return <FontAwesomeIcon className={classes.faIcon} icon={faWineBottle} transform="grow-32" />;
+      return <FAIcon icon={faWineBottle} />;
     case 'beverage':
-      return <FontAwesomeIcon className={classes.faIcon} icon={faCocktail} transform="grow-32" />;
+      return <FAIcon icon={faCocktail} />;
     case 'entree':
     default:
-      return <FontAwesomeIcon className={classes.faIcon} icon={faHamburger} transform="grow-32" />;
+      return <FAIcon icon={faHamburger} />;
   }
 };
 

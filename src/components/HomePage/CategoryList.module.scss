@@ -44,6 +44,14 @@
   opacity: 0.3;
 }
 
+.svgIcon {
+  composes: icon;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 .faIcon {
   composes: icon;
   top: 35%;

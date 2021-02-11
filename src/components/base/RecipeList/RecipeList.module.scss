@@ -85,6 +85,17 @@
   padding-bottom: 2px;
 }
 
+.svgContainer {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.svgIcon {
+  position: absolute;
+  top: 0;
+}
+
 .categoryIcon {
   width: 80px;
   min-height: 80px;
