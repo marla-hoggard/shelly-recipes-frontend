@@ -82,9 +82,6 @@
 .recipeMetadata {
   display: flex;
   justify-content: space-between;
-}
-
-.servings {
   margin-bottom: 10px;
 }
 
@@ -92,6 +89,7 @@
   composes: link from '../../global-styles/base.module.scss';
   text-transform: uppercase;
   font-weight: 700;
+  font-size: 16px;
 }
 
 .spacer {
