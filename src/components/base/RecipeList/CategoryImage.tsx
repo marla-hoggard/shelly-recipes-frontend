@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -15,38 +15,32 @@ import Fries from '../../HomePage/CategoryImages/Fries';
 import { Category } from '../../../types/recipe.types';
 import classes from './RecipeList.module.scss';
 
-type Props = {
-  category: Category;
+type SVGIconProps = {
+  SvgComponent: FunctionComponent<{ className?: string }>;
 };
 
-const SVGIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className={classes.svgContainer}>{children}</div>
+const SVGIcon: React.FC<SVGIconProps> = ({ SvgComponent }) => (
+  <div className={classes.svgContainer}>
+    <SvgComponent className={classes.svgIcon} />
+  </div>
 );
 
-const FAIcon: React.FC<{ icon: IconDefinition }> = ({ icon }) => (
+type FAIconProps = {
+  icon: IconDefinition;
+};
+
+const FAIcon: React.FC<FAIconProps> = ({ icon }) => (
   <FontAwesomeIcon className={classes.faIcon} icon={icon} transform="grow-32" />
 );
 
 const getCategoryIcon = (category: Category) => {
   switch (category) {
     case 'appetizer':
-      return (
-        <SVGIcon>
-          <Cheese className={classes.svgIcon} />
-        </SVGIcon>
-      );
+      return <SVGIcon SvgComponent={Cheese} />;
     case 'side':
-      return (
-        <SVGIcon>
-          <Fries className={classes.svgIcon} />
-        </SVGIcon>
-      );
+      return <SVGIcon SvgComponent={Fries} />;
     case 'breakfast':
-      return (
-        <SVGIcon>
-          <Breakfast className={classes.svgIcon} />
-        </SVGIcon>
-      );
+      return <SVGIcon SvgComponent={Breakfast} />;
     case 'dessert':
       return <FAIcon icon={faCookieBite} />;
     case 'sauce':
@@ -57,6 +51,10 @@ const getCategoryIcon = (category: Category) => {
     default:
       return <FAIcon icon={faHamburger} />;
   }
+};
+
+type Props = {
+  category: Category;
 };
 
 const CategoryImage: React.FC<Props> = ({ category }) => {
