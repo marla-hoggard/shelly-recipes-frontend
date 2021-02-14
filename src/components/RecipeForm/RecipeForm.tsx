@@ -13,7 +13,12 @@ import {
 } from '../../types/recipe.types';
 import { addRecipe, editRecipe } from '../../api/recipe';
 import { CATEGORIES } from '../../constants';
-import { countOccurrences, removeSmartQuotes, trimAndRemoveEmpty } from '../../helpers';
+import {
+  countOccurrences,
+  removeSmartQuotes,
+  replaceFractions,
+  trimAndRemoveEmpty,
+} from '../../helpers';
 import { InputField, TextAreaField, SelectField, CheckboxField } from './FormComponents';
 import { StepsAndNotes, IngredientsWithNotes } from './FieldArrays';
 import classes from './RecipeForm.module.scss';
@@ -173,12 +178,20 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
               ...values,
               tags: trimAndRemoveEmpty(values.tags.split(',')),
               ingredients: showIngredientNotes
-                ? values.ingredientsWithNotes
+                ? values.ingredientsWithNotes.map(({ ingredient, note }) => {
+                    const converted: Ingredient = {
+                      ingredient: replaceFractions(ingredient),
+                    };
+                    if (note) {
+                      converted.note = replaceFractions(note);
+                    }
+                    return converted;
+                  })
                 : trimAndRemoveEmpty(values.ingredientsTextarea.split(/\n/)).map((i) => ({
-                    ingredient: i,
+                    ingredient: replaceFractions(i),
                   })),
-              steps: trimAndRemoveEmpty(values.steps.split(/\n+/)),
-              footnotes: trimAndRemoveEmpty(values.footnotes),
+              steps: trimAndRemoveEmpty(replaceFractions(values.steps).split(/\n+/)),
+              footnotes: trimAndRemoveEmpty(values.footnotes.map((f) => replaceFractions(f))),
             };
             result = await addRecipe(addRequest);
           }
