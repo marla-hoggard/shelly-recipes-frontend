@@ -22,7 +22,7 @@ export type SearchValues = {
 };
 
 const defaultValues: SearchValues = {
-  matchType: 'any',
+  matchType: 'all',
   category: '',
   vegetarian: '',
   featured: '',
