@@ -4,6 +4,7 @@ import { getAllRecipes, searchRecipes } from '../../api/recipe';
 import { BrowseCategories, Recipe, SearchParams } from '../../types/recipe.types';
 import Loading from '../base/Loading';
 import RecipeList from '../base/RecipeList/RecipeList';
+import CategoryList from './CategoryList';
 import classes from './Browse.module.scss';
 
 type CategoryData = {
@@ -77,7 +78,7 @@ function isBrowseCategory(name: string): name is BrowseCategories {
 }
 
 const Browse: React.FC = () => {
-  const { name } = useParams<{ name: string }>();
+  const { name } = useParams<{ name?: string }>();
   const history = useHistory();
   const [pageTitle, setPageTitle] = useState('');
   const [loading, setLoading] = useState(true);
@@ -93,6 +94,10 @@ const Browse: React.FC = () => {
   );
 
   useEffect(() => {
+    if (!name) {
+      return;
+    }
+
     if (!isBrowseCategory(name)) {
       history.push('/404');
       return;
@@ -105,6 +110,10 @@ const Browse: React.FC = () => {
   }, [name, history, fetchSearchResults]);
 
   const PageTitle = useMemo(() => <h1 className={classes.pageTitle}>{pageTitle}</h1>, [pageTitle]);
+
+  if (!name) {
+    return <CategoryList />;
+  }
 
   if (loading) {
     return (

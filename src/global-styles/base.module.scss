@@ -22,3 +22,45 @@
 .centered {
   text-align: center;
 }
+
+.solidButton {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  margin: 0 0.3rem 0.3rem 0;
+  border-radius: 2rem;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: Signika, sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #ffffff;
+  background-color: $purple;
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 1px solid transparent;
+
+  &:hover {
+    border-color: white;
+  }
+}
+
+.transparentButton {
+  display: inline-block;
+  padding: 0.5rem 2rem;
+  border: 0.16rem solid white;
+  margin: 0 0.3rem 0.3rem 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Signika, sans-serif;
+  font-weight: 600;
+  color: white;
+  text-shadow: #496876 2px 2px 5px;
+  transition: all 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #be9851;
+  }
+}

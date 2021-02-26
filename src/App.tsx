@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import Header from './components/SiteFrame/Header/Header';
-import Main from './components/SiteFrame/Main/Main';
 import Routes from './components/Routes';
 import { getTokenFromStorage } from './api/helpers';
 import { setCurrentUser } from './reducers/currentUser';
@@ -32,14 +30,7 @@ const App: React.FC = () => {
     fetchStoredUser();
   }, [fetchStoredUser]);
 
-  return (
-    <>
-      <Header />
-      <Main>
-        <Routes />
-      </Main>
-    </>
-  );
+  return <Routes />;
 };
 
 export default App;

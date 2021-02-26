@@ -9,9 +9,9 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { getCategoryColor } from './categoryHelpers';
-import Breakfast from '../../HomePage/CategoryImages/Breakfast';
-import Cheese from '../../HomePage/CategoryImages/Cheese';
-import Fries from '../../HomePage/CategoryImages/Fries';
+import Breakfast from '../../Browse/CategoryImages/Breakfast';
+import Cheese from '../../Browse/CategoryImages/Cheese';
+import Fries from '../../Browse/CategoryImages/Fries';
 import { Category } from '../../../types/recipe.types';
 import classes from './RecipeList.module.scss';
 

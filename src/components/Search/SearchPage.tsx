@@ -10,6 +10,7 @@ type UrlParams = {
   vegetarian?: boolean;
   category?: Category;
   title?: string;
+  wildcard?: string;
 };
 
 const SearchPage: React.FC = () => {
@@ -28,6 +29,7 @@ const SearchPage: React.FC = () => {
   const fetchSearchResults = useCallback(async (params: UrlParams) => {
     const results = await searchRecipes(params);
     setSearchResults(results);
+    setNoneFound(results.length === 0);
     setDisplaySearchForm(true);
   }, []);
 
@@ -40,6 +42,7 @@ const SearchPage: React.FC = () => {
       const vegetarian = urlParams.get('vegetarian') ?? '';
       const category = (urlParams.get('category') as Category) ?? '';
       const title = urlParams.get('title') ?? '';
+      const wildcard = urlParams.get('wildcard') ?? '';
 
       if (tags) {
         params.tags = tags;
@@ -51,6 +54,10 @@ const SearchPage: React.FC = () => {
 
       if (title) {
         params.title = title;
+      }
+
+      if (wildcard) {
+        params.wildcard = wildcard;
       }
 
       if (vegetarian) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCocktail,
@@ -18,8 +19,7 @@ import Chicken from './CategoryImages/Chicken';
 import Fries from './CategoryImages/Fries';
 import Pasta from './CategoryImages/Pasta';
 import { BrowseCategories } from '../../types/recipe.types';
-import classes from './CategoryList.module.scss';
-import { Link } from 'react-router-dom';
+import classes from './Browse.module.scss';
 
 type CardProps = {
   name: BrowseCategories;
@@ -124,14 +124,14 @@ const getColor = (i: number) => {
 };
 
 const CategoryList: React.FC = () => (
-  <>
-    <div className={classes.sectionTitle}>Browse by Category</div>
+  <div>
+    <h1 className={classes.pageTitle}>Browse by Category</h1>
     <div className={classes.browseList}>
       {CATEGORY_DATA.map((category, index) => (
         <CategoryCard key={category.name} color={getColor(index)} {...category} />
       ))}
     </div>
-  </>
+  </div>
 );
 
 export default CategoryList;

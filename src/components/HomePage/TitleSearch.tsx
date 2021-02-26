@@ -28,10 +28,6 @@ const UserSearch: React.FC = () => {
     () => query.length > 0 && !isFetching && !results.length && showResults,
     [query, isFetching, results, showResults],
   );
-  const disabled = useMemo(
-    () => !query.length || !results.length || (!hasExactMatch && !showResults),
-    [query, results, showResults, hasExactMatch],
-  );
 
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLUListElement>(null);
@@ -67,31 +63,51 @@ const UserSearch: React.FC = () => {
     [fetchSearchResults],
   );
 
+  const goToSearchPage = useCallback(() => {
+    if (query) {
+      history.push(`/search?wildcard=${query}`);
+    } else {
+      history.push('/search');
+    }
+  }, [query, history]);
+
   // Allow for arrow navigation
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       switch (event.key) {
+        case 'Enter': {
+          event.preventDefault();
+          if (results.length) {
+            const selected = showResults || hasExactMatch ? results[cursor] : null;
+            if (selected) {
+              history.push(`/recipe/${selected.id}`);
+            }
+          } else {
+            goToSearchPage();
+          }
+          return;
+        }
         case 'ArrowUp': {
           if (!event.shiftKey && cursor > 0) {
             event.preventDefault();
             setCursor(cursor - 1);
           }
-          break;
+          return;
         }
         case 'ArrowDown': {
           if (!event.shiftKey && cursor < results.length - 1) {
             event.preventDefault();
             setCursor(cursor + 1);
           }
-          break;
+          return;
         }
         case 'Tab': {
           setShowResults(false);
-          break;
+          return;
         }
       }
     },
-    [cursor, results],
+    [cursor, goToSearchPage, hasExactMatch, history, results, showResults],
   );
 
   const handleResultClick = useCallback(
@@ -121,28 +137,6 @@ const UserSearch: React.FC = () => {
       setShowResults(true);
     }
   }, [results]);
-
-  const handleSubmit = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-
-      if (results.length) {
-        const selected = showResults || hasExactMatch ? results[cursor] : null;
-        if (selected) {
-          history.push(`/recipe/${selected.id}`);
-        }
-      }
-    },
-    [results, showResults, hasExactMatch, cursor, history],
-  );
-
-  const goToSearchPage = useCallback(() => {
-    if (query) {
-      history.push(`/search?title=${query}`);
-    } else {
-      history.push('/search');
-    }
-  }, [query, history]);
 
   useEffect(() => {
     document.addEventListener('click', handleResultsBlur, false);
@@ -178,21 +172,9 @@ const UserSearch: React.FC = () => {
             )}
           </div>
           <div className={classes.buttons}>
-            <div>
-              <button
-                className={classes.submitButton}
-                ref={buttonRef}
-                disabled={disabled}
-                onClick={handleSubmit}
-              >
-                Search
-              </button>
-            </div>
-            <div>
-              <button className={classes.submitButton} onClick={goToSearchPage}>
-                Advanced Search
-              </button>
-            </div>
+            <button className={classes.submitButton} onClick={goToSearchPage}>
+              Advanced Search
+            </button>
           </div>
         </form>
       </div>
