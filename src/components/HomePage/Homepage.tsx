@@ -5,6 +5,7 @@ import { signout } from '../../api/users';
 import { clearTokenFromStorage } from '../../api/helpers';
 import { selectCurrentUser, resetCurrentUser } from '../../reducers/currentUser';
 import { BACKEND_BASE_URL } from '../../constants';
+import logo from '../../images/logo.png';
 import TitleSearch from './TitleSearch';
 import classes from './Homepage.module.scss';
 
@@ -43,7 +44,9 @@ const Homepage: React.FC = () => {
         </div>
       )}
       <div className={classes.contentContainer}>
-        <h1 className={classes.pageTitle}>Glasser Family Recipe Collection</h1>
+        <div className={classes.logoContainer}>
+          <img className={classes.logo} src={logo} alt="Glasser Recipes" />
+        </div>
         <TitleSearch />
         <div className={classes.buttonContainer}>
           <Link className={classes.transparentButton} to="/browse">
