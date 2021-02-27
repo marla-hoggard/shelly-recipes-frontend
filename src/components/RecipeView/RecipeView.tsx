@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import { getRecipe } from '../../api/recipe';
+import useMediaQuery from '../../hooks/useMediaQuery';
 import Error from '../base/Error';
 import Loading from '../base/Loading';
 import LeftPanel from './LeftPanel';
@@ -16,21 +17,7 @@ const RecipeView: React.FC = () => {
   const params = useParams<{ id: string }>();
   const recipeId = parseInt(params.id);
   const history = useHistory();
-
-  const [isMobileView, setIsMobileView] = useState(
-    () => window.matchMedia('(max-width: 800px)').matches,
-  );
-
-  useEffect(() => {
-    const handleMediaQuery = (e: MediaQueryListEvent) => {
-      setIsMobileView(e.matches);
-    };
-    window.matchMedia('(max-width: 800px)').addListener(handleMediaQuery);
-
-    return () => {
-      window.matchMedia('(max-width: 800px)').removeListener(handleMediaQuery);
-    };
-  }, []);
+  const isMobileView = useMediaQuery('(max-width: 800px)');
 
   const fetchRecipe = useCallback(async () => {
     const results = await getRecipe(recipeId);

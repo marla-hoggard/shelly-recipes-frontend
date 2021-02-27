@@ -80,3 +80,28 @@
 .logoLink {
   height: 60px;
 }
+
+.mobileFlyoutContainer {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  width: 160px;
+  transition: opacity 0.5s ease;
+  background: #6796a7;
+  z-index: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.flyoutRow {
+  text-align: right;
+  text-transform: uppercase;
+  padding: 7px 30px;
+  border-top: 1px solid #ccc;
+}
