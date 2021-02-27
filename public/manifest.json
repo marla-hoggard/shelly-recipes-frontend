@@ -3,14 +3,14 @@
   "name": "Family Recipe Collection",
   "icons": [
     {
-      "src": "chef-lady.png",
+      "src": "logo-circle.png",
       "type": "image/png",
-      "sizes": "691x986"
+      "sizes": "600x600"
     },
     {
-      "src": "chef-circle.png",
+      "src": "logo-cutout.png",
       "type": "image/png",
-      "sizes": "650x650"
+      "sizes": "499x554"
     }
   ],
   "start_url": ".",

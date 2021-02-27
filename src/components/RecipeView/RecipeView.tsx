@@ -26,14 +26,20 @@ const RecipeView: React.FC = () => {
         history.push('/404');
         return;
       }
+      document.title = 'Glasser Family Recipes';
     } else {
       setRecipe(results);
       setLoading(false);
+      document.title = results.title;
     }
   }, [history, recipeId]);
 
   useEffect(() => {
     fetchRecipe();
+
+    return () => {
+      document.title = 'Glasser Family Recipes';
+    };
   }, [fetchRecipe]);
 
   if (loading) {
