@@ -47,6 +47,10 @@
   font-size: 14px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 800px) {
+    padding: 0;
+  }
 }
 
 .mobileContainer {
@@ -69,8 +73,10 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 
-  &:hover {
-    background: #bde6f987;
+  @media (hover: hover) {
+    &:hover {
+      background: #bde6f987;
+    }
   }
 }
 

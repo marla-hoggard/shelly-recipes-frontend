@@ -95,7 +95,7 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
           <div className={classes.textareaRow}>
             <div className={classes.labelAndLinkContainer}>
               <label className={classes.textareaLabel} htmlFor="steps">
-                Instructions
+                Directions
               </label>
               {!values.footnotes.length && (
                 <div className={classes.addFootnoteLink} onClick={() => push('')}>
@@ -107,7 +107,7 @@ export const StepsAndNotes: React.FC<Props> = ({ values, errors, touched }) => {
               name="steps"
               hasError={!!(touched.steps && errors.steps)}
               placeholder={
-                'Enter recipe instructions with line breaks between steps.\nClick + ADD FOOTNOTES to add footnotes.\nType * to indicate where to place each note (they will be associated in order).\nTo emphasize a section of text, wrap it in underscores: _important text_'
+                'Enter recipe directions with line breaks between steps.\nClick + ADD FOOTNOTES to add footnotes.\nType * to indicate where to place each note (they will be associated in order).\nTo emphasize a section of text, wrap it in underscores: _important text_'
               }
             />
           </div>

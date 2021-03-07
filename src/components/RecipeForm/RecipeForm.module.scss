@@ -1,4 +1,4 @@
-@import "../../global-styles/base.module.scss";
+@import '../../global-styles/base.module.scss';
 
 .form {
   font-size: 18px;
@@ -122,8 +122,10 @@
   composes: textareaLabel;
   cursor: pointer;
 
-  &:hover {
-    color: purple;
+  @media (hover: hover) {
+    &:hover {
+      color: purple;
+    }
   }
 }
 

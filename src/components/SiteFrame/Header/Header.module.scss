@@ -32,8 +32,10 @@
   padding-top: 0;
   height: 24px;
 
-  &:hover {
-    color: black;
+  @media (hover: hover) {
+    &:hover {
+      color: black;
+    }
   }
 }
 
@@ -52,8 +54,10 @@
   composes: navItem;
   cursor: pointer;
 
-  &:hover {
-    color: black;
+  @media (hover: hover) {
+    &:hover {
+      color: black;
+    }
   }
 }
 

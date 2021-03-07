@@ -57,7 +57,7 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
             className={instructionsTabIsActive ? classes.activeTab : classes.tab}
             onClick={handleShowInstructions}
           >
-            Instructions
+            Steps
           </div>
         </div>
       )}

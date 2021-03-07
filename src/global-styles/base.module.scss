@@ -14,8 +14,10 @@
   font-family: Signika, sans-serif;
   cursor: pointer;
 
-  &:hover {
-    text-decoration: underline;
+  @media (hover: hover) {
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -40,8 +42,10 @@
   cursor: pointer;
   border: 1px solid transparent;
 
-  &:hover {
-    border-color: white;
+  @media (hover: hover) {
+    &:hover {
+      border-color: white;
+    }
   }
 }
 
@@ -60,7 +64,9 @@
   transition: all 0.15s;
   cursor: pointer;
 
-  &:hover {
-    border-color: #be9851;
+  @media (hover: hover) {
+    &:hover {
+      border-color: #be9851;
+    }
   }
 }

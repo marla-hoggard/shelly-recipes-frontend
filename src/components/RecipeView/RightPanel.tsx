@@ -10,7 +10,7 @@ type Props = {
 
 const RightPanel: React.FC<Props> = ({ isMobileView = false, recipe }) => (
   <>
-    {!isMobileView && <div className={classes.sectionTitle}>Instructions</div>}
+    {!isMobileView && <div className={classes.sectionTitle}>Directions</div>}
     <Steps steps={recipe.steps} />
     {recipe.footnotes.length > 0 && (
       <>
