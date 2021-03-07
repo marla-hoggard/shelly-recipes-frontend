@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Formik, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../../api/users';
@@ -29,6 +29,7 @@ const LoginForm: React.FC = () => {
   const [generalError, setGeneralError] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const { pathname } = useLocation();
 
   const handleSubmit = useCallback(
     async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
@@ -50,14 +51,15 @@ const LoginForm: React.FC = () => {
           }),
         );
         saveTokenToStorage(result.user.token);
-        history.push('/');
+        history.push(pathname.replace(/\/login$/, ''));
       } else {
         setGeneralError(result.error);
         setSubmitting(false);
       }
     },
-    [dispatch, history],
+    [dispatch, history, pathname],
   );
+
   return (
     <>
       <h1 className={classes.pageTitle}>Log In</h1>

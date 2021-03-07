@@ -28,15 +28,15 @@ const Routes: React.FC = () => {
       <Header />
       <Main>
         <Switch>
+          <Route path="*/signup">
+            {isAuthenticated ? <Redirect to={pathname.replace('/signup', '')} /> : <SignupForm />}
+          </Route>
+          <Route path="*/login">
+            {isAuthenticated ? <Redirect to={pathname.replace('/login', '')} /> : <LoginForm />}
+          </Route>
           <Route exact path="/search" component={SearchPage} />
           <Route exact path="/browse" component={Browse} />
           <Route path="/browse/:name" component={Browse} />
-          <Route exact path="/signup">
-            {isAuthenticated ? <Redirect to="/" /> : <SignupForm />}
-          </Route>
-          <Route exact path="/login">
-            {isAuthenticated ? <Redirect to="/" /> : <LoginForm />}
-          </Route>
           <Route path="/new">{isAuthenticated ? <AddRecipe /> : <Redirect to="/login" />}</Route>
           <Route path="/recipe/:id/edit">
             {isAuthenticated ? <EditRecipe /> : <Redirect to="/login" />}

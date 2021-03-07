@@ -60,7 +60,7 @@ const Header: React.FC = () => {
     }
   }, [currentUser, dispatch]);
 
-  if (pathname === '/login') {
+  if (pathname.includes('/login')) {
     return (
       <div className={classes.headerContainer}>
         <div className={classes.leftContainer}>
@@ -72,7 +72,7 @@ const Header: React.FC = () => {
         </div>
         <div className={classes.rightContainer}>
           <div className={classes.linkContainer}>
-            <Link className={classes.navLink} to="/signup">
+            <Link className={classes.navLink} to={`${pathname.replace('/login', '/signup')}`}>
               Sign Up
             </Link>
           </div>
@@ -81,7 +81,7 @@ const Header: React.FC = () => {
     );
   }
 
-  if (pathname === '/signup') {
+  if (pathname.includes('/signup')) {
     return (
       <div className={classes.headerContainer}>
         <div className={classes.leftContainer}>
@@ -93,7 +93,7 @@ const Header: React.FC = () => {
         </div>
         <div className={classes.rightContainer}>
           <div className={classes.linkContainer}>
-            <Link className={classes.navLink} to="/login">
+            <Link className={classes.navLink} to={pathname.replace('/signup', '/login')}>
               Log In
             </Link>
           </div>
@@ -153,7 +153,7 @@ const Header: React.FC = () => {
                 Log Out
               </div>
             ) : (
-              <Link className={classes.navLink} to="/login">
+              <Link className={classes.navLink} to={`${pathname}/login`}>
                 Log In
               </Link>
             )}
@@ -201,7 +201,7 @@ const Header: React.FC = () => {
               Log Out
             </div>
           ) : (
-            <Link className={classes.navLink} to="/login">
+            <Link className={classes.navLink} to={`${pathname}/login`}>
               Log In
             </Link>
           )}
