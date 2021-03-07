@@ -15,7 +15,9 @@ const Header: React.FC = () => {
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
   const menuButtonRef = useRef<HTMLDivElement>(null);
   const currentUser = useSelector(selectCurrentUser);
-  const collapseHeader = useMediaQuery('(max-width: 700px)');
+  const authedBreakpoint = useMediaQuery('(max-width: 767px)');
+  const unauthedBreakpoint = useMediaQuery('(max-width: 515px)');
+  const collapseHeader = currentUser ? authedBreakpoint : unauthedBreakpoint;
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -129,6 +131,11 @@ const Header: React.FC = () => {
           )}
         >
           <div className={classes.flyoutRow}>
+            <Link className={classes.navLink} to="/browse">
+              Browse
+            </Link>
+          </div>
+          <div className={classes.flyoutRow}>
             <Link className={classes.navLink} to="/search">
               Search
             </Link>
@@ -136,7 +143,7 @@ const Header: React.FC = () => {
           {!!currentUser && (
             <div className={classes.flyoutRow}>
               <Link className={classes.navLink} to="/new">
-                Add a Recipe
+                New Recipe
               </Link>
             </div>
           )}
@@ -172,6 +179,11 @@ const Header: React.FC = () => {
           </div>
         )}
         <div className={classes.linkContainer}>
+          <Link className={classes.navLink} to="/browse">
+            Browse
+          </Link>
+        </div>
+        <div className={classes.linkContainer}>
           <Link className={classes.navLink} to="/search">
             Search
           </Link>
@@ -179,7 +191,7 @@ const Header: React.FC = () => {
         {!!currentUser && (
           <div className={classes.linkContainer}>
             <Link className={classes.navLink} to="/new">
-              Add a Recipe
+              New Recipe
             </Link>
           </div>
         )}
