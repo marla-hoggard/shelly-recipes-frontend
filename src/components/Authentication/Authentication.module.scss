@@ -1,4 +1,4 @@
-@import "../../global-styles/base.module.scss";
+@import '../../global-styles/base.module.scss';
 
 .loginForm {
   font-size: 18px;
@@ -16,11 +16,9 @@
   display: flex;
 }
 
-.submit {
-  height: 30px;
-  width: 100px;
+.solidButton {
+  composes: solidButton from '../../global-styles/base.module.scss';
   margin: auto;
-  cursor: pointer;
 }
 
 .errorMessage {

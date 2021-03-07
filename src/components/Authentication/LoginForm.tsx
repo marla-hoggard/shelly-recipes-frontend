@@ -88,7 +88,7 @@ const LoginForm: React.FC = () => {
               />
             </div>
             <div className={classes.formRow}>
-              <button className={classes.submit} type="submit" disabled={isSubmitting}>
+              <button className={classes.solidButton} type="submit" disabled={isSubmitting}>
                 Log In
               </button>
             </div>

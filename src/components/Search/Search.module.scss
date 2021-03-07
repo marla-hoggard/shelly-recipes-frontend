@@ -1,11 +1,11 @@
-@import "../../global-styles/base.module.scss";
-@import "../RecipeForm/RecipeForm.module.scss";
+@import '../../global-styles/base.module.scss';
+@import '../RecipeForm/RecipeForm.module.scss';
 .form {
-  composes: form from "../RecipeForm/RecipeForm.module.scss";
+  composes: form from '../RecipeForm/RecipeForm.module.scss';
 }
 
 .formRow {
-  composes: formRow from "../RecipeForm/RecipeForm.module.scss";
+  composes: formRow from '../RecipeForm/RecipeForm.module.scss';
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -18,7 +18,7 @@
 }
 
 .button {
-  composes: submit from "../RecipeForm/RecipeForm.module.scss";
+  composes: solidButton from '../../global-styles/base.module.scss';
   margin: 0 5px;
 }
 
@@ -39,13 +39,13 @@
 }
 
 .label {
-  composes: label from "../RecipeForm/RecipeForm.module.scss";
+  composes: label from '../RecipeForm/RecipeForm.module.scss';
   margin-right: 10px;
   white-space: nowrap;
 }
 
 .select {
-  composes: select from "../RecipeForm/RecipeForm.module.scss";
+  composes: select from '../RecipeForm/RecipeForm.module.scss';
   padding: 5px;
   margin: 0;
   width: 150px;
@@ -62,4 +62,33 @@
 .radioLabel {
   font-size: 16px;
   margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .formRow {
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 0;
+    flex: 1;
+  }
+
+  .buttonRow {
+    flex-direction: row;
+  }
+
+  .inputGroup {
+    width: 100%;
+    &:not(:last-child) {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  .select {
+    margin: 10px;
+  }
+
+  .radioGroup {
+    margin: 5px;
+  }
 }

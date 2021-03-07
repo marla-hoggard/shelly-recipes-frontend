@@ -149,8 +149,8 @@ const SignupForm: React.FC = () => {
               />
             </div>
             <div className={classes.formRow}>
-              <button className={classes.submit} type="submit" disabled={isSubmitting}>
-                Submit
+              <button className={classes.solidButton} type="submit" disabled={isSubmitting}>
+                Sign Up
               </button>
             </div>
             <div className={classes.errorMessageContainer}>
