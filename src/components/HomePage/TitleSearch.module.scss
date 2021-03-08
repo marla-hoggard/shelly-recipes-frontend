@@ -34,13 +34,37 @@ $padding: 10px;
 }
 
 .searchInput {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid white;
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+
   width: $inputWidth;
   height: $inputHeight;
-  padding: 0 $padding;
   outline: none;
 
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 1em;
+    width: 1em;
+    border-radius: 50em;
+    background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg)
+      no-repeat 50% 50%;
+    background-size: contain;
+    opacity: 0.5;
+    color: white;
+    filter: invert(1);
+    cursor: pointer;
+  }
+
+  &::-webkit-input-placeholder {
+    color: #aaa;
+  }
+
   @media screen and (max-width: 415px) {
-    width: 100%;
+    width: 80vw;
   }
 }
 
@@ -48,6 +72,12 @@ $padding: 10px;
   height: $inputHeight;
   min-width: $buttonWidth;
   margin-left: $buttonSpacing;
+  font-family: Signika;
+  padding: 0 10px;
+
+  @media screen and (max-width: 735px) {
+    margin-left: 0;
+  }
 }
 
 .buttons {
@@ -69,6 +99,14 @@ $padding: 10px;
   padding: $padding;
   width: $inputWidth + $buttonWidth + $buttonSpacing;
   color: white;
+
+  @media screen and (max-width: 735px) {
+    width: $inputWidth;
+  }
+
+  @media screen and (max-width: 415px) {
+    width: 80vw;
+  }
 }
 
 // Search Results
