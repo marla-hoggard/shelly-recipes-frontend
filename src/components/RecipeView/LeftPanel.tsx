@@ -1,10 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { GetRecipeSuccess } from '../../types/recipe.types';
-import { categoryToBrowsePath } from '../base/RecipeList/categoryHelpers';
 import Ingredients from './Ingredients';
 import RightPanel from './RightPanel';
-import Tag from '../base/Tag';
 import classes from './RecipeView.module.scss';
 
 type Props = {
@@ -24,14 +21,6 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
   return (
     <>
       <div className={classes.recipeMetadata}>
-        <div>
-          <Link
-            to={`/browse/${categoryToBrowsePath(recipe.category)}`}
-            className={classes.category}
-          >
-            {recipe.category}
-          </Link>
-        </div>
         {recipe.servings && (
           <div className={classes.servings}>
             {`${/[a-z]/i.test(recipe.servings) ? 'Makes:' : 'Serves:'} `}
@@ -64,24 +53,8 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
         </>
       )}
       <div className={classes.spacer} />
-      {(recipe.vegetarian || recipe.tags.length > 0) && (
-        <div className={classes.tagsContainer}>
-          {recipe.tags.map((tag) => (
-            <Tag key={tag} text={tag} />
-          ))}
-          {recipe.vegetarian && <Tag key="vegetarian" text="vegetarian" />}
-        </div>
-      )}
-      <div
-        className={
-          isMobileView
-            ? classes.centered
-            : !recipe.vegetarian && !recipe.tags.length
-            ? classes.topMargin
-            : undefined
-        }
-      >
-        Submitted By: {recipe.submitted_by}
+      <div className={isMobileView ? classes.centered : classes.topMargin}>
+        From: {recipe.submitted_by}
       </div>
     </>
   );

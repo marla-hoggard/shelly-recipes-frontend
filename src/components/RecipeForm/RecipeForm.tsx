@@ -7,32 +7,24 @@ import * as Yup from 'yup';
 import {
   AddRecipeRequest,
   AddRecipeResponse,
-  Category,
   EditRecipeRequest,
   Ingredient,
 } from '../../types/recipe.types';
 import { addRecipe, editRecipe } from '../../api/recipe';
-import { CATEGORIES } from '../../constants';
 import {
   countOccurrences,
   removeSmartQuotes,
   replaceFractions,
   trimAndRemoveEmpty,
 } from '../../helpers';
-import { InputField, TextAreaField, SelectField, CheckboxField } from './FormComponents';
+import { InputField, TextAreaField } from './FormComponents';
 import { StepsAndNotes, IngredientsWithNotes } from './FieldArrays';
 import classes from './RecipeForm.module.scss';
 
 export type FormValues = {
   title: string;
-  source: string;
-  source_url: string;
   submitted_by: string;
   servings: string;
-  category: Category;
-  vegetarian: boolean;
-  featured: boolean;
-  tags: string;
   ingredientsTextarea: string;
   ingredientsWithNotes: Ingredient[];
   steps: string;
@@ -41,14 +33,8 @@ export type FormValues = {
 
 const defaultValues: FormValues = {
   title: '',
-  source: '',
-  source_url: '',
   submitted_by: '',
   servings: '',
-  category: '',
-  vegetarian: false,
-  featured: false,
-  tags: '',
   ingredientsTextarea: '',
   ingredientsWithNotes: [],
   steps: '',
@@ -57,13 +43,8 @@ const defaultValues: FormValues = {
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
-  source: Yup.string(),
-  source_url: Yup.string(),
   submitted_by: Yup.string().required('Required'),
   servings: Yup.string(),
-  category: Yup.string().required('Required'),
-  vegetarian: Yup.boolean(),
-  featured: Yup.boolean(),
   ingredientsTextarea: Yup.string().test('ingredients-required', 'Required', function (value) {
     return this.parent.ingredientsWithNotes.length > 0 || !!value;
   }),
@@ -90,16 +71,9 @@ const prepareEditRequest = (
 ): EditRecipeRequest => {
   const editRequest: EditRecipeRequest = {};
   if (values.title !== savedValues.title) editRequest.title = removeSmartQuotes(values.title);
-  if (values.source !== savedValues.source) editRequest.source = values.source;
-  if (values.source_url !== savedValues.source_url) editRequest.source_url = values.source_url;
   if (values.submitted_by !== savedValues.submitted_by)
     editRequest.submitted_by = values.submitted_by;
   if (values.servings !== savedValues.servings) editRequest.servings = values.servings;
-  if (values.category !== savedValues.category) editRequest.category = values.category;
-  if (values.vegetarian !== savedValues.vegetarian) editRequest.vegetarian = values.vegetarian;
-  if (values.featured !== savedValues.featured) editRequest.featured = values.featured;
-  if (values.tags !== savedValues.tags)
-    editRequest.tags = trimAndRemoveEmpty(values.tags.split(','));
   if (
     values.ingredientsTextarea !== savedValues.ingredientsTextarea ||
     values.ingredientsWithNotes.map((el) => el.ingredient).join(',') !==
@@ -159,7 +133,9 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
 
   return (
     <>
-      <h1 className={classes.pageTitle}>{type === 'add' ? 'Add a New Recipe' : 'Edit Recipe'}</h1>
+      <h1 className={classes.pageTitle}>
+        {type === 'add' ? 'Share a Recipe with Shelly' : 'Edit Recipe'}
+      </h1>
       <Formik
         initialValues={{
           ...defaultValues,
@@ -176,7 +152,6 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
           } else {
             const addRequest: AddRecipeRequest = {
               ...values,
-              tags: trimAndRemoveEmpty(values.tags.split(',')),
               ingredients: showIngredientNotes
                 ? values.ingredientsWithNotes.map(({ ingredient, note }) => {
                     const converted: Ingredient = {
@@ -217,23 +192,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
             </div>
             <div className={classes.formRow}>
               <InputField
-                labelText="Original Source"
-                name="source"
-                hasError={!!(errors.source && touched.source)}
-                fullWidth
-              />
-            </div>
-            <div className={classes.formRow}>
-              <InputField
-                labelText="Source URL"
-                name="source_url"
-                hasError={!!(errors.source_url && touched.source_url)}
-                fullWidth
-              />
-            </div>
-            <div className={classes.formRow}>
-              <InputField
-                labelText="Submitted By"
+                labelText="From"
                 name="submitted_by"
                 hasError={!!(errors.submitted_by && touched.submitted_by)}
                 fullWidth
@@ -248,29 +207,6 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
                   className={classes.servings}
                 />
               </div>
-              <div>
-                <SelectField
-                  options={CATEGORIES}
-                  title="Category"
-                  name="category"
-                  hasError={!!(errors.category && touched.category)}
-                />
-              </div>
-              <div>
-                <CheckboxField labelText="Vegetarian" name="vegetarian" />
-              </div>
-              <div>
-                <CheckboxField labelText="Featured" name="featured" />
-              </div>
-            </div>
-            <div className={classes.formRow}>
-              <InputField
-                labelText="Tags (separated by comma)"
-                name="tags"
-                hasError={!!(errors.tags && touched.tags)}
-                placeholder="Ex: fish, indian, crockpot"
-                fullWidth
-              />
             </div>
             {showIngredientNotes ? (
               <IngredientsWithNotes values={values} errors={errors} touched={touched} />

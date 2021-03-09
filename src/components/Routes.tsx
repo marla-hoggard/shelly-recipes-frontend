@@ -4,10 +4,10 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './SiteFrame/Header/Header';
 import Main from './SiteFrame/Main/Main';
 import AddRecipe from './AddRecipe/AddRecipe';
-import Browse from './Browse/Browse';
 import EditRecipe from './EditRecipe/EditRecipe';
 import InvalidRoute from './InvalidRoute/InvalidRoute';
 import RecipeView from './RecipeView/RecipeView';
+import RecipeList from './base/RecipeList/RecipeList';
 
 const Routes: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const Routes: React.FC = () => {
       <Header />
       <Main>
         <Switch>
-          <Route exact path="/browse" component={Browse} />
+          <Route exact path="/all" component={RecipeList} />
           <Route path="/recipe/:id/edit" component={EditRecipe} />
           <Route path="/recipe/:id" component={RecipeView} />
           <Route path="/404" component={InvalidRoute} />

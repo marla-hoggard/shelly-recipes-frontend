@@ -3,7 +3,6 @@ import {
   AddRecipeRequest,
   GetRecipeResponse,
   EditRecipeRequest,
-  SearchParams,
   Recipe,
 } from '../types/recipe.types';
 import { BACKEND_BASE_URL } from '../constants';
@@ -60,28 +59,6 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipes`);
     const result = await response.json();
-    return result.data || [];
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
-export const searchRecipes = async (searchTerms: SearchParams): Promise<Recipe[]> => {
-  const query = Object.entries(searchTerms)
-    .map(([key, value]) => `${key}=${value}`)
-    .join('&');
-
-  if (!query) {
-    return [];
-  }
-
-  try {
-    const response = await fetch(`${BACKEND_BASE_URL}/search?${query}`);
-    const result = await response.json();
-    if (result.error) {
-      console.error(result.error);
-    }
     return result.data || [];
   } catch (error) {
     console.error(error);

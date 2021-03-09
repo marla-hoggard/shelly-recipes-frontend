@@ -1,9 +1,10 @@
 @import '../../../global-styles/base.module.scss';
 
 .recipeListContainer {
+  padding-top: 15px;
   display: grid;
   grid-gap: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
   @media screen and (max-width: 600px) {
     grid-template-columns: 1fr;
@@ -11,7 +12,6 @@
 }
 
 .recipeItemContainer {
-  min-height: 80px;
   border: 1px solid #999;
   border-radius: 3px;
   text-decoration: none;
@@ -28,34 +28,6 @@
 
 .recipeDetails {
   padding: 5px 10px;
-
-  &.red {
-    background-color: #f3171733;
-  }
-
-  &.orange {
-    background-color: #ff9c0933;
-  }
-
-  &.yellow {
-    background-color: #ffdb2a33;
-  }
-
-  &.green {
-    background-color: #00800033;
-  }
-
-  &.blue {
-    background-color: #2a2aec33;
-  }
-
-  &.purple {
-    background-color: #ce05ce33;
-  }
-
-  &.black {
-    background-color: #00000033;
-  }
 }
 
 .title {
@@ -78,71 +50,6 @@
   }
 }
 
-.featuredStar {
-  color: #ffc82a;
-  font-size: 0.9em;
-  padding-left: 4px;
-  padding-bottom: 2px;
-}
-
-.svgContainer {
-  position: relative;
-  width: 100%;
-  padding-top: 100%;
-}
-
-.svgIcon {
-  position: absolute;
-  top: 0;
-}
-
-.categoryIcon {
-  width: 80px;
-  min-height: 80px;
-  color: white;
-  fill: white;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &.red {
-    background-color: #f31717;
-  }
-
-  &.orange {
-    background-color: #ff9c09;
-  }
-
-  &.yellow {
-    background-color: #ffdb2a;
-  }
-
-  &.green {
-    background-color: #008000;
-  }
-
-  &.blue {
-    background-color: #2a2aec;
-  }
-
-  &.purple {
-    background-color: #ce05ce;
-  }
-
-  &.black {
-    background-color: #000000;
-  }
-}
-
 .recipeDetails {
   flex: 1;
-}
-
-.tags {
-  font-size: 13px;
-
-  @media screen and (max-width: 600px) {
-    font-size: 12px;
-  }
 }

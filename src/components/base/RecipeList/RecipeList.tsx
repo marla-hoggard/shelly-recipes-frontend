@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Recipe as RecipeType } from '../../../types/recipe.types';
+import { getAllRecipes } from '../../../api/recipe';
 import RecipeListItem from './RecipeListItem';
 import classes from './RecipeList.module.scss';
 
-type Props = {
-  recipes: RecipeType[];
-};
+const RecipeList: React.FC = () => {
+  const [recipes, setRecipes] = useState<RecipeType[]>([]);
+  useEffect(() => {
+    const fetchAllRecipes = async () => {
+      const result = await getAllRecipes();
+      setRecipes(result);
+    };
 
-const RecipeList: React.FC<Props> = ({ recipes }) => {
+    fetchAllRecipes();
+  }, []);
+
   return (
     <div className={classes.recipeListContainer}>
       {recipes.map((recipe) => (

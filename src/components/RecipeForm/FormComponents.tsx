@@ -77,36 +77,3 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
     )}
   </>
 );
-
-type SelectFieldProps = {
-  options: string[];
-  title: string;
-  name: string;
-  hasError: boolean;
-};
-
-export const SelectField: React.FC<SelectFieldProps> = ({ hasError, name, options, title }) => (
-  <Field className={hasError ? classes.selectError : classes.select} name={name} as="select">
-    <option defaultValue={title}>{title}</option>
-    {options.map((option) => (
-      <option key={option} value={option}>
-        {option}
-      </option>
-    ))}
-  </Field>
-);
-
-type CheckboxFieldProps = {
-  labelText?: string;
-  name: string;
-};
-
-export const CheckboxField: React.FC<CheckboxFieldProps> = ({ labelText, name }) =>
-  labelText ? (
-    <label>
-      <Field className={classes.checkbox} type="checkbox" name={name} />
-      {labelText}
-    </label>
-  ) : (
-    <Field className={classes.checkbox} type="checkbox" name={name} />
-  );

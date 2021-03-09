@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPrint, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import { getRecipe } from '../../api/recipe';
 import useMediaQuery from '../../hooks/useMediaQuery';
@@ -30,7 +30,7 @@ const RecipeView: React.FC = () => {
         history.push('/404');
         return;
       }
-      document.title = 'Glasser Family Recipes';
+      document.title = "Shelly's Recipe Box";
     } else {
       setRecipe(results);
       setLoading(false);
@@ -42,7 +42,7 @@ const RecipeView: React.FC = () => {
     fetchRecipe();
 
     return () => {
-      document.title = 'Glasser Family Recipes';
+      document.title = "Shelly's Recipe Box";
     };
   }, [fetchRecipe]);
 
@@ -53,31 +53,14 @@ const RecipeView: React.FC = () => {
   if (recipe) {
     return (
       <>
-        <h1 className={classes.pageTitle}>
-          {recipe.title}
-          {recipe.featured && <FontAwesomeIcon className={classes.featuredStar} icon={faStar} />}
-        </h1>
+        <h1 className={classes.pageTitle}>{recipe.title}</h1>
         {!isMobileView && (
           <button className={classes.printButton} onClick={printRecipe}>
             <FontAwesomeIcon icon={faPrint} />
             <span className={classes.printButtonLabel}>Print Recipe</span>
           </button>
         )}
-        {recipe.source &&
-          (recipe.source_url ? (
-            <div className={classes.source}>
-              <a
-                className={classes.link}
-                href={recipe.source_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {recipe.source}
-              </a>
-            </div>
-          ) : (
-            <div className={classes.source}>{recipe.source}</div>
-          ))}
+        <div className={classes.source}>{recipe.submitted_by}</div>
         <div className={classes.recipeBodyFlexContainer}>
           {isMobileView ? (
             <div className={classes.mobileContainer}>

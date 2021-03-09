@@ -16,10 +16,7 @@ const EditRecipe: React.FC = () => {
     if ('id' in recipe) {
       setSavedValues({
         ...recipe,
-        source: recipe.source || '',
-        source_url: recipe.source_url || '',
         servings: recipe.servings || '',
-        tags: recipe.tags.join(', '),
         ingredientsTextarea: recipe.ingredients.map((i) => i.ingredient).join('\n'),
         ingredientsWithNotes: recipe.ingredients.map(({ ingredient, note }) => ({
           ingredient,
