@@ -96,10 +96,15 @@
   text-transform: uppercase;
   font-weight: 700;
   font-size: 16px;
+  @media print {
+    color: black;
+  }
 }
 
 .spacer {
-  flex: 1;
+  @media screen {
+    flex: 1;
+  }
 }
 
 .tagsContainer {

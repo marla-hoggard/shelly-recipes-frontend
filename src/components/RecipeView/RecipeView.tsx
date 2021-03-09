@@ -17,7 +17,7 @@ const RecipeView: React.FC = () => {
   const params = useParams<{ id: string }>();
   const recipeId = parseInt(params.id);
   const history = useHistory();
-  const isMobileView = useMediaQuery('(max-width: 800px)');
+  const isMobileView = useMediaQuery('screen and (max-width: 800px)');
 
   const fetchRecipe = useCallback(async () => {
     const results = await getRecipe(recipeId);
