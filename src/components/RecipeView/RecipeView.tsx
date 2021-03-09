@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faPrint, faStar } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import { getRecipe } from '../../api/recipe';
 import useMediaQuery from '../../hooks/useMediaQuery';
@@ -10,6 +10,10 @@ import Loading from '../base/Loading';
 import LeftPanel from './LeftPanel';
 import RightPanel from './RightPanel';
 import classes from './RecipeView.module.scss';
+
+const printRecipe = () => {
+  window.print();
+};
 
 const RecipeView: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -53,6 +57,12 @@ const RecipeView: React.FC = () => {
           {recipe.title}
           {recipe.featured && <FontAwesomeIcon className={classes.featuredStar} icon={faStar} />}
         </h1>
+        {!isMobileView && (
+          <button className={classes.printButton} onClick={printRecipe}>
+            <FontAwesomeIcon icon={faPrint} />
+            <span className={classes.printButtonLabel}>Print Recipe</span>
+          </button>
+        )}
         {recipe.source &&
           (recipe.source_url ? (
             <div className={classes.source}>

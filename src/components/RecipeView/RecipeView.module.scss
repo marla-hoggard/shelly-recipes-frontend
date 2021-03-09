@@ -145,3 +145,33 @@
     padding-right: 5px;
   }
 }
+
+.printButton {
+  position: absolute;
+  top: 70px;
+  right: 30px;
+  font-size: 13.5px;
+  padding: 3px 5px;
+  background-color: white;
+  color: $teal;
+  outline: none;
+  border: 1px solid $teal;
+  border-radius: 0.25em;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 25px;
+  transition: width 0.5s ease;
+  cursor: pointer;
+
+  &:hover {
+    width: 108px;
+  }
+
+  @media print {
+    display: none;
+  }
+
+  .printButtonLabel {
+    margin-left: 5px;
+  }
+}
