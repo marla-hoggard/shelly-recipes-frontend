@@ -16,10 +16,10 @@ const Routes: React.FC = () => {
       <Main>
         <Switch>
           <Route exact path="/browse" component={Browse} />
-          <Route path={['/', '/new']} component={AddRecipe} />
           <Route path="/recipe/:id/edit" component={EditRecipe} />
           <Route path="/recipe/:id" component={RecipeView} />
           <Route path="/404" component={InvalidRoute} />
+          <Route exact path={['/', '/new']} component={AddRecipe} />
           <Route path="*" component={InvalidRoute} />
         </Switch>
       </Main>
