@@ -8,8 +8,6 @@ export const CATEGORIES = [
   'beverage',
 ];
 
-export const USER_TOKEN_STORAGE_KEY = 'user_token';
-
 const getBackendURL = (env?: string) => {
   switch (env) {
     case 'local':

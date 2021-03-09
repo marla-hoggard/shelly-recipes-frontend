@@ -13,105 +13,13 @@
   align-items: center;
   padding: 0 30px;
   z-index: 5;
+  color: white;
+  justify-content: center;
+  font-family: 'Dancing Script', sans-serif;
+  font-size: 28px;
+  cursor: pointer;
 
   @media print {
     display: none;
   }
-}
-
-.navItem {
-  color: white;
-  font-weight: 500;
-  font-family: Signika, sans-serif;
-  text-transform: uppercase;
-  padding-top: 1px;
-  line-height: 24px;
-  height: 24px;
-  white-space: nowrap;
-}
-
-.navLink {
-  composes: navItem;
-  text-decoration: none;
-  cursor: pointer;
-  padding-top: 0;
-  height: 24px;
-
-  @media (hover: hover) {
-    &:hover {
-      color: black;
-    }
-  }
-}
-
-.linkContainer {
-  padding: 0 15px;
-  height: 24px;
-  border-right: 1px solid white;
-
-  &:last-of-type {
-    padding-right: 0;
-    border-right: none;
-  }
-}
-
-.divLink {
-  composes: navItem;
-  cursor: pointer;
-
-  @media (hover: hover) {
-    &:hover {
-      color: black;
-    }
-  }
-}
-
-.leftContainer {
-  display: flex;
-  flex: 1;
-}
-
-.rightContainer {
-  display: flex;
-  justify-content: flex-end;
-
-  .linkContainer {
-    text-align: right;
-  }
-}
-
-.logoContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.logo,
-.logoLink {
-  height: 50px;
-}
-
-.mobileFlyoutContainer {
-  position: fixed;
-  top: 50px;
-  right: 0;
-  width: 160px;
-  transition: opacity 0.5s ease;
-  background: $teal;
-  z-index: 1;
-}
-
-.hidden {
-  opacity: 0;
-}
-
-.visible {
-  opacity: 1;
-}
-
-.flyoutRow {
-  text-align: right;
-  text-transform: uppercase;
-  padding: 7px 30px;
-  border-top: 1px solid #ccc;
 }

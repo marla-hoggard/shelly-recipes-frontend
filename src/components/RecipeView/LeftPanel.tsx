@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GetRecipeSuccess } from '../../types/recipe.types';
-import { selectCurrentUserFullName, selectIsAdmin } from '../../reducers/currentUser';
 import { categoryToBrowsePath } from '../base/RecipeList/categoryHelpers';
 import Ingredients from './Ingredients';
 import RightPanel from './RightPanel';
@@ -16,10 +14,6 @@ type Props = {
 };
 
 const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) => {
-  const currentUserFullName = useSelector(selectCurrentUserFullName);
-  const isAdmin = useSelector(selectIsAdmin);
-  const canEdit = isAdmin || currentUserFullName === recipe?.submitted_by;
-
   const [instructionsTabIsActive, setInststructionsTabToActive] = useState(false);
 
   const showInsturctionsTab = isMobileView && instructionsTabIsActive;
@@ -88,14 +82,6 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
         }
       >
         Submitted By: {recipe.submitted_by}
-        {canEdit && (
-          <>
-            {' | '}
-            <Link className={classes.link} to={`/recipe/${recipeId}/edit`}>
-              Edit
-            </Link>
-          </>
-        )}
       </div>
     </>
   );
