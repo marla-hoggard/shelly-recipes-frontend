@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { GetRecipeSuccess } from '../../types/recipe.types';
 import Ingredients from './Ingredients';
 import RightPanel from './RightPanel';
@@ -13,7 +14,7 @@ type Props = {
 const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) => {
   const [instructionsTabIsActive, setInststructionsTabToActive] = useState(false);
 
-  const showInsturctionsTab = isMobileView && instructionsTabIsActive;
+  const showInstructionsTab = isMobileView && instructionsTabIsActive;
 
   const handleShowIngredients = useCallback(() => setInststructionsTabToActive(false), []);
   const handleShowInstructions = useCallback(() => setInststructionsTabToActive(true), []);
@@ -44,7 +45,7 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
           </div>
         </div>
       )}
-      {showInsturctionsTab ? (
+      {showInstructionsTab ? (
         <RightPanel recipe={recipe} isMobileView />
       ) : (
         <>
@@ -55,6 +56,12 @@ const LeftPanel: React.FC<Props> = ({ isMobileView = false, recipe, recipeId }) 
       <div className={classes.spacer} />
       <div className={isMobileView ? classes.centered : classes.topMargin}>
         From: {recipe.submitted_by}
+        <span className={classes.screenOnly}>
+          {' | '}
+          <Link className={classes.link} to={`/recipe/${recipeId}/edit`}>
+            Edit
+          </Link>
+        </span>
       </div>
     </>
   );

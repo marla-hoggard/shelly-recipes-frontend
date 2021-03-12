@@ -65,3 +65,14 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
     return [];
   }
 };
+
+export const getConfirmedRecipes = async (): Promise<Recipe[]> => {
+  try {
+    const response = await fetch(`${BACKEND_BASE_URL}/recipes?confirmed=true`);
+    const result = await response.json();
+    return result.data || [];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};

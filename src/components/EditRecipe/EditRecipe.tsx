@@ -17,11 +17,7 @@ const EditRecipe: React.FC = () => {
       setSavedValues({
         ...recipe,
         servings: recipe.servings || '',
-        ingredientsTextarea: recipe.ingredients.map((i) => i.ingredient).join('\n'),
-        ingredientsWithNotes: recipe.ingredients.map(({ ingredient, note }) => ({
-          ingredient,
-          note: note || '',
-        })),
+        ingredientsTextarea: recipe.ingredients.join('\n'),
         steps: recipe.steps.join('\n\n'),
         footnotes: recipe.footnotes,
       });

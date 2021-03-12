@@ -23,18 +23,6 @@
   font-size: 15px;
 }
 
-.ingredientsNotes {
-  padding: 0;
-  margin-bottom: 0;
-  font-size: 0.8em;
-  list-style: none;
-
-  li::before {
-    content: attr(data-icon);
-    padding-right: 5px;
-  }
-}
-
 .instructionsContainer {
   padding: 15px 20px;
 }
