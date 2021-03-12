@@ -44,6 +44,10 @@ export const editRecipe = async (
   }
 };
 
+export const confirmRecipe = async (recipeId: number): Promise<AddRecipeResponse> => {
+  return editRecipe(recipeId, { is_confirmed: true });
+};
+
 export const getRecipe = async (recipeId: number): Promise<GetRecipeResponse> => {
   try {
     const response = await fetch(`${BACKEND_BASE_URL}/recipe/${recipeId}`);

@@ -1,0 +1,27 @@
+@import '../../global-styles/base.module.scss';
+@import '../../global-styles/globals.scss';
+
+.buttonPanel {
+  position: fixed;
+  top: 0;
+  right: 20px;
+  height: 50px;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  @media print {
+    display: none;
+  }
+}
+
+.editButton {
+  composes: solidButton from '../../global-styles/base.module.scss';
+  background-color: red;
+}
+
+.submitButton {
+  composes: solidButton from '../../global-styles/base.module.scss';
+  background-color: green;
+}

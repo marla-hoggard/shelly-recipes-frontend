@@ -41,6 +41,7 @@
   transition: all 0.2s;
   cursor: pointer;
   border: 1px solid transparent;
+  outline: none;
 
   @media (hover: hover) {
     &:hover {

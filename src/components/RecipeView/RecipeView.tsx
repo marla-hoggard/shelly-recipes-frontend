@@ -3,8 +3,10 @@ import { useHistory, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPrint } from '@fortawesome/free-solid-svg-icons';
 import { GetRecipeSuccess } from '../../types/recipe.types';
-import { getRecipe } from '../../api/recipe';
+import { confirmRecipe, getRecipe } from '../../api/recipe';
 import useMediaQuery from '../../hooks/useMediaQuery';
+import ButtonPanel from './ButtonPanel';
+import Confirmation from './Confirmation';
 import Error from '../base/Error';
 import Loading from '../base/Loading';
 import LeftPanel from './LeftPanel';
@@ -20,8 +22,26 @@ const RecipeView: React.FC = () => {
   const [recipe, setRecipe] = useState<GetRecipeSuccess>();
   const params = useParams<{ id: string }>();
   const recipeId = parseInt(params.id);
+  const [isPreview, setIsPreview] = useState(false);
+  const [isConfirmation, setIsConfirmation] = useState(false);
   const history = useHistory();
   const isMobileView = useMediaQuery('screen and (max-width: 800px)');
+
+  useEffect(() => {
+    if (recipe) {
+      setIsPreview(!recipe.is_confirmed);
+    }
+  }, [recipe]);
+
+  const handleSubmitRecipe = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      confirmRecipe(recipeId);
+      setIsPreview(false);
+      setIsConfirmation(true);
+    },
+    [recipeId],
+  );
 
   const fetchRecipe = useCallback(async () => {
     const results = await getRecipe(recipeId);
@@ -53,6 +73,11 @@ const RecipeView: React.FC = () => {
   if (recipe) {
     return (
       <>
+        {isConfirmation ? (
+          <Confirmation />
+        ) : (
+          <ButtonPanel id={recipeId} showSubmit={isPreview} handleSubmit={handleSubmitRecipe} />
+        )}
         <h1 className={classes.pageTitle}>{recipe.title}</h1>
         {!isMobileView && (
           <button className={classes.printButton} onClick={printRecipe}>
@@ -65,12 +90,12 @@ const RecipeView: React.FC = () => {
         <div className={classes.recipeBodyFlexContainer}>
           {isMobileView ? (
             <div className={classes.mobileContainer}>
-              <LeftPanel recipe={recipe} recipeId={recipeId} isMobileView />
+              <LeftPanel recipe={recipe} isMobileView />
             </div>
           ) : (
             <>
               <div className={classes.leftContainer}>
-                <LeftPanel recipe={recipe} recipeId={recipeId} />
+                <LeftPanel recipe={recipe} />
               </div>
               <div className={classes.rightContainer}>
                 <RightPanel recipe={recipe} />

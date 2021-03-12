@@ -32,23 +32,4 @@ const RecipeListItem: React.FC<Props> = ({ recipe: { id, title, submitted_by, cr
   );
 };
 
-// const RecipeListItemOld: React.FC<Props> = ({
-//   recipe: { id, category, source, title, featured },
-// }) => {
-//   return (
-//     <div className={classes.recipeItemContainer}>
-//       <div className={classes.row}>
-//         <div className={classes.titleAndSource}>
-//           <Link to={`/recipe/${id}`} className={classes.link}>
-//             {title}
-//             {featured && <FontAwesomeIcon className={classes.featuredStar} icon={faStar} />}
-//           </Link>
-//           {source && ` (${source})`}
-//         </div>
-//         <Category category={category} />
-//       </div>
-//     </div>
-//   );
-// };
-
 export default RecipeListItem;

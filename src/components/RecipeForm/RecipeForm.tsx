@@ -191,7 +191,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
             <StepsAndNotes values={values} errors={errors} touched={touched} />
             <div className={classes.formRow}>
               <button className={classes.solidButton} type="submit" disabled={isSubmitting}>
-                Submit
+                Preview
               </button>
             </div>
             <div className={classes.formRow}>
