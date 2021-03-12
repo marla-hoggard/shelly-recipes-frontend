@@ -78,10 +78,11 @@ const prepareEditRequest = (
 type Props = {
   id?: number;
   savedValues?: Partial<FormValues>;
+  isConfirmed: boolean;
   type: 'add' | 'edit';
 };
 
-const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
+const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type, isConfirmed }) => {
   const history = useHistory();
   const [submitError, setSubmitError] = useState('');
 
@@ -106,6 +107,12 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
 
           if (type === 'edit' && id) {
             const editRequest = prepareEditRequest(values, savedValues);
+            if (!Object.keys(editRequest).length) {
+              // Nothing changed, just go to recipe view
+              setSubmitting(false);
+              history.push(`/recipe/${id}`);
+              return;
+            }
             result = await editRecipe(id, editRequest);
           } else {
             const addRequest: AddRecipeRequest = {
@@ -191,7 +198,7 @@ const RecipeForm: React.FC<Props> = ({ id, savedValues = {}, type }) => {
             <StepsAndNotes values={values} errors={errors} touched={touched} />
             <div className={classes.formRow}>
               <button className={classes.solidButton} type="submit" disabled={isSubmitting}>
-                Preview
+                {isConfirmed ? 'Save Changes' : 'Preview'}
               </button>
             </div>
             <div className={classes.formRow}>

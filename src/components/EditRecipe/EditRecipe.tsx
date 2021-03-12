@@ -10,6 +10,7 @@ const EditRecipe: React.FC = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [savedValues, setSavedValues] = useState<Partial<FormValues>>({});
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const fetchRecipeData = useCallback(async () => {
     const recipe = await getRecipe(id);
@@ -21,6 +22,7 @@ const EditRecipe: React.FC = () => {
         steps: recipe.steps.join('\n\n'),
         footnotes: recipe.footnotes,
       });
+      setIsConfirmed(recipe.is_confirmed);
       setLoading(false);
     } else {
       history.push('/404');
@@ -35,7 +37,7 @@ const EditRecipe: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  return <RecipeForm savedValues={savedValues} type="edit" id={id} />;
+  return <RecipeForm savedValues={savedValues} isConfirmed={isConfirmed} type="edit" id={id} />;
 };
 
 export default EditRecipe;
