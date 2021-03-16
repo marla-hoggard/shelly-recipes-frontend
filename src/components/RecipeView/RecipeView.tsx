@@ -71,13 +71,14 @@ const RecipeView: React.FC = () => {
   }
 
   if (recipe) {
+    if (isConfirmation) {
+      return <Confirmation />;
+    }
+
     return (
       <>
-        {isConfirmation ? (
-          <Confirmation />
-        ) : (
-          <ButtonPanel id={recipeId} showSubmit={isPreview} handleSubmit={handleSubmitRecipe} />
-        )}
+        <ButtonPanel id={recipeId} showSubmit={isPreview} handleSubmit={handleSubmitRecipe} />
+
         <h1 className={classes.pageTitle}>{recipe.title}</h1>
         {!isMobileView && (
           <button className={classes.printButton} onClick={printRecipe}>

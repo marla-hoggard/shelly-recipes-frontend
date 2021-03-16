@@ -11,12 +11,14 @@ const Confirmation: React.FC = () => {
 
   return (
     <div className={classes.pageContainer}>
-      <div className={classes.confirmationContainer}>
-        <div className={classes.message}>Thank you for sharing!!</div>
-        <div>
-          <button className={classes.button} onClick={goToAdd}>
-            Add another recipe
-          </button>
+      <div className={classes.imageContainer}>
+        <div className={classes.textContainer}>
+          <div className={classes.message}>Thank you for sharing!!</div>
+          <div>
+            <button className={classes.button} onClick={goToAdd}>
+              Add another recipe
+            </button>
+          </div>
         </div>
       </div>
     </div>
