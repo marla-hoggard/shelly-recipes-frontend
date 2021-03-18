@@ -16,6 +16,14 @@
   &:first-child {
     border-top: 1px dashed $lightBlue;
   }
+
+  @media print {
+    border-bottom: 1px solid #aaa;
+
+    &:first-child {
+      border-top: 1px solid #aaa;
+    }
+  }
 }
 
 .stepNumber {
@@ -31,6 +39,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media print {
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+  }
 }
 
 .step {
@@ -42,6 +56,10 @@
   text-transform: uppercase;
   font-weight: 700;
   padding: 10px 0;
+
+  @media print {
+    color: black;
+  }
 }
 
 .sectionHeader {

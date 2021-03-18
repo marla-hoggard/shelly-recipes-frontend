@@ -86,8 +86,14 @@ const RecipeView: React.FC = () => {
             <span className={classes.printButtonLabel}>Print Recipe</span>
           </button>
         )}
-        <div className={classes.source}>{recipe.submitted_by}</div>
-        {recipe.message && <div className={classes.message}>{recipe.message}</div>}
+        {recipe.message ? (
+          <div className={classes.messageContainer}>
+            <div className={classes.message}>{recipe.message}</div>
+            <div className={classes.messageSource}>~ {recipe.submitted_by}</div>
+          </div>
+        ) : (
+          <div className={classes.source}>{recipe.submitted_by}</div>
+        )}
         <div className={classes.recipeBodyFlexContainer}>
           {isMobileView ? (
             <div className={classes.mobileContainer}>

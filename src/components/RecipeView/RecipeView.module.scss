@@ -13,10 +13,23 @@
   font-size: 1.25em;
 }
 
-.message {
+.messageContainer {
   font-size: 14px;
-  padding: 0 10px;
+  padding: 10px 20px;
   font-style: oblique;
+  width: fit-content;
+  max-width: calc(100% - 60px);
+  margin: auto;
+  border: 1px dashed #aaa;
+
+  @media print {
+    font-size: 12px;
+  }
+}
+
+.messageSource {
+  text-align: right;
+  margin-top: 5px;
 }
 
 .centered {
@@ -30,6 +43,10 @@
 .recipeBodyFlexContainer {
   display: flex;
   margin-top: 10px;
+
+  @media print {
+    display: block;
+  }
 }
 
 .sectionTitle {
@@ -38,6 +55,10 @@
   font-size: 20px;
   margin-bottom: 10px;
   font-family: Signika, sans-serif;
+
+  @media print {
+    font-size: 18px;
+  }
 }
 
 .sectionHeader {
@@ -53,8 +74,18 @@
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 800px) {
+  @media screen and (max-width: 800px) {
     padding: 0;
+  }
+
+  @media print {
+    background-color: white;
+    display: block;
+    float: right;
+    margin: 5px 20px 20px;
+    border: 1px solid black;
+    width: 250px;
+    font-size: 12px;
   }
 }
 
@@ -96,32 +127,12 @@
   margin-bottom: 10px;
 }
 
-.category {
-  composes: link from '../../global-styles/base.module.scss';
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 16px;
-  @media print {
-    color: black;
-  }
-}
-
-.spacer {
-  @media screen {
-    flex: 1;
-  }
-}
-
-.tagsContainer {
-  display: flex;
-  margin-top: 10px;
-  justify-content: center;
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
-
 .rightContainer {
   padding: 0 20px;
+
+  @media print {
+    font-size: 12px;
+  }
 }
 
 .stepsContainer {
