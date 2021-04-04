@@ -12,6 +12,7 @@
 .stepContainer {
   display: flex;
   border-bottom: 1px dashed $lightBlue;
+  page-break-inside: avoid;
 
   &:first-child {
     border-top: 1px dashed $lightBlue;
@@ -65,9 +66,17 @@
 .sectionHeader {
   font-weight: bold;
   color: $purple;
+
+  @media print {
+    color: black;
+  }
 }
 
 .superscript {
   composes: superscript from './RecipeView.module.scss';
   color: $purple;
+
+  @media print {
+    color: black;
+  }
 }
